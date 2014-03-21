@@ -1,6 +1,6 @@
 <?php
 $id=$_GET['id'];
-$dbh = new PDO('mysql:host=localhost;port=3306;dbname=correspondencia_pv2', 'correspondencia', 'c0rr3sp0nd3nc14', array( PDO::ATTR_PERSISTENT => false));
+$dbh = new PDO('mysql:host=localhost;port=3306;dbname=correspondencia_v3', 'correspondencia', 'c0rr3sp0nd3nc14', array( PDO::ATTR_PERSISTENT => false));
 $stmt = $dbh->prepare("SELECT * FROM archivos 
 WHERE id='$id'");        
 $stmt->execute();        

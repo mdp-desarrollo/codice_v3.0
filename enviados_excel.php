@@ -77,7 +77,7 @@ else
         and d.original=1
         AND s.fecha_emision BETWEEN '$fecha1' AND '$fecha2'";
 }
-//$dbh = new PDO('mysql:host=localhost;port=3306;dbname=correspondencia_pv2', 'correspondencia', 'c0rr3sp0nd3nc14', array( PDO::ATTR_PERSISTENT => false));
+
 $stmt = $dbh->prepare($sql);        
 $stmt->execute();        
 while ($rs = $stmt->fetch(PDO::FETCH_OBJ)) 
