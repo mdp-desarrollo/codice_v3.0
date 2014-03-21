@@ -1,0 +1,258 @@
+diff --git a/application/classes/controller/documento.php b/application/classes/controller/documento.php
+index 7f40d88..00ceb1f 100755
+--- a/application/classes/controller/documento.php
++++ b/application/classes/controller/documento.php
+@@ -73,7 +73,7 @@ class Controller_documento extends Controller_DefaultTemplate {
+                         <p></p>
+                         <p style="text-align: justify;">Sírvase tramitar ante la Dirección General de Asuntos Administrativos la asignación de pasajes y viáticos de acuerdo a escala autorizada para lo cual su persona deberá coordinar la elaboración del FOCOV. Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de concluída la comisión de acuerdo al artículo 25 del reglamento de Pasajes y Viáticos del Ministerio de Desarrollo Productivo y Economía Plural.</p>
+                         <p></p>
+-                        <p style="text-align: justify;">Saludo a usted atentamente. </p>';
++                        <p style="text-align: justify;">Saludo a usted atentamente, </p>';
+                 }
+                 $proceso = $_POST['proceso'];
+                 $destinatario = $_POST['destinatario'];
+@@ -512,9 +512,9 @@ class Controller_documento extends Controller_DefaultTemplate {
+                     if ($documento->fucov == 1 || isset($_POST['fucov']) ) {
+                         $contenido = '<p style="text-align: justify;">Por medio del presente Memorándum se autoriza a su persona trasladarse desde: La ciudad ' . $_POST['origen'] . ' hasta la ciudad ' . $_POST['destino'] . ' con el objetivo de asistir a ' . $_POST['detalle_comision'] . '. Desde el ' . $_POST['fecha_inicio'] . ' a Hrs. ' . $_POST['hora_inicio'] . ' hasta el ' . $_POST['fecha_fin'] . ' a Hrs. ' . $_POST['hora_fin'] .'.</p>    
+                             <br>
+-                            <p style="text-align: justify;">Sírvase tramitar ante la Dirección General de Asuntos Administrativos la asignación de pasajes y viáticos de acuerdo a escala autorizada para los cual su persona deberá coordinar la elaboración del FOCOV. Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de concluída la comisión de acuerdo al artículo 25 del reglamento de Pasajes y viáticos del Ministerio de Desarrollo Productivo y Economía Plural. </p> 
++                            <p style="text-align: justify;">Sírvase tramitar ante la Dirección General de Asuntos Administrativos la asignación de pasajes y viáticos de acuerdo a escala autorizada para lo cual su persona deberá coordinar la elaboración del FOCOV. Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de concluída la comisión de acuerdo al artículo 25 del reglamento de Pasajes y viáticos del Ministerio de Desarrollo Productivo y Economía Plural. </p> 
+                             <br>
+-                            <p style="text-align: justify;">Saludo a usted atentamente. </p>';
++                            <p style="text-align: justify;">Saludo a usted atentamente, </p>';
+                     }
+                     $documento->nombre_destinatario = $_POST['destinatario'];
+                     $documento->cargo_destinatario = $_POST['cargo_des'];
+@@ -745,12 +745,19 @@ class Controller_documento extends Controller_DefaultTemplate {
+                 $pvcomision = ORM::factory('pvcomisiones')->where('id_documento', '=', $documento->id)->find();
+                 $pvfucov = ORM::factory('pvfucovs')->where('id_documento', '=', $documento->id)->find();
+                 $pvtipoviaje = ORM::factory('pvtipoviajes')->where('estado', '=', '1')->find_all();
++                $pvcategoria = ORM::factory('pvcategorias')->where('estado', '=', '1')->find_all();
+                 $opt_tv = array();
+                 $opt_tv[''] = "(Seleccionar)";
+                 foreach ($pvtipoviaje as $tv) {
+                     $opt_tv[$tv->id] = $tv->tipoviaje;
+                 }
+ 
++                $opt_cat = array();
++                //$opt_cat[''] = "(Seleccionar)";
++                foreach ($pvcategoria as $cat) {
++                    $opt_cat[$cat->id] = $cat->categoria;
++                }
++
+                 ///Modificado Freddy Velasco POA
+                 $cambio = ORM::factory('pvtipocambios')->find_all();
+                 foreach($cambio as $c)
+@@ -824,6 +831,7 @@ class Controller_documento extends Controller_DefaultTemplate {
+                         ->bind('archivos', $archivos)
+                         ->bind('destinatarios', $destinatarios)
+                         ->bind('opt_tv', $opt_tv)
++                        ->bind('opt_cat', $opt_cat)
+                         ->bind('pvfucov', $pvfucov)
+                         ->bind('tipo_cambio', $tipo_cambio)
+                         // POA
+diff --git a/application/views/documentos/create.php b/application/views/documentos/create.php
+index a804665..3342cb6 100755
+--- a/application/views/documentos/create.php
++++ b/application/views/documentos/create.php
+@@ -168,7 +168,7 @@ $('#hora_inicio,#hora_fin').timeEntry({show24Hours: true, showSeconds: true});
+             <?php if($tipo->tipo=='Carta' || $tipo->id == '16'):
+             echo Form::hidden('proceso',1);
+             ?>
+-            <div id="otro_nur"><br><br>ASIGNAR NUR: <select id="asignar_nur" name="asignar_nur" ></select></div>
++            <div id="otro_nur"><br><br>ASIGNAR HOJA DE RUTA: <select id="asignar_nur" name="asignar_nur" ></select></div>
+             <?php else: ?>
+             <legend>Proceso: <?php echo Form::select('proceso', $options, NULL);?>
+                 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+@@ -176,7 +176,7 @@ $('#hora_inicio,#hora_fin').timeEntry({show24Hours: true, showSeconds: true});
+                 <?php // if ($documento->tipo == 'Nota Interna'){?>
+                 <!-- Certificaci&oacute;n POA-PRE:  -->
+                 <?php // echo Form::checkbox('nota',1,FALSE,array('id'=>'nota','name'=>'nota','title'=>'seleccione si quiere habilitar certificacón POA y Presupuestaria')) } ?>    
+-                <div id="otro_nur"><br><br>ASIGNAR NUR: <select id="asignar_nur" name="asignar_nur" ></select></div>
++                <div id="otro_nur"><br><br>ASIGNAR HOJA DE RUTA: <select id="asignar_nur" name="asignar_nur" ></select></div>
+             </legend>
+             <hr/>
+         <?php endif; ?>
+@@ -405,7 +405,7 @@ $('#hora_inicio,#hora_fin').timeEntry({show24Hours: true, showSeconds: true});
+                 <input type="text" id="fecha_inicio" name="fecha_inicio" size='16'/> a Hrs. <input type="text" name="hora_inicio" id="hora_inicio" value="00:00:00" size='6'/>
+                     hasta el
+                 <input type="text" id="fecha_fin" name="fecha_fin" size='16'/> a Hrs. <input type="text" id="hora_fin" name="hora_fin" value="00:00:00" size='6'/><br>
+-                <p style="text-align: justify;">Sírvase tramitar ante la Dirección General de Asuntos Administrativos la asignación de pasajes y viáticos de acuerdo a escala autorizada para los cual su persona deberá coordinar la elaboración del FOCOV.
++                <p style="text-align: justify;">Sírvase tramitar ante la Dirección General de Asuntos Administrativos la asignación de pasajes y viáticos de acuerdo a escala autorizada para lo cual su persona deberá coordinar la elaboración del FOCOV.
+                 Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de concluída la comisión de acuerdo al artículo 25 del reglamento de Pasajes y viáticos del Ministerio de Desarrollo Productivo y Economía Plural.</p>
+                 <?php echo Form::label('observacion', 'Observacion:',array('id'=>'label_observacion','class'=>'form'));?> 
+                 <textarea name="observacion" id="observacion" style="width: 775px;" ></textarea>
+diff --git a/application/views/documentos/edit_fucov.php b/application/views/documentos/edit_fucov.php
+index 6746892..030c941 100755
+--- a/application/views/documentos/edit_fucov.php
++++ b/application/views/documentos/edit_fucov.php
+@@ -68,7 +68,7 @@
+             return false;
+         });
+         //Modificado por Freddy//
+-        $('#id_tipoviaje').change(function(){
++        $('#id_tipoviaje, #id_categoria').change(function(){
+             var id_tipoviaje = $('#id_tipoviaje').val();
+             var id_categoria = $('#id_categoria').val();
+             //viaje al exterio habilitamos gastos de representacion
+@@ -285,7 +285,8 @@
+             yearSuffix: ''
+         };   
+         $.datepicker.setDefaults($.datepicker.regional['es']);
+-        var pickerOpts  = { changeMonth: true, minDate: 0, changeYear: true, yearRange: "-10:+1", dateFormat: 'D yy-mm-dd',onSelect: function(){ calculo_dias();calculo_viaticos();}};
++        //var pickerOpts  = { changeMonth: true, minDate: 0, changeYear: true, yearRange: "-10:+1", dateFormat: 'D yy-mm-dd',onSelect: function(){ calculo_dias();calculo_viaticos();}};
++        var pickerOpts  = { changeMonth: true, changeYear: true, yearRange: "-10:+1", dateFormat: 'D yy-mm-dd',onSelect: function(){ calculo_dias();calculo_viaticos();}};
+         $('#fecha_salida,#fecha_arribo').datepicker(pickerOpts,$.datepicker.regional['es']);
+         $('#hora_salida,#hora_arribo').timeEntry({show24Hours: true, showSeconds: true});
+ 
+@@ -553,7 +554,7 @@ function dia_literal($n) {
+                 echo Form::select('id_tipoviaje', $opt_tv, $pvfucov->id_tipoviaje, array('id' => 'id_tipoviaje','class'=>'required'));
+                 echo Form::hidden('proceso', 1);
+                 echo Form::hidden('id_tipo', $documento->id_tipo);
+-                echo Form::hidden('id_categoria', $user->id_categoria, array('id' => 'id_categoria'));
++                // echo Form::hidden('id_categoria', $user->id_categoria, array('id' => 'id_categoria'));
+                 echo Form::hidden('titulo', '');
+                 echo Form::hidden('tipo_cambio', $tipo_cambio,array('id'=>'tipo_cambio'));
+                 echo Form::hidden('tipo_moneda', $pvfucov->tipo_moneda,array('id' => 'tipo_moneda'));
+@@ -564,6 +565,10 @@ function dia_literal($n) {
+                 
+                     ?>
+                         </legend>
++
++                        <legend>
++                            Categoria: <?php echo Form::select('id_categoria', $opt_cat, $pvfucov->id_categoria, array('id' => 'id_categoria','class'=>'required')); ?>
++                        </legend>
+                     <?php endif; ?>
+                     <table width="100%">
+                         <tr>
+diff --git a/application/views/hojaruta/seguimiento.php b/application/views/hojaruta/seguimiento.php
+index 96451ff..e30b7ef 100755
+--- a/application/views/hojaruta/seguimiento.php
++++ b/application/views/hojaruta/seguimiento.php
+@@ -16,6 +16,17 @@
+        }
+     });
+ </script>
++
++<script type="text/javascript">
++    $(function(){
++        $('table.classy tbody tr:odd').addClass('odd'); 
++        $("#imprime").click(function(){
++            window.print();
++            return false;
++        });
++    });
++</script>
++
+ <style>
+     #content{background-color: #fff;}
+ </style>
+@@ -62,6 +73,8 @@
+ 
+ <h2 class="subtitulo">Seguimiento<br/><span>Seguimiento del proceso</span></h2>
+ 
++<p style="float: right;"><a href="javascript:void(0)" id="imprime" class="uibutton"><img src="/media/images/printer.png" align="absmiddle" alt=""/>Imprimir</a></p><br/>
++
+ <div id="agrupado" style="display:none; text-align: center;" >
+     <p><img src="/media/images/agrupado.png" alt="" /><h2>AGRUPADO</h2>
+         <a href="/print_agrupado.php?nur=<?php echo $detalle['nur'];?>" class="uiButton" style="float: right;" target='_blank'><img src="/media/images/print.png" alt=""/>Imprimir</a>
+@@ -74,7 +87,7 @@
+ <?php endif;?>
+ <?php $hijo=0; foreach($seguimiento as $s): ?>
+     
+-<table id="seguimiento" class="oficial<?php echo $s->oficial;?> estado<?=$s->id_estado;?>">
++<table id="seguimiento" class="oficial<?php echo $s->oficial;?> estado<?=$s->id_estado;?>" class="classy">
+     <tbody class="oficial<?php echo $s->oficial;?>">
+         <tr>
+             <td width="23%" id="<?php if($s->oficial==1)
+diff --git a/application/views/pvpasajes/detalle.php b/application/views/pvpasajes/detalle.php
+index c2d974d..a414eef 100755
+--- a/application/views/pvpasajes/detalle.php
++++ b/application/views/pvpasajes/detalle.php
+@@ -135,8 +135,8 @@ $.datepicker.regional['es'] = {
+             showMonthAfterYear: false,
+             yearSuffix: ''};
+ $.datepicker.setDefaults($.datepicker.regional['es']);
+-
+- var pickerOpts = { changeMonth: true, minDate: 0, changeYear: true, yearRange: "-10:+1", dateFormat: 'D yy-mm-dd',onSelect: function(){ calculo_dias();calculo_viaticos();}};
++// var pickerOpts = { changeMonth: true, minDate: 0, changeYear: true, yearRange: "-10:+1", dateFormat: 'D yy-mm-dd',onSelect: function(){ calculo_dias();calculo_viaticos();}};
++var pickerOpts = { changeMonth: true, changeYear: true, yearRange: "-10:+1", dateFormat: 'D yy-mm-dd',onSelect: function(){ calculo_dias();calculo_viaticos();}};
+     $('#fecha_ida, #fecha_llegada,#fecha_salida,#fecha_arribo').datepicker(pickerOpts,$.datepicker.regional['es']);
+     $('#hora_ida,#hora_llegada,#hora_salida,#hora_arribo').timeEntry({show24Hours: true, showSeconds: true});
+     
+diff --git a/application/views/reportes/vista3.php b/application/views/reportes/vista3.php
+index 62dc99a..43bdc4d 100755
+--- a/application/views/reportes/vista3.php
++++ b/application/views/reportes/vista3.php
+@@ -7,7 +7,8 @@
+         });
+     });
+ </script>
+-<h2 class="subtitulo">Correspondencia <?php echo $estado->plural;?> : <b><?php echo $oficina;?></b><br/><span>DE FECHA <b><?php echo date('d/m/Y',strtotime($fecha1));?></b> al  <b><?php echo date('d/m/Y',strtotime($fecha2));?></b>  </span></h2>
++<h2 class="subtitulo">Correspondencia <?php echo $estado->plural;?> : <b><?php echo $oficina;?></b><br/>
++<span>DE FECHA <b><?php echo date('d/m/Y',strtotime($fecha1));?></b> al  <b><?php echo date('d/m/Y',strtotime($fecha2));?></b>  </span></h2>
+ <p style="float: right;"><a href="javascript:void(0)" id="imprime" class="uibutton"><img src="/media/images/excel.png" align="absmiddle" alt=""/>Imprimir</a></p><br/></p><br/>
+ <table class="classy">
+     <thead>
+@@ -20,8 +21,6 @@
+             <th>PROVEIDO</th>
+             <th>FECHA EMISION</th>
+             <th>FECHA RECEPCION</th>            
+-            
+-                       
+         </tr>
+     </thead>
+     <tbody>
+diff --git a/nbproject/private/private.xml b/nbproject/private/private.xml
+index f4d4dab..62c7b0d 100755
+--- a/nbproject/private/private.xml
++++ b/nbproject/private/private.xml
+@@ -3,11 +3,8 @@
+     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+         <group>
+-            <file>file:/var/www/codice_pv2/index.php</file>
+-            <file>file:/var/www/codice_pv2/application/classes/controller/ajax.php</file>
+-            <file>file:/var/www/codice_pv2/modules/orm/classes/kohana/orm.php</file>
+-            <file>file:/var/www/codice_pv2/application/classes/controller/hojaruta.php</file>
+-            <file>file:/var/www/codice_pv2/modules/database/classes/kohana/database/query.php</file>
++            <file>file:/var/www/codice_pv2/application/classes/controller/busqueda.php</file>
++            <file>file:/var/www/codice_pv2/application/classes/model/documentos.php</file>
+             <file>file:/var/www/codice_pv2/modules/database/classes/kohana/database/query/builder/select.php</file>
+         </group>
+     </open-files>
+diff --git a/pdf/focov.php b/pdf/focov.php
+index e4fb0fb..e20d4fc 100755
+--- a/pdf/focov.php
++++ b/pdf/focov.php
+@@ -410,8 +410,16 @@ try {
+         $contenido .='</table>';*/
+         
+         $pdf->SetFont('Helvetica', '', 9);
+-        $pdf->writeHTML(utf8_encode($contenido));
++        $pdf->writeHTML(utf8_decode($contenido));
+ 
++        $con='<p style="text-align: justify;">Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de acuerdo al artículo 25 del reglamento de Pasajes y Viáticos del Ministerio de Desarrollo Productivo y Economía Plural y el Artículo N° 7 del Decreto Supremo 1788.</p>';
++        $contenido2='<table border="0" cellpadding="'.$padding.'">
++                    <tr style="text-align:left;background-color: #F4F4F4;">
++                        <td colspan="2">'.utf8_decode($con).'</td>
++                    </tr>
++                </table>';
++        $pdf->SetFont('Helvetica', '', 9);
++        $pdf->writeHTML(utf8_encode($contenido2));        
+ 
+         //$pdf->Ln(10);
+         $pdf->SetFont('Helvetica', '', 5);
+diff --git a/print_hr.php b/print_hr.php
+index 1637d6d..7579773 100755
+--- a/print_hr.php
++++ b/print_hr.php
+@@ -133,7 +133,7 @@ try {
+     $pdf->Cell(30, 10, 'PROCEDENCIA:', 1,FALSE,'L');
+     if(trim($rs->institucion_remitente)!='')
+     {
+-        if(strlen($rs->institucion_remitente)>100)
++        if(strlen($rs->institucion_remitente)>80)
+         {
+             $pdf->MultiCell(115, 10, utf8_encode($rs->institucion_remitente), 1,'L'); 
+         }
