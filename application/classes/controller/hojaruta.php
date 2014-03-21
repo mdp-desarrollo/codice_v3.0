@@ -117,11 +117,6 @@ class Controller_Hojaruta extends Controller_DefaultTemplate {
                     ->bind('options', $options);
                 } else {
 
-                    if($id_tipo=='13'){
-                        $tipo_doc = array('15','14','13');
-                    }else{
-                        $tipo_doc = array($id_tipo);
-                    }
 
                     if ($id_tipo=='16') {
                         $referencia = 'DOCUMENTACIÓN QUE DEBE ADJUNTAR PARA SU FILE PERSONAL';
@@ -213,8 +208,6 @@ class Controller_Hojaruta extends Controller_DefaultTemplate {
 </html>';
                     }
                     
-                    foreach ($tipo_doc as $value) {
-                        $id_tipo = $value;
                         $tipo = ORM::factory('tipos', $id_tipo);
                         $oOficina = New Model_Oficinas();
                         $correlativo = $oOficina->correlativo($this->user->id_oficina, $tipo->id);
@@ -292,10 +285,6 @@ class Controller_Hojaruta extends Controller_DefaultTemplate {
                                 $pvfucov->save();    
                         
                         /////////end////////////
-                        //cazamos al documento con el nur asignado
-                        $rs = $documento->has('nurs', $nur);
-                        $documento->add('nurs', $nur);
-                        $_POST = array();
                         
                         }
                         if($documento->id && $id_tipo==14) {
@@ -311,10 +300,6 @@ class Controller_Hojaruta extends Controller_DefaultTemplate {
                                 $poa->id_memo = $id_memo;
                                 $poa->save();
                         /////////end////////////
-                        //cazamos al documento con el nur asignado
-                        $rs = $documento->has('nurs', $nur);
-                        $documento->add('nurs', $nur);
-                        $_POST = array();
                         }
                         if($documento->id && $id_tipo==15){///modificado por Rodrigo
                             $pre = ORM::factory('presupuestos');
@@ -324,13 +309,13 @@ class Controller_Hojaruta extends Controller_DefaultTemplate {
                             $pre->id_memo = $id_memo;
                             $pre->save();
                         /////////end////////////
-                        //cazamos al documento con el nur asignado
-                        $rs = $documento->has('nurs', $nur);
-                        $documento->add('nurs', $nur);
-                        $_POST = array();
                         }
 
-                }
+                //cazamos al documento con el nur asignado
+                $rs = $documento->has('nurs', $nur);
+                $documento->add('nurs', $nur);
+                $_POST = array();
+                
                 $this->request->redirect('documento/editar/' . $documento->id);
 
             }

@@ -75,6 +75,7 @@ $('#btnword').click(function(){
 
 });
 $('#crear').click(function(){
+    
     $('#word').val(0);
     return true
 });
@@ -139,6 +140,49 @@ $("#asignar_nur").fcbkcomplete({
                     cache: true
    });
 
+function calculo_feriados(){
+            $("#observacion").removeAttr("class");
+            var fecha_s = $("#fecha_inicio").val();
+            fecha_s = fecha_s.substring(4, 14);
+            var fecha_a = $("#fecha_fin").val();
+            fecha_a = fecha_a.substring(4, 14);
+            
+            //validamos fin de semana
+            var sw = 0;
+            var f1= new Date(fecha_s);
+            var f2= new Date(fecha_a);
+            while (f1<=f2){
+                //alert(f1.getUTCDay());
+                if(f1.getUTCDay()==6 || f1.getUTCDay()==0){
+                    $("#observacion").attr("class", "required");
+                    sw = 1;
+                    break;
+                }
+                f1.setDate(f1.getDate()+1);
+            }
+            // validamos feriados
+            if(sw==0){
+                $.ajax({
+                            type: "POST",
+                            data: { fecha1:fecha_s, fecha2:fecha_a},
+                            url: "/pvajax/feriados",
+                            dataType: "json",
+                            success: function(item)
+                            {
+                                    if(item){
+                                        //alert('Comision durante el feriado: '+item);
+                                        $("#observacion").attr("class", "required");
+                                    }
+                                    else{
+                                         $("#observacion").removeAttr("class");
+                                    }
+                           }
+                        });
+                
+            }
+
+        }
+
 $.datepicker.regional['es'] = {
                 closeText: 'Cerrar',
                 prevText: '&#x3c;Ant',
@@ -160,7 +204,7 @@ $.datepicker.regional['es'] = {
                 yearSuffix: ''
     };   
 $.datepicker.setDefaults($.datepicker.regional['es']);
-var pickerOpts  = { changeMonth: true, minDate: 0, changeYear: true, yearRange: "-10:+1", dateFormat: 'D yy-mm-dd'};
+var pickerOpts  = { changeMonth: true, minDate: 0, changeYear: true, yearRange: "-10:+1", dateFormat: 'D yy-mm-dd',onSelect: function(){ calculo_feriados();}};
 $('#fecha_inicio,#fecha_fin').datepicker(pickerOpts,$.datepicker.regional['es']);
 $('#hora_inicio,#hora_fin').timeEntry({show24Hours: true, showSeconds: true});
 ///////////////////end//////////////////////////
@@ -446,7 +490,7 @@ $contenido_ra = '<!DOCTYPE html>
                 <input type="text" id="fecha_fin" name="fecha_fin" size='16'/> a Hrs. <input type="text" id="hora_fin" name="hora_fin" value="00:00:00" size='6'/><br>
                 <p style="text-align: justify;">Sírvase tramitar ante la Dirección General de Asuntos Administrativos la asignación de pasajes y viáticos de acuerdo a escala autorizada para lo cual su persona deberá coordinar la elaboración del FOCOV.
                 Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de concluída la comisión de acuerdo al artículo 28 del reglamento interno de Pasajes y viáticos del Ministerio de Desarrollo Productivo y Economía Plural.</p>
-                <?php echo Form::label('observacion', 'Observacion:',array('id'=>'label_observacion','class'=>'form'));?> 
+                <?php echo Form::label('observacion', 'Justificación Fin de Semana o Feriado:',array('id'=>'label_observacion','class'=>'form'));?> 
                 <textarea name="observacion" id="observacion" style="width: 775px;" ></textarea>
             </div>
 

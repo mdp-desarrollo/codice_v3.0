@@ -7,7 +7,8 @@
         });
     });
 </script>
-<h2 class="subtitulo">Correspondencia <?php echo $estado->plural;?> : <b><?php echo $oficina;?></b><br/><span>DE FECHA <b><?php echo date('d/m/Y',strtotime($fecha1));?></b> al  <b><?php echo date('d/m/Y',strtotime($fecha2));?></b>  </span></h2>
+<h2 class="subtitulo">Correspondencia <?php echo $estado->plural;?> : <b><?php echo $oficina;?></b><br/>
+<span>DE FECHA <b><?php echo date('d/m/Y',strtotime($fecha1));?></b> al  <b><?php echo date('d/m/Y',strtotime($fecha2));?></b>  </span></h2>
 <p style="float: right;"><a href="javascript:void(0)" id="imprime" class="uibutton"><img src="/media/images/excel.png" align="absmiddle" alt=""/>Imprimir</a></p><br/></p><br/>
 <table class="classy">
     <thead>
@@ -20,8 +21,6 @@
             <th>PROVEIDO</th>
             <th>FECHA EMISION</th>
             <th>FECHA RECEPCION</th>            
-            
-                       
         </tr>
     </thead>
     <tbody>

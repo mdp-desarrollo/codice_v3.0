@@ -132,7 +132,7 @@ $("#asignar_nur").fcbkcomplete({
             <legend>Proceso: <?php echo Form::select('proceso', $options, NULL);?>
             </legend>
             <hr/>
-            ASIGNAR HOJA DE RUTA: <select id="asignar_nur" name="asignar_nur" >                                    
+            ASIGNAR NUR: <select id="asignar_nur" name="asignar_nur" >                                    
         </select>
         <table width="100%">
             <tr>
