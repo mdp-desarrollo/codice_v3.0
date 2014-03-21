@@ -1,0 +1,3 @@
+<?php defined('SYSPATH') or die('No direct script access.'); ?>
+
+2014-03-20 14:40:16 --- ERROR: Database_Exception [ 0 ]: [1064] You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND estado=1' at line 1 ( SELECT monto,moneda FROM pvcategoriatipos WHERE id_categoria=3 AND id_tipoviaje= AND estado=1 ) ~ MODPATH/database/classes/kohana/database/mysql.php [ 181 ]

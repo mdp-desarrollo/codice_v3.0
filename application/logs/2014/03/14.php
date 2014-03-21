@@ -1,0 +1,9 @@
+<?php defined('SYSPATH') or die('No direct script access.'); ?>
+
+2014-03-14 18:19:08 --- ERROR: ErrorException [ 4096 ]: Argument 2 passed to Kohana_Form::select() must be of the type array, string given, called in /var/www/codice_pv2/application/views/reportes/rep_usuario.php on line 49 and defined ~ SYSPATH/classes/kohana/form.php [ 252 ]
+2014-03-14 18:19:36 --- ERROR: ErrorException [ 4096 ]: Argument 2 passed to Kohana_Form::select() must be of the type array, integer given, called in /var/www/codice_pv2/application/views/reportes/rep_usuario.php on line 49 and defined ~ SYSPATH/classes/kohana/form.php [ 252 ]
+2014-03-14 18:19:37 --- ERROR: ErrorException [ 4096 ]: Argument 2 passed to Kohana_Form::select() must be of the type array, integer given, called in /var/www/codice_pv2/application/views/reportes/rep_usuario.php on line 49 and defined ~ SYSPATH/classes/kohana/form.php [ 252 ]
+2014-03-14 18:19:55 --- ERROR: ErrorException [ 4096 ]: Argument 2 passed to Kohana_Form::select() must be of the type array, integer given, called in /var/www/codice_pv2/application/views/reportes/rep_usuario.php on line 49 and defined ~ SYSPATH/classes/kohana/form.php [ 252 ]
+2014-03-14 18:19:56 --- ERROR: ErrorException [ 4096 ]: Argument 2 passed to Kohana_Form::select() must be of the type array, integer given, called in /var/www/codice_pv2/application/views/reportes/rep_usuario.php on line 49 and defined ~ SYSPATH/classes/kohana/form.php [ 252 ]
+2014-03-14 18:20:05 --- ERROR: ErrorException [ 8 ]: Undefined variable: sel_user ~ APPPATH/views/reportes/rep_usuario.php [ 49 ]
+2014-03-14 18:21:03 --- ERROR: ErrorException [ 8 ]: Undefined variable: sel_user ~ APPPATH/views/reportes/rep_usuario.php [ 49 ]
