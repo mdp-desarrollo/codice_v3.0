@@ -88,7 +88,7 @@ class Controller_Hojaruta extends Controller_DefaultTemplate {
             if ($seguimiento->loaded()) {
                 //Freddy Validamos si el memo ya tiene un fucov asignado
 
-                $pvfucov = ORM::factory('pvfucovs')->where('id_memo', '=', $id_memo)->find();
+                $pvfucov = ORM::factory('pvfucovgenerales')->where('id_memo', '=', $id_memo)->find();
                 // $doc_fucov = ORM::factory('documentos')->where('id','=',$id_memo)->find();
                 
                 // if ($pvfucov->loaded() && $id_tipo==13 && $doc_fucov->fucov=='0') {
@@ -263,26 +263,43 @@ class Controller_Hojaruta extends Controller_DefaultTemplate {
 
                         //Modificado por freddy
                             $entidad = ORM::factory('entidades', $this->user->id_entidad);
-                                $pvfucov = ORM::factory('pvfucovs');
-                                $pvfucov->id_documento = $documento->id;
-                                $pvfucov->origen = $pvcomision->origen;
-                                $pvfucov->destino = $pvcomision->destino;
-                                $pvfucov->fecha_salida = $pvcomision->fecha_inicio;
-                                $pvfucov->fecha_arribo = $pvcomision->fecha_fin;
-                                $pvfucov->cancelar = $entidad->sigla;
-                                $pvfucov->transporte = 'Aereo';
-                                $pvfucov->representacion = 'No';
-                                $pvfucov->impuesto = 'No';
-                                $pvfucov->id_tipoviaje = 0;
-                                $pvfucov->id_programatica = 0;
-                                $pvfucov->id_memo = $id_memo;
-                                $pvfucov->etapa_proceso = 0;
-                                $pvfucov->tipo_cambio = 0;
-                                $pvfucov->tipo_moneda = 0;
-                                $pvfucov->fecha_creacion = date('Y-m-d H:i:s');
-                                $pvfucov->fecha_modificacion = date('Y-m-d H:i:s');
-                                $pvfucov->estado = 1;
-                                $pvfucov->save();    
+                                $pvfucovgeneral = ORM::factory('pvfucovgenerales');
+                                $pvfucovgeneral->id_documento = $documento->id;
+                                $pvfucovgeneral->origen = $pvcomision->origen;
+                                $pvfucovgeneral->destino = $pvcomision->destino;
+                                $pvfucovgeneral->fecha_salida = $pvcomision->fecha_inicio;
+                                $pvfucovgeneral->fecha_arribo = $pvcomision->fecha_fin;
+                                $pvfucovgeneral->representacion = 'No';
+                                $pvfucovgeneral->impuesto = 'No';
+                                $pvfucovgeneral->dua = 0;
+                                $pvfucovgeneral->nro_dia = 0;
+                                $pvfucovgeneral->id_categoria = 3;
+                                $pvfucovgeneral->id_memo = $id_memo;
+                                $pvfucovgeneral->fecha_creacion = date('Y-m-d H:i:s');
+                                $pvfucovgeneral->fecha_modificacion = date('Y-m-d H:i:s');
+                                $pvfucovgeneral->justificacion_finsem = $pvcomision->observacion;
+                                $pvfucovgeneral->save();                                    
+
+                                // $pvfucov = ORM::factory('pvfucovs');
+                                // $pvfucov->id_documento = $documento->id;
+                                // $pvfucov->origen = $pvcomision->origen;
+                                // $pvfucov->destino = $pvcomision->destino;
+                                // $pvfucov->fecha_salida = $pvcomision->fecha_inicio;
+                                // $pvfucov->fecha_arribo = $pvcomision->fecha_fin;
+                                // $pvfucov->cancelar = $entidad->sigla;
+                                // $pvfucov->transporte = 'Aereo';
+                                // $pvfucov->representacion = 'No';
+                                // $pvfucov->impuesto = 'No';
+                                // $pvfucov->id_tipoviaje = 0;
+                                // $pvfucov->id_programatica = 0;
+                                // $pvfucov->id_memo = $id_memo;
+                                // $pvfucov->etapa_proceso = 0;
+                                // $pvfucov->tipo_cambio = 0;
+                                // $pvfucov->tipo_moneda = 0;
+                                // $pvfucov->fecha_creacion = date('Y-m-d H:i:s');
+                                // $pvfucov->fecha_modificacion = date('Y-m-d H:i:s');
+                                // $pvfucov->estado = 1;
+                                // $pvfucov->save();    
                         
                         /////////end////////////
                         

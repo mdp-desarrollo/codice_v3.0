@@ -105,7 +105,7 @@ ORDER BY nur ASC";
         $con_footer='<p style="text-align: justify;">Sírvase tramitar ante la Dirección General de Asuntos Administrativos la asignación de pasajes y viáticos de acuerdo a 
         escala autorizada para lo cual su persona deberá coordinar la elaboración del FOCOV. 
         Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de concluída la comisión de acuerdo 
-        al artículo 28 del reglamento interno de Pasajes y Viáticos del Ministerio de Desarrollo Productivo y Economía Plural.</p>';
+        al artículo 28 del reglamento interno de pasajes y viáticos del Ministerio de Desarrollo Productivo y Economía Plural.</p>';
         if($observacion<>''){
             $con_footer.='<p style="text-align: justify;">Que la justificación del viaje en fin de semana señala que: ' . $observacion . ' . Misma que fue autorizada por el inmediato superior. </p>';
         }

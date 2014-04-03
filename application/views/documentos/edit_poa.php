@@ -61,56 +61,6 @@
             return false;
         });
 
-        ///Modificado Freddy Velasco
-$('#obj_gestion').change(function(){
-    var id = $('#obj_gestion').val();
-    $('#det_obj_gestion').html('');
-    $('#obj_esp').html('');
-    $('#det_obj_esp').html('');
-    $('#actividad').html('');
-    $('#det_act').html('');
-            var act = 'detobjgestion';///detalle del Objetivo de Gestion 
-            var ctr = $('#det_obj_gestion');
-            ajaxs(id, act, ctr);
-            act = 'objespecifico';
-            ctr = $('#obj_esp');
-            ajaxs(id, act, ctr);
-        });
-$('#obj_esp').change(function(){
-    var id = $('#obj_esp').val();
-    $('#det_obj_esp').html('');
-    $('#actividad').html('');
-    $('#det_act').html('');
-            var act = 'detobjespecifico';///detalle del Objetivo Especifico 
-            var ctr = $('#det_obj_esp');
-            ajaxs(id, act, ctr);
-            act = 'actividad';///actividades 
-            ctr = $('#actividad');
-            ajaxs(id, act, ctr);
-        });
-$('#actividad').change(function(){
-    var id = $('#actividad').val();
-    $('#det_act').html('');
-            var act = 'detactividad';///detalle del Objetivo Especifico 
-            var ctr = $('#det_act');
-            ajaxs(id, act, ctr);
-            
-        });
-
-function ajaxs(id, accion, control)
-{        
-    $.ajax({
-        type: "POST",
-        data: { id: id},
-        url: "/pvajax/"+accion,
-        dataType: "json",
-        success: function(item)
-        {
-            $(control).html(item);
-        },
-        error: $(control).html('')
-    });
-}
 
 
 // Modificado por Freddy Velasco
@@ -344,27 +294,31 @@ $('#id_tipocontratacion').change(function(){
                         <table>
                             <tr>
                                 <td><b><?php echo Form::label('obj_gestion', 'Objetivo de Gesti&oacute;n:', array('class' => 'form')); ?></b></td>
-                                <td><?php echo Form::select('obj_gestion', $obj_gestion, $poa->id_obj_gestion, array('class' => 'form', 'name' => 'obj_gestion', 'id' => 'obj_gestion', 'class' => 'required')); ?></td>
+                                <td><?php echo Form::input('obj_gestion', $poa->id_obj_gestion, array('class' => 'form', 'name' => 'obj_gestion')); ?></td>
                             </tr>
                             <tr>
                                 <td><b><?php echo Form::label('detalle_obj_gestion', 'Detalle:', array('class' => 'form')); ?></b>    </td>
-                                <td><br><textarea name="det_obj_gestion" id="det_obj_gestion" style="width: 600px;" readonly ><?php echo $det_obj_gestion; ?></textarea></td>
+                                <td><br><textarea name="det_obj_gestion" id="det_obj_gestion" style="width: 600px;"  ><?php echo $poa->obj_gestion;; ?></textarea></td>
                             </tr>
                             <tr>
                                 <td><b><?php echo Form::label('obj_esp', 'Objetivo Espec&iacute;fico:', array('class' => 'form')); ?></b></td>
-                                <td><?php echo Form::select('obj_esp', $obj_esp,$poa->id_obj_esp, array('class' => 'form', 'class' => 'required', 'id' => 'obj_esp', 'name' => 'obj_esp')); ?></td>
+                                <td>
+                                <?php echo Form::input('obj_esp', $poa->id_obj_esp, array('class' => 'form', 'name' => 'obj_esp')); ?>
+                                </td>
                             </tr>
                             <tr>
                                 <td><b><?php echo Form::label('det_obj_esp', 'Detalle:', array('class' => 'form')); ?></b></td>
-                                <td><br /><textarea name="det_obj_esp" id="det_obj_esp" style="width: 600px;" readonly ><?php echo $det_obj_esp; ?></textarea></td>
+                                <td><br /><textarea name="det_obj_esp" id="det_obj_esp" style="width: 600px;"  ><?php echo $poa->obj_esp; ?></textarea></td>
                             </tr>
                             <tr>
                                 <td><b><?php echo Form::label('actividad', 'Actividad', array('class' => 'form')); ?></b></td>
-                                <td><?php echo Form::select('actividad', $actividad, $poa->id_actividad, array('class' => 'form', 'class' => 'required', 'id' => 'actividad', 'name' => 'actividad')); ?></td>
+                                <td>
+                                <?php echo Form::input('actividad', $poa->id_actividad, array('class' => 'form', 'name' => 'actividad')); ?>
+                                </td>
                             </tr>
                             <tr>
                                 <td><b><?php echo Form::label('det_act', 'Detalle:', array('class' => 'form')); ?></b></td>
-                                <td><br><textarea name="det_act" id="det_act" style="width: 600px;" readonly ><?php echo $det_act; ?></textarea></td>
+                                <td><br><textarea name="det_act" id="det_act" style="width: 600px;"  ><?php echo $poa->actividad; ?></textarea></td>
                             </tr>
 
                         </table>

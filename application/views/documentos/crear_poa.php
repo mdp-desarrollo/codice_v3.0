@@ -220,27 +220,27 @@ $("#asignar_nur").fcbkcomplete({
         <table>
             <tr>
                 <td><b><?php echo Form::label('obj_gestion', 'Objetivo de Gesti&oacute;n:', array('class' => 'form')); ?></b></td>
-                <td><?php echo Form::select('obj_gestion', $obj_gestion, '', array('class' => 'form', 'name' => 'obj_gestion', 'id' => 'obj_gestion', 'class' => 'required')); ?></td>
+                <td><?php echo Form::input('obj_gestion', '', array('class' => 'form', 'name' => 'obj_gestion')); ?></td>
             </tr>
             <tr>
                 <td><b><?php echo Form::label('detalle_obj_gestion', 'Detalle:', array('class' => 'form')); ?></b>    </td>
-                <td><br><textarea name="det_obj_gestion" id="det_obj_gestion" style="width: 600px;" readonly ></textarea></td>
+                <td><br><textarea name="det_obj_gestion" id="det_obj_gestion" style="width: 600px;"  ></textarea></td>
             </tr>
             <tr>
                 <td><b><?php echo Form::label('obj_esp', 'Objetivo Espec&iacute;fico:', array('class' => 'form')); ?></b></td>
-                <td><?php echo Form::select('obj_esp', $obj_esp,'', array('class' => 'form', 'class' => 'required', 'id' => 'obj_esp', 'name' => 'obj_esp')); ?></td>
+                <td><?php echo Form::input('obj_esp', '', array('class' => 'form', 'name' => 'obj_esp')); ?></td>
             </tr>
             <tr>
                 <td><b><?php echo Form::label('det_obj_esp', 'Detalle:', array('class' => 'form')); ?></b></td>
-                <td><br /><textarea name="det_obj_esp" id="det_obj_esp" style="width: 600px;" readonly ></textarea></td>
+                <td><br /><textarea name="det_obj_esp" id="det_obj_esp" style="width: 600px;"  ></textarea></td>
             </tr>
             <tr>
                 <td><b><?php echo Form::label('actividad', 'Actividad', array('class' => 'form')); ?></b></td>
-                <td><?php echo Form::select('actividad', $actividad, '', array('class' => 'form', 'class' => 'required', 'id' => 'actividad', 'name' => 'actividad')); ?></td>
+                <td><?php echo Form::input('actividad', '', array('class' => 'form', 'name' => 'actividad')); ?></td>
             </tr>
             <tr>
                 <td><b><?php echo Form::label('det_act', 'Detalle:', array('class' => 'form')); ?></b></td>
-                <td><br><textarea name="det_act" id="det_act" style="width: 600px;" readonly ></textarea></td>
+                <td><br><textarea name="det_act" id="det_act" style="width: 600px;"  ></textarea></td>
             </tr>
 
         </table>

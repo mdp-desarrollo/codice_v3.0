@@ -132,7 +132,7 @@ class Kohana_Request_Client_Internal extends Request_Client {
 			$method->invokeArgs($controller, $params);
 
 			// Execute the "after action" method
-			$class->getMethod('after')->invoke($controller);
+ 			$class->getMethod('after')->invoke($controller);
 
 			// Stop response time
 			$this->_response_time = (time() - $this->_response_time);

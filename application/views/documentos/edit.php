@@ -150,9 +150,9 @@ $('#viaje_semana').click(function(){
 function calculo_feriados(){
             $("#observacion").removeAttr("class");
             var fecha_s = $("#fecha_inicio").val();
-            fecha_s = fecha_s.substring(4, 14);
+            fecha_s = fecha_s.substring(fecha_s.length-10,fecha_s.length);
             var fecha_a = $("#fecha_fin").val();
-            fecha_a = fecha_a.substring(4, 14);
+            fecha_a = fecha_a.substring(fecha_a.length-10,fecha_a.length);
             
             //validamos fin de semana
             var sw = 0;
@@ -201,7 +201,7 @@ $.datepicker.regional['es'] = {
                 monthNamesShort: ['Ene','Feb','Mar','Abr','May','Jun',
                     'Jul','Ago','Sep','Oct','Nov','Dic'],
                 dayNames: ['Domingo','Lunes','Martes','Mi&eacute;rcoles','Jueves','Viernes','S&aacute;bado'],
-                dayNamesShort: ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'],
+                dayNamesShort: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
                 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','S&aacute;'],
                 weekHeader: 'Sm',
                 dateFormat: 'dd/mm/yy',
@@ -546,13 +546,13 @@ $checked = 'checked';
 
 function dia_literal($n) {
     switch ($n) {
-        case 1: return 'Lun'; break;
-        case 2: return 'Mar'; break;
-        case 3: return 'Mie'; break;
-        case 4: return 'Jue'; break;
-        case 5: return 'Vie'; break;
-        case 6: return 'Sab'; break;
-        case 0: return 'Dom'; break;
+        case 1: return 'lunes'; break;
+        case 2: return 'martes'; break;
+        case 3: return 'miércoles'; break;
+        case 4: return 'jueves'; break;
+        case 5: return 'viernes'; break;
+        case 6: return 'sábado'; break;
+        case 0: return 'domingo'; break;
     }
 }
 
@@ -800,7 +800,7 @@ $contenido_ra = '<!DOCTYPE html>
                             <p style="text-align: justify;">Sírvase tramitar ante la Dirección General de Asuntos Administrativos la asignación de pasajes y viáticos de acuerdo a escala autorizada para lo cual su persona deberá coordinar la elaboración del FOCOV.
                             Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de concluída la comisión de acuerdo al artículo 28 del reglamento interno de Pasajes y viáticos del Ministerio de Desarrollo Productivo y Economía Plural.</p>
                             <?php echo Form::label('observacion', 'Justificación Fin de Semana o Feriado:', array('id' => 'label_observacion', 'class' => 'form')); ?> 
-                            <textarea name="observacion" id="observacion" style="width: 775px;" ><?php echo $obs; ?></textarea>
+                            <textarea name="observacion" id="observacion" style="width: 775px;" minlength='20'><?php echo $obs; ?></textarea>
                         </div>
 
                         <div id='contenido3'>

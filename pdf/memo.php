@@ -152,23 +152,59 @@ try {
         $pdf->Ln(10);
         $pdf->SetFont('Helvetica', 'B', 10);
         $pdf->Cell(15, 5, 'A:');
+        // $pdf->SetFont('Helvetica', '', 10);
+        // $pdf->Write(0, utf8_encode($rs->nombre_destinatario), '', 0, 'L');
+        // $pdf->Ln();
+        // $pdf->Cell(15, 5, '');
+        // $pdf->SetFont('Helvetica', 'B', 10);
+        // $pdf->Write(0, utf8_encode($rs->cargo_destinatario), '', 0, 'L');
+
+        $destinatario = explode(',',$rs->nombre_destinatario);
+        $cargo_dest = explode(',',$rs->cargo_destinatario);
+        $i = 0;
         $pdf->SetFont('Helvetica', '', 10);
-        $pdf->Write(0, utf8_encode($rs->nombre_destinatario), '', 0, 'L');
-        $pdf->Ln();
-        $pdf->Cell(15, 5, '');
-        $pdf->SetFont('Helvetica', 'B', 10);
-        $pdf->Write(0, utf8_encode($rs->cargo_destinatario), '', 0, 'L');
-        $pdf->Ln(10);
+        $pdf->Write(0, utf8_encode($rs->titulo), '', 0, 'L');
+        $html='<table>';
+        foreach( $destinatario as $dest) {
+            $html .= '<tr><td>'.ltrim(utf8_encode($dest)).'</td></tr><tr><td><b>'.ltrim(utf8_encode($cargo_dest[$i])).'</b></td></tr>';
+            $i++;
+        }
+        $html .='</html>';
+        $pdf->writeHTML($html);
+
+
+
+        $pdf->Ln(5);
         if (($rs->via != 0) && (trim($rs->nombre_via) != '')) {
+            // $pdf->SetFont('Helvetica', 'B', 10);
+            // $pdf->Cell(15, 5, 'Via:');
+            // $pdf->SetFont('Helvetica', '', 10);
+            // $pdf->Write(0, utf8_encode($rs->nombre_via), '', 0, 'L');
+            // $pdf->Ln();
+            // $pdf->Cell(15, 5, '');
+            // $pdf->SetFont('Helvetica', 'B', 10);
+            // $pdf->Write(0, utf8_encode($rs->cargo_via), '', 0, 'L');
+            // $pdf->Ln(10);
+
             $pdf->SetFont('Helvetica', 'B', 10);
-            $pdf->Cell(15, 5, 'Via:');
-            $pdf->SetFont('Helvetica', '', 10);
-            $pdf->Write(0, utf8_encode($rs->nombre_via), '', 0, 'L');
-            $pdf->Ln();
-            $pdf->Cell(15, 5, '');
-            $pdf->SetFont('Helvetica', 'B', 10);
-            $pdf->Write(0, utf8_encode($rs->cargo_via), '', 0, 'L');
             $pdf->Ln(10);
+            $pdf->Cell(15, 5, 'Via:');
+                $vias = explode(',',$rs->nombre_via);
+                $cargo_vias = explode(',',$rs->cargo_via);
+                $i = 0;
+                $pdf->SetFont('Helvetica', '', 10);
+                //$pdf->Write(0, utf8_encode($rs->titulo), '', 0, 'L');
+                $html='<table border = "0">';
+                foreach( $vias as $v) {
+                    if( $i != 0)
+                        $salto = '<br /><br /><br /><br />';
+                    else
+                        $salto = '';
+                    $html .= '<tr><td>'.$salto.ltrim(utf8_encode($v)).'</td></tr><tr><td><b>'.ltrim(utf8_encode($cargo_vias[$i])).'</b></td></tr>';
+                    $i++;
+                }
+                $html .='</table>';
+                $pdf->writeHTML($html);
         }
         $pdf->SetFont('Helvetica', 'B', 10);
         $pdf->Cell(15, 5, 'De:');

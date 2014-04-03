@@ -16,7 +16,7 @@ class MYPDF extends TCPDF {
         $id = $_GET['id'];
         $dbh = New db();
         $stmt = $dbh->prepare("SELECT c.logo,c.id FROM documentos AS a INNER JOIN oficinas AS b ON a.id_oficina = b.id
-INNER JOIN entidades AS c ON b.id_entidad = c.id WHERE a.id = '$id'");
+            INNER JOIN entidades AS c ON b.id_entidad = c.id WHERE a.id = '$id'");
         $stmt->execute();
         //echo "<B>outputting...</B><BR>";
         $image_file = 'logo.jpg';
@@ -27,12 +27,12 @@ INNER JOIN entidades AS c ON b.id_entidad = c.id WHERE a.id = '$id'");
             $id_entidad = $rs2->id;
         }
         if($id_entidad<>2 && $id_entidad<>4 && $id_entidad<>5 && $id_entidad<>6){
-        $this->Image($image_file, 80, 5, 60, 25, 'PNG');
+            $this->Image($image_file, 80, 5, 60, 25, 'PNG');
         }
         if ($id_entidad==5 || $id_entidad==6) {
             $image_file2='../media/logos/logo_MDPyEP.png';
-        $this->Image($image_file, 150, 5, 50, 20, 'PNG');
-        $this->Image($image_file2, 20, 5, 60, 25, 'PNG');
+            $this->Image($image_file, 150, 5, 50, 20, 'PNG');
+            $this->Image($image_file2, 20, 5, 60, 25, 'PNG');
         }
 
 
@@ -47,10 +47,10 @@ INNER JOIN entidades AS c ON b.id_entidad = c.id WHERE a.id = '$id'");
         $id = $_GET['id'];
         $dbh = New db();
         $stmt = $dbh->prepare("SELECT e.pie_1,e.pie_2,e.id FROM documentos d 
-                               INNER JOIN tipos t ON d.id_tipo=t.id
-                               INNER JOIN oficinas o ON d.id_oficina=o.id
-                               INNER JOIN entidades e ON o.id_entidad=e.id
-                               WHERE d.id='$id'");
+           INNER JOIN tipos t ON d.id_tipo=t.id
+           INNER JOIN oficinas o ON d.id_oficina=o.id
+           INNER JOIN entidades e ON o.id_entidad=e.id
+           WHERE d.id='$id'");
         $stmt->execute();
         while ($rs = $stmt->fetch(PDO::FETCH_OBJ)) {
             $pie1 = $rs->pie_1;
@@ -60,13 +60,13 @@ INNER JOIN entidades AS c ON b.id_entidad = c.id WHERE a.id = '$id'");
         if ($id_entidad <> 2 && $id_entidad <> 4) {
 
             // Position at 15 mm from bottom
-        $this->SetY(-15);
+            $this->SetY(-15);
         // Set font
             $this->SetFont('Helvetica', 'I', 7);
 
-        $this->Cell(0, 10, utf8_encode($pie1), 'T', false, 'C', 0, '', 0, false, 'T', 'M');
-        $this->Ln(2);
-        $this->Cell(0, 15, utf8_encode($pie2), 0, false, 'C', 0, '', 0, false, 'T', 'M');
+            $this->Cell(0, 10, utf8_encode($pie1), 'T', false, 'C', 0, '', 0, false, 'T', 'M');
+            $this->Ln(2);
+            $this->Cell(0, 15, utf8_encode($pie2), 0, false, 'C', 0, '', 0, false, 'T', 'M');
         }
     }
 
@@ -129,7 +129,7 @@ $pdf->AddPage();
 $nombre = 'focov';
 try {
     $dbh = New db();
-    $stmtp = $dbh->prepare("SELECT *,t.tipo,t.via FROM documentos d, pvfucovs p, tipos t WHERE d.id='$id' AND d.id=p.id_documento AND d.id_tipo=t.id");
+    $stmtp = $dbh->prepare("SELECT d.*,p.*,t.tipo,t.via FROM documentos d, pvfucovgenerales p, tipos t WHERE d.id='$id' AND d.id=p.id_documento AND d.id_tipo=t.id");
     // call the stored procedure
     $stmtp->execute();
     //echo "<B>outputting...</B><BR>";
@@ -169,295 +169,271 @@ try {
         $marca = '#DADADA';
         $padding = 2;
         $contenido='<table border="1" cellpadding="'.$padding.'">
-                    <tr style="text-align:left;background-color: #F4F4F4;">
-                        <td colspan="2"><b>PARTE I. DECLARATORIA EN COMISION</b></td>
-                    </tr>
-                    <tr>
-                        <td width="35%">NOMBRES Y APELLIDOS DEL SERVIDOR PUBLICO</td>
-                        <td width="65%">'.$rs->nombre_remitente.'</td>
-                    </tr>
-                    <tr>
-                        <td>CARGO</td>
-                        <td>'.$rs->cargo_remitente.'</td>
-                    </tr>
-                    <tr>
-                        <td>PROPOSITO DEL VIAJE</td>
-                        <td>'.$rs->referencia.'</td>
-                    </tr>
-                    <tr>
-                        <td>FECHA DE DECLARACION EN COMISION</td>
-                        <td>'.$rs->fecha_creacion.'</td>
-                    </tr>
-                    <tr>
-                        <td ><span style="color:#6A6B6A; text-align:center; font-size: 80%;"><br /><br /><br /><br /><br />SELLO</span></td>
-                        <td><span style="color:#6A6B6A; text-align:center; font-size: 80%;"><br /><br /><br /><br /><br />FIRMA</span></td>
-                    </tr>
-                    <tr style="text-align:left;background-color: #F4F4F4;">
-                        <td colspan="2"><b>PARTE II. IDENTIFICACION DEL AREA QUE AUTORIZA EL VIAJE</b></td>
-                    </tr>
-                    <tr>
-                        <td>DIRECCION/UNIDAD</td>
-                        <td>'.$memo->oficina.'</td>
-                    </tr>
-                    <tr>
-                        <td>NOMBRE DE QUIEN AUTORIZA EL VIAJE</td>
-                        <td>'.$rs->nombre_destinatario.'</td>
-                    </tr>
-                    <tr>
-                        <td>CARGO</td>
-                        <td>'.$rs->cargo_destinatario.'</td>
-                    </tr>
-                    <tr>
-                        <td>FECHA DE AUTORIZACION DE VIAJE</td>
-                        <td>'.$memo->fecha_creacion.'</td>
-                    </tr>
-                    <tr>
-                        <td><br></td>
-                        <td><br></td>
-                    </tr>
-                    <tr style="text-align:left;background-color: #F4F4F4;">
-                        <td colspan="2"><b>PARTE III. SOLICITUD DE PASAJES Y VIATICOS</b></td>
-                    </tr>
-                </table>';
-//        $pdf->writeHTML(utf8_decode($parte1), false, false, false);
-        /*
-        $pdf->SetFont('tahoma', 'B', 10);
-        $pdf->Cell(50, 5, 'Autoriza el Viaje:');
-        $pdf->SetFont('tahoma', '', 10);
-        $pdf->Write(0, utf8_encode($rs->nombre_destinatario), '', 0, 'L');
-        $pdf->Ln();
-        $pdf->Cell(50, 5, '');
-        $pdf->SetFont('tahoma', 'B', 10);
-        $pdf->Write(0, utf8_encode($rs->cargo_destinatario), '', 0, 'L');
-        $pdf->Ln(10);
-        if (($rs->via != 0) && (trim($rs->nombre_via) != '')) {
-            $pdf->SetFont('tahoma', 'B', 10);
-            $pdf->Cell(15, 5, 'Via:');
-            $pdf->SetFont('tahoma', '', 10);
-            $pdf->Write(0, utf8_encode($rs->nombre_via), '', 0, 'L');
-            $pdf->Ln();
-            $pdf->Cell(15, 5, '');
-            $pdf->SetFont('tahoma', 'B', 10);
-            $pdf->Write(0, utf8_encode($rs->cargo_via), '', 0, 'L');
-            $pdf->Ln(10);
-        }
-        $pdf->SetFont('tahoma', 'B', 10);
-        $pdf->Cell(50, 5, 'Funcionario en Comisión:');
-        $pdf->SetFont('tahoma', '', 10);
-        $pdf->Write(0, utf8_encode($rs->nombre_remitente), '', 0, 'L');
-        $pdf->Ln();
-        $pdf->Cell(50, 5, '');
-        $pdf->SetFont('tahoma', 'B', 10);
-        $pdf->Write(0, utf8_encode($rs->cargo_remitente), '', 0, 'L');
-        $pdf->Ln(10);
-        $pdf->Cell(50, 5, 'Fecha Creación:');
-        $pdf->SetFont('tahoma', '', 10);
-        $mes = (int) date('m', strtotime($rs->fecha_creacion));
-        $meses = array(1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril', 5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto', 9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre');
-        $fecha = date('d', strtotime($rs->fecha_creacion)) . ' de ' . $meses[$mes] . ' de ' . date('Y', strtotime($rs->fecha_creacion));
-        $pdf->Write(0, $fecha, '', 0, 'L');
-        $pdf->Ln(10);
-        $pdf->SetFont('tahoma', 'B', 10);
-        $pdf->Cell(50, 5, 'Motivo:');
+        <tr style="text-align:left;background-color: #F4F4F4;">
+            <td colspan="2"><b>PARTE I. DECLARATORIA EN COMISION</b></td>
+        </tr>
+        <tr>
+            <td width="35%">NOMBRES Y APELLIDOS DEL SERVIDOR PUBLICO</td>
+            <td width="65%">'.$rs->nombre_remitente.'</td>
+        </tr>
+        <tr>
+            <td>CARGO</td>
+            <td>'.$rs->cargo_remitente.'</td>
+        </tr>
+        <tr>
+            <td>PROPOSITO DEL VIAJE</td>
+            <td>'.$rs->referencia.'</td>
+        </tr>
+        <tr>
+            <td>FECHA DE DECLARACION EN COMISION</td>
+            <td>'.$rs->fecha_creacion.'</td>
+        </tr>
+        <tr>
+            <td ><span style="color:#6A6B6A; text-align:center; font-size: 80%;"><br /><br /><br /><br /><br />SELLO</span></td>
+            <td><span style="color:#6A6B6A; text-align:center; font-size: 80%;"><br /><br /><br /><br /><br />FIRMA</span></td>
+        </tr>
+        <tr style="text-align:left;background-color: #F4F4F4;">
+            <td colspan="2"><b>PARTE II. IDENTIFICACION DEL AREA QUE AUTORIZA EL VIAJE</b></td>
+        </tr>
+        <tr>
+            <td>DIRECCION/UNIDAD</td>
+            <td>'.$memo->oficina.'</td>
+        </tr>
+        <tr>
+            <td>NOMBRE DE QUIEN AUTORIZA EL VIAJE</td>
+            <td>'.$rs->nombre_destinatario.'</td>
+        </tr>
+        <tr>
+            <td>CARGO</td>
+            <td>'.$rs->cargo_destinatario.'</td>
+        </tr>
+        <tr>
+            <td>FECHA DE AUTORIZACION DE VIAJE</td>
+            <td>'.$memo->fecha_creacion.'</td>
+        </tr>
+        <tr>
+            <td><br></td>
+            <td><br></td>
+        </tr>
+        <tr style="text-align:left;background-color: #F4F4F4;">
+            <td colspan="2"><b>PARTE III. SOLICITUD DE PASAJES Y VIATICOS</b></td>
+        </tr>
+    </table>';
 
-        $pdf->SetFont('tahoma', '', 10);
-        $pdf->MultiCell(170, 5, utf8_encode($rs->referencia), 0, 'L');
-        $pdf->Ln(10);
-*/
-        function dia_literal($n) {
-            switch ($n) {
-                case 1: return 'Lun';
-                    break;
-                case 2: return 'Mar';
-                    break;
-                case 3: return 'Mie';
-                    break;
-                case 4: return 'Jue';
-                    break;
-                case 5: return 'Vie';
-                    break;
-                case 6: return 'Sab';
-                    break;
-                case 0: return 'Dom';
-                    break;
+    function dia_literal($n) {
+        switch ($n) {
+            case 1: return 'Lun';
+            break;
+            case 2: return 'Mar';
+            break;
+            case 3: return 'Mie';
+            break;
+            case 4: return 'Jue';
+            break;
+            case 5: return 'Vie';
+            break;
+            case 6: return 'Sab';
+            break;
+            case 0: return 'Dom';
+            break;
+        }
+    }
+
+
+
+
+                        ///////////Reporete de tramos//////////
+    $stmtp = $dbh->prepare("select d.*,p.tipoviaje,IF(d.ida_vuelta = '0', 'No', 'Si') as ida_vuelta1 from pvfucovs d, pvtipoviajes p where d.id_documento = $id AND d.id_tipoviaje = p.id ORDER BY d.id ASC");
+    $stmtp->execute();
+
+    $contenido .= ' <table border="1" cellpadding="'.$padding.'" width="100%">
+    <thead>
+        <tr style="text-align:center;background-color: #666666;color: #FFFFFF;">
+            <th width="90" rowspan="2">Tramo</th>
+            <th width="100">Origen</th>
+            <th width="90">Fecha y Hora <br>Salida</th>
+            <th width="110">Viatico</th> 
+            <th width="50">% Viatico</th>
+            <th width="70">Viatico Parcial</th>
+            <th width="70">Nro Boleto</th>
+            <th width="40" rowspan="2">Ida y Vuelta</th>
+        </tr>
+        <tr style="text-align:center;background-color: #666666;color: #FFFFFF;">
+            <th width="100">Destino</th>
+            <th width="90">Fecha y Hora <br>Arribo</th>
+            <th width="110">Transporte</th> 
+            <th width="50">Nro Dias</th>
+            <th width="70">Costo Pasaje</th>
+            <th width="70">Empresa</th>
+        </tr>
+    </thead>
+    <tbody>';
+        $n=0;
+        $desc_iva=0;
+        $gasto_rep=0;
+        $tp=0;
+        $tv=0;
+        
+        while ($v = $stmtp->fetch(PDO::FETCH_OBJ)) {
+            if($n%2==1)
+                $color="#E8E8E3";
+            else
+                $color="#FFFFFF";
+            if ($v->cancelar == 'Hospedaje y alimentacion' || $v->cancelar == 'Hospedaje') {
+                $cancelar = "<b>Financiado por:</b> " . $v->financiador . "<br> * " . $v->cancelar;
+            } else {
+                $cancelar = "* " . $v->cancelar;
             }
-        }
-
-        $fi = date('Y-m-d', strtotime($rs->fecha_salida));
-        $ff = date('Y-m-d', strtotime($rs->fecha_arribo));
-        $hi = date('H:i:s', strtotime($rs->fecha_salida));
-        $hf = date('H:i:s', strtotime($rs->fecha_arribo));
-        $diai = dia_literal(date("w", strtotime($fi)));
-        $diaf = dia_literal(date("w", strtotime($ff)));
-
-        if ($rs->cancelar == 'Hospedaje y alimentacion' || $rs->cancelar == 'Hospedaje') {
-            $cancelar = "<b>Financiado por:</b>" . $rs->financiador . "<br> * " . $rs->cancelar;
-        } else {
-            $cancelar = "* " . $rs->cancelar;
-        }
-        
-        $tipo_moneda="Bs.";
-        if($rs->tipo_moneda==1){
-            $tipo_moneda='$us.';
-        }
-
-        ///numero de dias
-        $fecha1 = strtotime($fi);
-        $fecha2 = strtotime($ff);
-        $diff =  $fecha2 - $fecha1;
-        if($diff < 0)
-            $diff = $diff*(-1);
-        if ($diff==0)
-            $dias = 1;
-        else{
-            $dias = intval((($diff) / (60*60*24)));
-            if (strcasecmp($hf, '12:00:00') != 0) {
-                if(strcasecmp($hf, '12:00:00') > 0)
-                    $dias ++;
+            if ($v->tipo_moneda==0) {
+                $tipo_moneda = 'Bs.';
+            } else{
+                $tipo_moneda = '$us.';
             }
+
+            $fi = date('Y-m-d', strtotime($v->fecha_salida));
+            $ff = date('Y-m-d', strtotime($v->fecha_arribo));
+            $hi = date('H:i:s', strtotime($v->fecha_salida));
+            $hf = date('H:i:s', strtotime($v->fecha_arribo));
+            $diai = dia_literal(date("w", strtotime($fi)));
+            $diaf = dia_literal(date("w", strtotime($ff)));
+            $contenido .='
+            <tr style="text-align:center;" bgcolor="'.$color.'">
+                <td width="90" rowspan="2">'. $v->tipoviaje .'</td>
+                <td width="100">' . $v->origen . '</td>
+                <td width="90">' . $diai . ' ' . $fi . '<br> ' . $hi . '</td>
+                <td width="110">'.$cancelar.'</td>
+                <td width="50">'.$v->porcentaje_viatico.' % </td>
+                <td width="70">'.$v->total_viatico.'  '.$tipo_moneda.'</td>
+                <th width="70">'.$v->nro_boleto.'</th>
+                <td width="40" rowspan="2">'.$v->ida_vuelta1.'</td>
+            </tr>
+            <tr style="text-align:center;" bgcolor="'.$color.'">
+                <td width="100">' . $v->destino . '</td>
+                <td width="90">' . $diai . ' ' . $fi . '<br> ' . $hi . '</td>
+                <td width="110">'.$v->transporte.'</td>
+                <td width="50">'.$v->nro_dia.'</td>
+                <td width="70">'.$v->total_pasaje.'  '.$tipo_moneda.' </td>
+                <td width="70">'.$v->empresa.'</td>
+            </tr>';
+            $desc_iva+=$v->gasto_imp;
+            $gasto_rep+=$v->gasto_representacion;
+            $tipo_cambio=$v->tipo_cambio;
+            $tv+=$v->total_viatico;
+            $tp+=$v->total_pasaje;
+            $n++;
         }
-        
-        $contenido .= ' <table border="1" cellpadding="'.$padding.'" width="100%">
-                            <thead>
-                                <tr style="text-align:center;background-color: #666666;color: #FFFFFF;">
-                                    <th width="85">Origen</th>
-                                    <th width="85">Destino</th>
-                                    <th width="88">Fecha y Hora <br>Salida</th>
-                                    <th width="88">Fecha y Hora <br>Retorno</th>
-                                    <th >Transporte</th>
-                                    <th width="91.2">Viaticos</th>
-                                    <th width="39">Desc. IVA</th> 
-                                    <th width="39">Gasto<br>Rep.</th>
-                                    <th width="39">Desc.<br>DUA</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr style="text-align:center;">
-                                    <td width="85">' . $rs->origen . '</td>
-                                    <td width="85">' . $rs->destino . '</td>
-                                    <td width="88">' . $diai . ' ' . $fi . '<br>' . $hi . '</td>
-                                    <td width="88">' . $diaf . ' ' . $ff . '<br>' . $hf . '</td>
-                                    <td >' . $rs->transporte . '</td>
-                                    <td width="91.2" style="text-align:left;">' . $cancelar . '</td>
-                                    <td width="39" >' . $rs->impuesto . '</td>
-                                    <td width="39">' . $rs->representacion . '</td>
-                                    <td width="39">' . $rs->dua . '</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="9"></td>
-                                </tr>
-                            </tbody>
-                        </table>';
-       $contenido .='  <table border="1" cellpadding="'.$padding.'">
-                            <tr>
-                                <td width="15%">TIPO VIAJE</td>
-                                <td width="85%">'.$tipoviaje.'</td>
-                            </tr>
-                            <tr>
-                                <td width="15%">CATEGORIA</td>
-                                <td width="85%">'.$categoria.'</td>
-                            </tr>
-                        </table>';
-
-        
-        if ($rs->id_tipoviaje>=4) {
-            $lp_bs=($rs->total_viatico + $rs->gasto_representacion)*$rs->tipo_cambio;
-            $lp_dolar=$rs->total_viatico + $rs->gasto_representacion;
-        }else{
-            $lp_bs=$rs->total_viatico + $rs->gasto_representacion;
-            $lp_dolar=0;
-        }
+        $contenido .=' </tbody>
+    </table><br>';    
 
 
-        $contenido .='<table border="1" width="100%" cellpadding="'.$padding.'">
-                        <tr  style="text-align:center;background-color: #666666;color: #FFFFFF;">
-                            <td>Nro Dias</td>
-                            <td>% Vi&aacute;tico</td>
-                            <td>Viatico x Dia</td>
-                            <td>Total Vi&aacute;ticos</td>
-                            <td>Desc. IVA <br />13 %</td>
-                            <td>Gasto Rep.</td>
-                            <td>Cambio</td>
-                            <td>Total Pasajes</td>
-                        </tr>
-                        <tr style="text-align:center;">
-                            <td>'.$dias.'</td>
-                            <td>'.$rs->porcentaje_viatico.'</td>
-                            <td>'.$rs->viatico_dia. ' '.$tipo_moneda.'</td>
-                            <td>'.$rs->total_viatico. ' '.$tipo_moneda.'</td>
-                            <td>'.$rs->gasto_imp. ' '.$tipo_moneda.'</td>
-                            <td>'.$rs->gasto_representacion. ' '.$tipo_moneda.'</td>
-                            <td>'.$rs->tipo_cambio.'</td>
-                            <td>'.$rs->total_pasaje.'</td>
-                        </tr>
-                        <tr style="text-align:left;">
-                            <td colspan="8"><b>LIGUIDO PAGABLE:</b> '.number_format($lp_bs,2).' Bs. </td>
-                        </tr>';
-        if ($rs->id_tipoviaje>=4) {
-        $contenido .='<tr style="text-align:left;">
-                            <td colspan="8"><b>LIGUIDO PAGABLE DOLAR:</b> '.number_format($lp_dolar,2).' $us. </td>
-                      </tr>';
-                        }                
-        
-        $contenido .= '</table>';
-        if ($rs->justificacion_finsem != '')
-            $contenido .='<table border="1" cellpadding="'.$padding.'">
-                            <tr><td colspan = "2"></td></tr>
-                            <tr>
-                                <td width="35%">JUSTIFICACION DE VIAJE EN FIN DE SEMANA O FERIADO</td>
-                                <td width="65%">'.$rs->justificacion_finsem.'</td>
-                            </tr>
-                          </table>';
+    $contenido .='  <table border="1" cellpadding="'.$padding.'">
+    <tr>
+        <td width="14%">CATEGORIA</td>
+        <td width="86%">'.$categoria.'</td>
+    </tr>
+</table>';
+$fi = date('Y-m-d', strtotime($rs->fecha_salida));
+$ff = date('Y-m-d', strtotime($rs->fecha_arribo));
+$hi = date('H:i:s', strtotime($rs->fecha_salida));
+$hf = date('H:i:s', strtotime($rs->fecha_arribo));
+$diai = dia_literal(date("w", strtotime($fi)));
+$diaf = dia_literal(date("w", strtotime($ff)));
+$tv = $tv-$rs->dua;
 
-        /*$contenido .= '
-            <br><br>
-<table width="100%">                        
-                        <tr>
-                            <td colspan="3" style="padding-left: 5px;"><b>% Viaticos: </b>' . $rs->porcentaje_viatico . ' %</td>
-                        </tr>
-                        <tr>
-                            <td colspan="3" style="padding-left: 5px;"><b>Viatico x Dia:</b> ' . $rs->viatico_dia . ' '.$tipo_moneda.'</td>
-                        </tr>     
-                        <tr>
-                            <td colspan="3" style="padding-left: 5px;"><b>Descuento IVA 13 %:</b> ' . $rs->gasto_imp . ' '.$tipo_moneda.'</td>
-                        </tr> 
-                        <tr>    
-                            <td><b>TOTAL VIATICOS:</b> ' . $rs->total_viatico . '  '.$tipo_moneda.'</td>
-                            <td width="250"><b>GASTOS DE REPRESENTACIÓN:</b> ' . $rs->gasto_representacion . ' '.$tipo_moneda.'</td>    
-                            <td><b>TOTAL PASAJES:</b> ' . $rs->total_pasaje . '  '.$tipo_moneda.'</td>
-                        </tr><br>';
-        if ($rs->justificacion_finsem != '')
-            $contenido .='<tr><td colspan="2" style="padding-left: 5px;"><b>Justificacion Fin de Semana:</b><br>' . $rs->justificacion_finsem . '</td></tr>';
+$contenido .= ' <table border="1" cellpadding="'.$padding.'" width="100%">
+<thead>
+    <tr style="text-align:center;background-color: #666666;color: #FFFFFF;">
+        <th width="90">Origen</th>
+        <th width="90" rowspan="2">Fecha y Hora <br>Salida</th>
+        <th width="90" rowspan="2">Fecha y Hora <br>Retorno</th>
+        <th width="55" rowspan="2">Nro Dias</th> 
+        <th width="55" rowspan="2">Desc. IVA</th> 
+        <th width="55" rowspan="2">Desc.<br>DUA</th>
+        <th width="70" rowspan="2">Total Viatico</th>
+        <th width="55" rowspan="2">Gasto<br>Rep.</th>
+        <th width="57" rowspan="2">Cambio</th>
+    </tr>
+    <tr style="text-align:center;background-color: #666666;color: #FFFFFF;">
+        <th width="90">Destino</th>
+    </tr>
+</thead>
+<tbody>
+    <tr style="text-align:center;">
+        <td width="90">' . $rs->origen . '</td>
+        <td width="90" rowspan="2">' . $diai . ' ' . $fi . '<br> ' . $hi . '</td>
+        <td width="90" rowspan="2">' . $diaf . ' ' . $ff . '<br> ' . $hf . '</td>
+        <td width="55" rowspan="2">' . $rs->nro_dia . '</td>
+        <td width="55" rowspan="2">' . $desc_iva . ' '.$tipo_moneda.'</td>
+        <td width="55" rowspan="2">' . $rs->dua . ' '.$tipo_moneda.'</td>
+        <td width="70" rowspan="2">'.$tv.' '.$tipo_moneda.'</td>
+        <td width="55" rowspan="2">' . $gasto_rep . ' '.$tipo_moneda.'</td>
+        <td width="57" rowspan="2">'. $tipo_cambio .' Bs.</td>
+    </tr>
+    <tr style="text-align:center;">
+        <td width="90">' . $rs->destino . '</td>
+    </tr>
+</tbody>
+</table>';
+$lp_bs = $tv+$gasto_rep;
+$lp_dolar = 0;
+$cont_dolar = '';
+if($tipo_moneda=='$us.'){
+    $lp_dolar = ($tv+$gasto_rep)/$tipo_cambio;
+    $tp = $tp/$tipo_cambio;
+    $cont_dolar = '<br><b>LIQUIDO PAGABLE DOLARES:</b> ' .number_format($lp_dolar,2). ' $us.';
 
-        $contenido .='</table>';*/
-        
-        $pdf->SetFont('Helvetica', '', 9);
-        $pdf->writeHTML(utf8_decode($contenido));
+}
+
+$contenido.='
+<table border="1" cellpadding="'.$padding.'" width="100%">
+    <tr><td><b>LIQUIDO PAGABLE:</b> ' .number_format($lp_bs,2). ' Bs. '.$cont_dolar.'</td><td><b>TOTAL PASAJES:</b> ' .number_format($tp,2). ' '.$tipo_moneda.'</td></tr>
+</table>
+';
+
+if ($rs->id_tipoviaje>=4) {
+    $lp_bs=($rs->total_viatico + $rs->gasto_representacion)*$rs->tipo_cambio;
+    $lp_dolar=$rs->total_viatico + $rs->gasto_representacion;
+}else{
+    $lp_bs=$rs->total_viatico + $rs->gasto_representacion;
+    $lp_dolar=0;
+}
+
+
+if ($rs->justificacion_finsem != '')
+    $contenido .='<table border="1" cellpadding="'.$padding.'">
+<tr><td colspan = "2"></td></tr>
+<tr>
+    <td width="35%">JUSTIFICACION DE VIAJE EN FIN DE SEMANA O FERIADO</td>
+    <td width="65%">'.$rs->justificacion_finsem.'</td>
+</tr>
+</table>';
+
+
+$pdf->SetFont('Helvetica', '', 9);
+$pdf->writeHTML(utf8_encode($contenido));
 
         //$con='<p style="text-align: justify;">Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de acuerdo al artículo 25 del reglamento de Pasajes y Viáticos del Ministerio de Desarrollo Productivo y Economía Plural y el Artículo N° 7 del Decreto Supremo 1788.</p>';
-        $con='<p style="text-align: justify;">Una vez completada la comisión sirvase hacer llegar el informe de descargo dentro los proximos 8 dias hábiles de acuerdo al Art. 28 del Reglamento Interno de Pasajes y Viaticos del Ministerio de Desarrollo Productivo y Economía Plural, aprobado mediante Resolución Ministerial MDPYEP/DESPACHO/N° 255.2013 y el Art. N° 7 del Decreto Supremo 1788.</p>';
-        $contenido2='<table border="0" cellpadding="'.$padding.'">
-                    <tr style="text-align:left;background-color: #F4F4F4;">
-                        <td colspan="2">'.utf8_decode($con).'</td>
-                    </tr>
-                </table>';
-        $pdf->SetFont('Helvetica', '', 9);
-        $pdf->writeHTML(utf8_encode($contenido2));        
+$con='<p style="text-align: justify;">Una vez completada la comisión sirvase hacer llegar el informe de descargo dentro los proximos 8 dias hábiles de acuerdo al Art. 28 del reglamento interno de pasajes y viaticos del Ministerio de Desarrollo Productivo y Economía Plural, aprobado mediante Resolución Ministerial MDPYEP/DESPACHO/N° 255.2013 y el Art. N° 7 del Decreto Supremo 1788.</p>';
+$contenido2='<table border="0" cellpadding="'.$padding.'">
+<tr style="text-align:left;background-color: #F4F4F4;">
+    <td colspan="2">'.utf8_decode($con).'</td>
+</tr>
+</table>';
+$pdf->SetFont('Helvetica', '', 9);
+$pdf->writeHTML(utf8_encode($contenido2));        
 
-        //$pdf->Ln(10);
-        $pdf->SetFont('Helvetica', '', 5);
-        $pdf->writeHTML('cc. ' . strtoupper($rs->copias));
-        $pdf->writeHTML('Adj. ' . strtoupper($rs->adjuntos));
-        $pdf->writeHTML(strtoupper($rs->mosca_remitente));
-        //$pdf->writeHTML();
-        /*   $pdf->SetY(-5);
-          // Set font
-          $pdf->SetFont('tahoma', 'I', 7);
-          $pdf->Write(0, $fecha,'',0,'L');
-         * */
-
-        $nombre.='_' . substr($rs->cite_original, -10, 6);
-    }
+$pdf->Ln();
+$pdf->SetFont('Helvetica', '', 5);
+$pdf->Write(0, 'cc.'.strtoupper($rs->copias), '', 0, 'L');
+$pdf->Ln();
+$pdf->Write(0,'Adj.'.strtoupper($rs->adjuntos), '', 0, 'L');
+$pdf->Ln();
+$pdf->Write(0, strtoupper($rs->mosca_remitente), '', 0, 'L');
+//$pdf->writeHTML('cc. ' . strtoupper($rs->copias));
+//$pdf->writeHTML('Adj. ' . strtoupper($rs->adjuntos));
+//$pdf->writeHTML(strtoupper($rs->mosca_remitente));
+$nombre.='_' . substr($rs->cite_original, -10, 6);
+}
     //echo "<BR><B>".date("r")."</B>";
 } catch (PDOException $e) {
     print "Error!: " . $e->getMessage() . "<br/>";

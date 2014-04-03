@@ -188,97 +188,9 @@ where ofi.id = '$rs->id_oficina'");
         $pdf->writeHTML($antecedentes, false, false, false);
         $pdf->Ln(10);
 
-        $pdf->SetFont('Helvetica', 'U', 12);
-        $pdf->write(0, 'ESTRUCTURA PROGRAMATICA', '', 0, 'L');
-        $pdf->Ln(10);
-        $stmt = $dbh->prepare("select prog.codigo cod_programa, prog.programa programa, proy.codigo cod_proyecto, proy.proyecto proyecto, act.codigo cod_actividad, act.actividad actividad, fte.codigo cod_fuente, 
-fte.denominacion fuente, org.codigo cod_organismo, org.denominacion organismo
-from pvprogramaticas p 
-inner join pvprogramas prog on p.id_programa = prog.id
-inner join pvproyectos proy on p.id_proyecto = proy.id
-inner join pvpptactividades act on p.id_actividadppt = act.id
-inner join pvorganismos org on p.id_organismo = org.id
-inner join pvfuentes fte on p.id_fuente = fte.id
-where p.id = $pre->id_programatica");
-    $stmt->execute();
-    $ppt = $stmt->fetch(PDO::FETCH_OBJ) ;
-    ///se imprime proyecto o actividad pero no ambos
-    if($ppt->cod_proyecto != '0000')
-        $proyact = "
-            <tr>
-                <td>ACTIVIDAD</td>
-                <td>:$ppt->cod_proyecto</td>
-                <td>$ppt->proyecto</td>
-            </tr>";
-    else
-        $proyact = "
-            <tr>
-                <td>ACTIVIDAD</td>
-                <td>:$ppt->cod_actividad</td>
-                <td>$ppt->actividad</td>
-            </tr>";
+        
     $pdf->SetFont('Helvetica', '', 8);
-    $html = "
-        <table style=\" width: 100%;\"  border=\"0px\" cellpadding=\"1\">
-            <tr>
-                <td style = \" width: 30%;\">ENTIDAD</td>
-                <td style = \" width: 10%;\">:$ofi->sigla_entidad</td>
-                <td style = \" width: 60%;\">$ofi->entidad</td>
-            </tr>
-            <tr>
-                <td>DIRECCION ADMINISTRATIVA</td>
-                <td>:$da->ppt_cod_da</td>
-                <td>$da->oficina</td>
-            </tr>
-            <tr>
-                <td>UNIDAD EJECUTORA</td>
-                <td>:$ue->ppt_cod_ue</td>
-                <td>$ue->oficina</td>
-            </tr>
-            <tr>
-                <td>PROGRAMA</td>
-                <td>:$ppt->cod_programa</td>
-                <td>$ppt->programa</td>
-            </tr>".$proyact."
-            <tr>
-                <td>FUENTE DE FINANCIAMIENTO</td>
-                <td>:$ppt->cod_fuente</td>
-                <td>$ppt->fuente</td>
-            </tr>
-            <tr>
-                <td>ORGANISMO FINANCIADOR</td>
-                <td>:$ppt->cod_organismo</td>
-                <td>$ppt->organismo</td>
-            </tr>
-        </table>";
-        $pdf->writeHTML(utf8_encode($html), false, false, false);
-        $pdf->Ln(5);
-        if($pre->auto_pre == 1){
-        $stmt = $dbh->prepare("select * from pvliquidaciones where id_presupuesto = $pre->id");
-        $stmt->execute();
-        $html = "<table border=\"1px\" cellpadding=\"3\">
-                    <tr bgcolor=\"$color\">
-                        <td style = \" width: 10%;\">Partida</td>
-                        <td style = \" width: 40%;\">Descripci&oacute;n</td>
-                        <td style = \" width: 20%;\">Saldo Disponible</td>
-                        <td style = \" width: 20%;\">Importe Certificado</td>
-                        <td style = \" width: 10%;\">Saldo Actual</td>
-                    </tr>";
-        while ($partidas = $stmt->fetch(PDO::FETCH_OBJ)) {
-                $total = $partidas->cs_saldo_devengado - $partidas->importe_certificado;
-                $html = $html."<tr><td>$partidas->cod_partida</td><td>$partidas->partida</td><td>$partidas->cs_saldo_devengado</td>
-                        <td>$partidas->importe_certificado</td><td>$total</td>
-                        </tr>";
-        }
-        $html = $html."</table>";
-        $pdf->writeHTML($html, false, false, false);
-        }
-        else{
-            $pdf->Ln(3);
-            $pdf->SetFont('Helvetica', 'B', 12);        
-            $pdf->Write(0, 'El documento no fue aprobado', '', 0, 'C');
-            $pdf->Ln(10);
-        }
+    
         $pdf->Ln(5);
         $pdf->SetFont('Helvetica', 'U', 12);
         $pdf->Write(0, 'CONCLUSION:', '', 0, 'L');

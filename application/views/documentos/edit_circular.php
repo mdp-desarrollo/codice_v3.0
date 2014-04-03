@@ -193,7 +193,7 @@ tinymce.init({
                         <tr>
                             <td style=" border-right:1px dashed #ccc; padding-left: 5px;" colspan="2">
                                 <input type="hidden" name="titulo" value=""/>   
-                                <input type="hidden" name="proceso" value="4"/> 
+                                <input type="hidden" name="proceso" value="1"/> 
                                 <p>
 <?php echo Form::label('destinatario(s)', 'Destinatario(s):', array('class' => 'form')); ?>
                                     <textarea name="destinatario" ROWS="5" id="destinatario" style="width: 500px;" class="required"><?php echo $documento->nombre_destinatario; ?></textarea>    
