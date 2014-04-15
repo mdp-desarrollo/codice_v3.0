@@ -21,7 +21,8 @@ function ajaxs(oficial)
         var destinatario=$('#destino').val();        
         var accion=$('#accion').val();        
         var accion_texto=$('#accion option:selected').text();
-        var proveido=$('#proveido').val();                
+        var proveido=$('#proveido').val();
+        var observacion=$('#observacion').val();                
         var user=$('#user').val();                                 
         var adjunto=$('#adjunto').val();  
         var id_seg=$('#id_seg').val();  
@@ -48,7 +49,7 @@ function ajaxs(oficial)
         visible('Derivando...');
         $.ajax({
 	            type: "POST",
-	            data: { tipo: tipo, oficial:oficial, destino: destinatario, adjunto : adjunto, document: document, nur : nur, accion: accion, proveido: proveido, hijo: hijo, user: user, adjunto:adjunto,id_seg:id_seg,estado:estado,urgente:urgente },
+	            data: { tipo: tipo, oficial:oficial, destino: destinatario, adjunto : adjunto, document: document, nur : nur, accion: accion, proveido: proveido, hijo: hijo, user: user, adjunto:adjunto,id_seg:id_seg,estado:estado,urgente:urgente,observacion:observacion },
 	            url: "/ajax/derivar",
 	            dataType: "json",
 	            success: function(item)
@@ -170,6 +171,13 @@ $('#eliminar').click(function(){
   });
     $.getJSON("http://jsonip.appspot.com?callback=?",function(data){
 //    alert( "Your ip: " + data.ip);
+$("#observacion").hide();
+$("#menos").hide();
+  $('#mas_menos').click(function () {
+      $("#observacion").toggle();
+      $("#menos").toggle();
+      $("#mas").toggle();
+  });
 });
 });
 </script>
@@ -261,6 +269,12 @@ $('#eliminar').click(function(){
             <td colspan="2">
                 <?php echo Form::label('proveido', 'Proveido');?>                            
                 <?php echo Form::textarea('proveido', Arr::get($_POST,'proveido',''), array('COLS'=>12,'rows'=>1,'class'=>'required','id'=>'proveido','style'=>'width:645px;'));?>
+            </td>                                    
+        </tr>        
+        <tr>
+            <td colspan="2">
+                <div id='mas_menos' style="cursor: pointer;"><?php echo Form::label('observacion', 'Observación', array('style' => 'float:left' ));?> &nbsp;&nbsp; <img src="/media/images/expand.gif" id='mas'><img src="/media/images/collapse.gif" id='menos'></div>                           
+                <?php echo Form::textarea('observacion', Arr::get($_POST,'observacion',''), array('COLS'=>12,'rows'=>1,'id'=>'observacion','style'=>'width:645px;'));?>
             </td>                                    
         </tr>        
     </tbody>

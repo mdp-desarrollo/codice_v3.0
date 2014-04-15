@@ -37,26 +37,31 @@
     foreach ($recientes as $d): ?>
         <tr>
             <td width="130" >
-                <a href="/documento/editar/<?php echo $d['id'];?>"><?php echo substr($d['codigo'],0,-13);?><br/><?php echo substr($d['codigo'],-13);?></a>                
+                <a href="/documento/editar/<?php echo $d['id'];?>" class='anular<?php echo $d['anulado']; ?>'><?php echo substr($d['codigo'],0,-13);?><br/><?php echo substr($d['codigo'],-13);?></a>                
             </td>
             
             <td ><b><?php echo $d['tipo'];?></b></td>
             <td ><?php echo $d['referencia'];?></td>
             <td width="225" ><b><?php echo $d['nombre_destinatario'];?></b><br/><?php echo $d['cargo_destinatario'];?></td>
-            <td><?php echo Date::fecha_corta($d['fecha_creacion']); ?>
-                
-                <?php //echo date('g:i:s A',$fecha);?>
-                </td> 
-            <td style="text-align: right;" >
-                <a href="/hojaruta/derivar/?id_doc=<?php echo $d['id'];?>"><?php echo $d['nur'];?></a>
+            <td><?php echo Date::fecha_corta($d['fecha_creacion']); ?></td> 
+            <td align="right" valign="center" >
+              <?php if($d['anulado']==0):?>
+                <a href="/hojaruta/derivar/?id_doc=<?php echo $d['id'];?>" ><?php echo $d['nur'];?></a>            
+              <?php else: ?>
+                <a href="#" class='anular<?php echo $d['anulado']; ?>'><?php echo $d['nur'];?></a>            
+              <?php endif;?>  
             </td>
             <td style="text-align: right;" >
-                <?php if($d['estado']==1):?>                
+                <?php if($d['anulado']==0):?>
+                  <?php if($d['estado']==1):?>
                 <a href="/seguimiento/?nur=<?php echo $d['nur'];?>" title="Ver seguimiento" >Derivado</a>
-                <?php else: ?>                
-                <a href="/hojaruta/derivar/?id_doc=<?php echo $d['id'];?>" title="Derivar" ><img src="/media/images/derivar.png"/></a>                            
-                <?php endif;?>                
-                <a href="/documento/editar/<?php echo $d['id'];?>" title="Editar documento" ><img src="/media/images/edit.png"/></a>                
+                  <?php else: ?>                
+                  <a href="/hojaruta/derivar/?id_doc=<?php echo $d['id'];?>" title="Derivar" ><img src="/media/images/derivar.png"/></a>          
+                  <?php endif;?>
+                <?php else: ?>                  
+                  <a href="/documento/editar/<?php echo $d['id'];?>" title="Anulado" >Anulado</a>
+               <?php endif;?>   
+                <a href="/documento/editar/<?php echo $d['id'];?>" title="Editar documento" ><img src="/media/images/edit.png"/></a>                                  
             </td>  
         </tr>        
     <?php endforeach; ?>

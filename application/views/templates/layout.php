@@ -60,7 +60,10 @@
                     <a href="#" id="group" ><img src="/media/images/group.gif" align="absmiddle"  /> Agrupar</a>         
                 </li>
                 <li>
-              <a href="#" id="archive" ><img src="/media/images/folders.jpg" align="absmiddle"   /> Archivar</a>         
+                <a href="#" id="archive" ><img src="/media/images/folders.jpg" align="absmiddle"   /> Archivar</a>         
+                </li>
+                <li>
+                <a href="#" id="derivar" ><img src="/media/images/derivar.png" align="absmiddle"   /> Derivar</a>         
                 </li>
             </ul>
             <div id="seleciones" ></div>

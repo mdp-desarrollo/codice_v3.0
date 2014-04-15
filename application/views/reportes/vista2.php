@@ -8,7 +8,7 @@
     });
 </script>
 <h2 class="subtitulo">Correspondencia Enviada<br/><span>Correspondencia enviada DE FECHA <b><?php echo date('d/m/Y',strtotime($fecha1));?></b> al  <b><?php echo date('d/m/Y',strtotime($fecha2));?></b> A <b><?php echo $oficina;?></b></span></h2>
-<p style="float: right;"><a href="/enviados_excel.php?id_oficina=<?php echo $id_oficina;?>&fecha1=<?php echo $fecha1;?>&fecha2=<?php echo $fecha2;?>&id_user=<?php echo $id_user;?>" class="uibutton"><img src="/media/images/excel.png" align="absmiddle" alt=""/>Excel</a> <a href="javascript:void(0)" id="imprime" class="uibutton"> <img src="/media/images/printer.png" align="absmiddle" alt=""/>Imprimir</a></p><br/>
+<p style="float: right;"><a href="/enviados_excel.php?id_oficina=<?php echo $id_oficina;?>&fecha1=<?php echo $fecha1;?>&fecha2=<?php echo $fecha2;?>&id_user=<?php echo $id_user;?>" class="uibutton"><img src="/media/images/excel.png" align="absmiddle" alt=""/>Excel</a><a href="javascript:void(0)" id="imprime" class="uibutton"><img src="/media/images/excel.png" align="absmiddle" alt=""/>Imprimir</a></p><br/>
 <table class="classy">
     <thead>
         <tr>

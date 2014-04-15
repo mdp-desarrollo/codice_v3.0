@@ -18,6 +18,30 @@ $(function(){
  //zebra
  $('#theTable tbody tr:odd').addClass('odd');
  $('input').focus();
+ //archivo y pendientes
+        $('.sel').bind('click',function(){
+            var count=$('input:checked').length;
+            //alert(count); 
+            if(count==0){
+                $('#opciones').addClass('oculto');       
+            }
+            else
+            {
+                var nurs='';
+                $('input:checked').each(function(){ 
+                    if($(this).is(':checked')) 
+                    {              
+                        nurs=nurs+"<br/>- "+$(this).attr('rel')+'<hr />'; 
+                    }
+                });
+                $('#seleciones').html(nurs);
+                $('#opciones').removeClass('oculto');               
+            }
+        });
+        $('a#derivar').click(function(){
+            $('#accion').val('3');
+            $('form#doa').submit();
+        }); 
 });//document.ready
 </script>
 <style type="text/css">
@@ -33,9 +57,11 @@ $(function(){
     <a href="/ventanilla" class="uibutton">Recepcionar otro</a>
 </span>
 </p>
+<form action="/bandeja/doa" method="post" id="doa" >
 <table id="theTable">
     <thead>
         <tr>
+            <th width="70">#</th>
             <th width="70">Hoja Ruta</th>            
             <th width="100">Cite</th>            
             <th width="320">Destinatario</th>
@@ -56,6 +82,9 @@ $(function(){
    // $dias=array(1=>'Lunes',2=>'Martes',3=>'Miercoles',4=>'Jueves',5=>'Viernes',6=>'Sabado',7=>'Domingo');
     foreach ($pendientes as $d): ?>
         <tr>
+            <td style="text-align: center;" >
+                <input type="checkbox" name="id_doc[]" value="<?php echo $d['id']; ?>" rel="<?php echo $d['nur']; ?>"  class="sel"/>
+            </td>
             <td style="text-align: right;" >
                 <a href="/hojaruta/derivar/?id_doc=<?php echo $d['id'];?>"><?php echo $d['nur'];?></a>            
             </td>
@@ -83,13 +112,14 @@ $(function(){
         </tr>        
     <?php endforeach; ?>
    </tbody>
+   <?php echo Form::hidden('accion', '', array('id' => 'accion')); ?> 
    <tfoot>
        <tr>
            <td colspan="5"><?php // echo $page_links; ?></td>
        </tr>
    </tfoot>
 </table>
-
+</form>
 
 <?php } else { ?>
 <div class="info">

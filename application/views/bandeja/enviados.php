@@ -108,7 +108,7 @@
             </tr>
             <tr>
                 <td style="height:40px; text-align: right; ">
-                    <a href="" id="aceptar" class="uiButton" id="aceptar" >Aceptar</a>
+                    <a href="" id="aceptar" class="uiButton" >Aceptar</a>
                     <a href="#" id="cancelar" class="uiButton" >Cancelar</a>
                 </td>
             </tr>

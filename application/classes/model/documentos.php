@@ -50,7 +50,7 @@ class Model_Documentos extends ORM{
          return $this->_db->query(1, $sql);
     }*/
     public function recientes($id){
-      $sql="SELECT d.id,d.codigo,d.nombre_destinatario,d.cargo_destinatario,d.nombre_via,d.cargo_via,d.nombre_remitente,d.cargo_remitente,d.fecha_creacion,d.referencia,d.nur,t.tipo,d.estado,s.estado as seg_estado
+      $sql="SELECT d.id,d.codigo,d.nombre_destinatario,d.cargo_destinatario,d.nombre_via,d.cargo_via,d.nombre_remitente,d.cargo_remitente,d.fecha_creacion,d.referencia,d.nur,t.tipo,d.estado,d.anulado,s.estado as seg_estado
             FROM documentos d            
             INNER JOIN tipos t ON t.id=d.id_tipo
 	    LEFT JOIN seguimiento s ON d.nur=s.nur AND d.id_seguimiento=0 AND s.derivado_por='$id'

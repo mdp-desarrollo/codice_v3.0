@@ -121,6 +121,10 @@
                 alert('Para poder agrupar debe de seleccionar por lo menos 2 hojas de ruta');
                 return false;
             }
+        });
+        $('a#derivar').click(function(){
+            $('#accion').val('3');
+            $('form#doa').submit();
         });      
 
         $('#tipoCorr').change(function(){
@@ -232,6 +236,7 @@
         </table>
     </form>
 </div>
+
 
 <?php if (isset($info['info']) > 0): ?>
         <div style="margin-top: 20px; padding: .7em;" class="info">

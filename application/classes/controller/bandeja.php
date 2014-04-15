@@ -23,6 +23,7 @@ class Controller_Bandeja extends Controller_DefaultTemplate{
             $this->request->redirect('/login?url='.$url);
         }        
     }
+
  public function after() 
     {        
         $this->template->menutop = View::factory('templates/menutop')->bind('menus',$this->menus)->set('controller', 'bandeja');
@@ -94,41 +95,79 @@ class Controller_Bandeja extends Controller_DefaultTemplate{
                 $this->template->title.=' | Archivar correspondencia';
                 $this->template->content=View::factory('bandeja/agrupar')                                         
                                          ->bind('nurs', $nurs);
-            }
-            elseif ($_POST['accion']==2) {  // 2= recepcionar correspondencia
+            } elseif ($_POST['accion']==2) {  // 2= recepcionar correspondencia
              foreach($_POST['id_seg'] as $k=>$id)
                 {
-                    if($id!='')
-                {
-            $seguimiento=ORM::factory('seguimiento')->where('id','=',$id)->and_where('derivado_a','=',$this->user->id)->and_where('estado','=',1)->find();
-            if($seguimiento->loaded()){
-            $seguimiento->fecha_recepcion=date('Y-m-d H:i:s');
-            $seguimiento->estado=2; //2=pendiente oficial
-            $seguimiento->save();
+                    if($id!=''){
+                        $seguimiento=ORM::factory('seguimiento')->where('id','=',$id)->and_where('derivado_a','=',$this->user->id)->and_where('estado','=',1)->find();
+                        if($seguimiento->loaded()){
+                            $seguimiento->fecha_recepcion=date('Y-m-d H:i:s');
+                            $seguimiento->estado=2; //2=pendiente oficial
+                            $seguimiento->save();
             //guardamos en vitacora
-            $this->save($this->user->id_entidad,$this->user->id, $this->user->nombre.' | <b>'.$this->user->cargo.'</b> Recepciono la hoja de ruta '.$seguimiento->nur);
-            
-            
-            }
-            else
-            {
-                $this->template->content='No se pudo recepcionar correspondencia.';                    
-            }            
-        }
-        else{
-            $this->template->content='No se pudo recepcionar correspondencia.';
-        }
+                            $this->save($this->user->id_entidad,$this->user->id, $this->user->nombre.' | <b>'.$this->user->cargo.'</b> Recepciono la hoja de ruta '.$seguimiento->nur);
+                        } else {
+                        $this->template->content='No se pudo recepcionar correspondencia.';                    
+                        }            
+                    } else{
+                        $this->template->content='No se pudo recepcionar correspondencia.';
+                    }
 
                 }
                 $this->request->redirect('./bandeja');
-            //$this->request->redirect('bandeja?nur=1');
-
-
-
-
+            } elseif ($_POST['accion']==3) {  // 3= derivar varias hojas de ruta
+                $nurs=array();
+                $oSeg=New Model_Seguimiento();                
+                foreach($_POST['id_seg'] as $k=>$v)
+                {
+                    $nur=$oSeg->nur_ref($v);
+                    $id=$nur[0]['id'];
+                    $nurs[$id][0]=$nur[0]['nur'];
+                    $nurs[$id][1]=$nur[0]['referencia'];
+                    $nurs[$id][2]=$nur[0]['oficial'];
+                    $nurs[$id][3]=$nur[0]['hijo'];
+                    $nurs[$id][4]=$nur[0]['id_doc'];
+                }
+                $acciones = $this->acciones();
+                $destinatarios = $this->destinatarios($this->user->id, $this->user->superior);
+                $this->template->styles=array('media/css/tablas.css'=>'all','media/css/modal.css'=>'screen');
+                $this->template->title.=' | Derivar correspondencia';
+                $this->template->content=View::factory('bandeja/derivar')
+                                         ->bind('nurs',$nurs)
+                                         ->bind('accion',$acciones)
+                                         ->bind('destinatario', $destinatarios);
             }
         }        
     }
+
+    public function action_doa_ventanilla()    
+    {
+        if($_POST){
+           if ($_POST['accion']==3) {  // 3= derivar varias hojas de ruta
+                $nurs=array();
+                $oSeg=New Model_Seguimiento();                
+                foreach($_POST['id_doc'] as $k=>$v)
+                {
+                    $nur=$oSeg->nur_ref_doc($v);
+                    $id=$nur[0]['id'];
+                    $nurs[$id][0]=$nur[0]['nur'];
+                    $nurs[$id][1]=$nur[0]['referencia'];
+                    $nurs[$id][2]=$nur[0]['oficial'];
+                    $nurs[$id][3]=$nur[0]['hijo'];
+                    $nurs[$id][4]=$nur[0]['id_doc'];
+                }
+                $acciones = $this->acciones();
+                $destinatarios = $this->destinatarios($this->user->id, $this->user->superior);
+                $this->template->styles=array('media/css/tablas.css'=>'all','media/css/modal.css'=>'screen');
+                $this->template->title.=' | Derivar correspondencia';
+                $this->template->content=View::factory('bandeja/derivar')
+                                         ->bind('nurs',$nurs)
+                                         ->bind('accion',$acciones)
+                                         ->bind('destinatario', $destinatarios);
+            }
+        }        
+    }
+
     //archivar correspondencia final
     public function action_agruparf()
     {
@@ -192,6 +231,121 @@ class Controller_Bandeja extends Controller_DefaultTemplate{
                 $_POST=array();            
             $this->request->redirect('bandeja/archivos');
         }        
+    }
+
+     //Derivar varios documentos
+    public function action_derivarf()
+    {
+        if($_POST)
+        {            
+            $session = Session::instance();
+            $n=count($_POST['id_seg']);
+            for ($i=0; $i < $n ; $i++) { 
+            //$tipo = $_POST['oficial'];  // oficial inicial
+            $oficial = $_POST['oficial'][$i];   // oficial final
+            $id_seg = $_POST['id_seg'][$i];
+            $destino = $_POST['destino'];
+            $accion = $_POST['accion'];
+            $proveido = strtoupper($_POST['proveido']);
+            $observacion = "";
+            $nur = $_POST['nur'][$i];
+            $user = $this->user->id;
+            $id_doc = $_POST['id_doc'][$i];
+            $hijo = $_POST['hijo'][$i];
+            $prioridad = 0;    
+            $usuario[$destino] = $destino;
+            if ($oficial > 0)
+                $usuario['oficial'] = $oficial;
+
+            $session->set('destino', $usuario);
+
+            $adjunto = 0;
+            if ($adjunto == 0)
+                $adjunto = json_encode(array());
+            else
+                $adjunto = json_encode($adjunto);
+
+            $destino = ORM::factory('users', $destino);
+            $oficina_destino = ORM::factory('oficinas', $destino->id_oficina);
+            $remite = ORM::factory('users', $user);
+            $oficina_remite = ORM::factory('oficinas', $remite->id_oficina);
+
+            // modificado por freddy
+            if ($id_seg < 1) {
+                $documentos = ORM::factory('documentos')->where('id', '=', $id_doc)->find();
+                if ($documentos->loaded()) {
+                    $id_seg = $documentos->id_seguimiento;
+                    //Modificado por Freddy
+                    $seg = ORM::factory('seguimiento')->where('id', '=', $id_seg)->find();
+                    if($documentos->estado==0 && $documentos->id_seguimiento>0 && $seg->oficial==0){
+                      $oficial2=0;   
+                    }                    
+                    ///////////////////////
+                }
+            }
+            //////////////////////
+            $seguimiento = ORM::factory('seguimiento');
+            if ($id_seg > 0) {
+                $seguimiento_actual = ORM::factory('seguimiento')
+                        ->where('id', '=', $id_seg)
+                        ->find();
+                $seguimiento_actual->estado = 4;
+                if ($seguimiento_actual->oficial == 1) {
+                    $seguimiento_actual->oficial = 2;
+                }
+                
+                $seguimiento_actual->save();
+                //incrementado por freddy
+                if (isset($usuario['oficial'])) {
+                    $documento = ORM::factory('documentos', $id_doc);
+                    $documento->estado = 1;
+                    $documento->save();
+                }
+            } else {
+                if (isset($usuario['oficial'])) {
+                    $documento = ORM::factory('documentos', $id_doc);
+                    $documento->estado = 1;
+                    $documento->save();
+                }
+            }
+            $seguimiento->id_seguimiento = $id_seg;
+            $seguimiento->nur = $nur;
+            $seguimiento->derivado_por = $remite->id;
+            $seguimiento->nombre_emisor = $remite->nombre;
+            $seguimiento->cargo_emisor = $remite->cargo;
+            $seguimiento->fecha_emision = date('Y-m-d H:i:s');
+            $seguimiento->derivado_a = $destino->id;
+            $seguimiento->nombre_receptor = $destino->nombre;
+            $seguimiento->cargo_receptor = $destino->cargo;
+            $seguimiento->estado = 1;
+            $seguimiento->accion = $accion;
+            if (isset($oficial2)){
+                $seguimiento->oficial = $oficial2;
+            }else{
+                $seguimiento->oficial = $oficial;
+            }
+            $seguimiento->hijo = $hijo;
+            $seguimiento->proveido = $proveido;
+            $seguimiento->adjuntos = $adjunto;
+            $seguimiento->de_oficina = $oficina_remite->oficina;
+            $seguimiento->a_oficina = $oficina_destino->oficina;
+            $seguimiento->id_de_oficina = $oficina_remite->id;
+            $seguimiento->id_a_oficina = $oficina_destino->id;
+            $seguimiento->prioridad = $prioridad;
+            $seguimiento->observacion = $observacion;
+            $seguimiento->save();
+            //Modificado por freddy
+            if($seguimiento->id){
+                DB::update(ORM::factory('documentos')->table_name())->set(array('id_seguimiento' => $seguimiento->id))->where('nur', '=', $nur)->and_where('original','=','0')->and_where('id_seguimiento','=','0')->and_where('estado','=','1')->execute();
+            }
+            //guardamo vitacora
+            $this->save($remite->id_entidad, $seguimiento->derivado_por, $seguimiento->nombre_emisor . ' | <b>' . $seguimiento->cargo_emisor . '</b> Deriva la Hoja de Ruta ' . $seguimiento->nur . '(' . $oficial . ') a ' . $seguimiento->nombre_receptor . ' | <b>' . $seguimiento->cargo_receptor . '</b>');
+
+            }
+
+            
+        }    
+        $this->request->redirect('bandeja/pendientes');
     }
     
     
@@ -479,13 +633,16 @@ class Controller_Bandeja extends Controller_DefaultTemplate{
     }    
     //imprimir enviado
     public function action_cancelar($id='')
-    {
+    {   
         $info=array();
         $seg=ORM::factory('seguimiento',array('id'=>$id));
         $nur=$seg->nur;
+        $control = '';
         if($seg->loaded())
         {
-           if(($seg->derivado_por==$this->user->id)&&($seg->estado=='1'))
+           //if(($seg->derivado_por==$this->user->id)&&($seg->estado=='1'))
+
+           if($seg->estado=='1') 
            {               
                $padre   = $seg->id_seguimiento; //si tiene seguimiento anterior?
                $oficial = $seg->oficial;
@@ -533,7 +690,9 @@ class Controller_Bandeja extends Controller_DefaultTemplate{
                $error['error']='<b>Error!: </b>La hoja de ruta ya fue recibida por el destinatario o usted no lo tenia en su bandeja de salida';
            }
         }
-           $oSeg=New Model_Seguimiento();
+            
+            if ($seg->derivado_por==$this->user->id) {
+               $oSeg=New Model_Seguimiento();
             $entrada=$oSeg->enviados($this->user->id);                      
             $this->template->styles=array('media/css/tablas.css'=>'all','media/css/modal.css'=>'screen');           
             $this->template->title     .= ' | Correspondencia enviada'; 
@@ -541,8 +700,12 @@ class Controller_Bandeja extends Controller_DefaultTemplate{
                                     ->bind('entrada', $entrada)
                                     ->bind('info', $info) 
                                     ->bind('error', $error); 
-        
-        
+            }else{
+                $this->request->redirect('bandeja');
+            }
+
+
+            
         
     }
     
@@ -630,6 +793,42 @@ class Controller_Bandeja extends Controller_DefaultTemplate{
         }
         
         $this->request->redirect('bandeja/createcarpetas');
+    }
+
+    public function acciones() {
+        $acciones = array();
+        $acc = ORM::factory('acciones')->find_all();
+        foreach ($acc as $a) {
+            $acciones [$a->id] = $a->accion;
+        }
+        return $acciones;
+    }
+
+    public function destinatarios($id_user, $id_superior) {
+
+        $lista_derivacion = array();
+        $oDestino = New Model_Destinatarios();
+        //dependientes
+        $lista_destinos = $oDestino->dependientes($id_user);
+        foreach ($lista_destinos as $l) {
+            $lista_derivacion [$l['id']] = $l['oficina'] . ' - ' . Text::limit_words($l['nombre'], 6, '');
+        }
+        //superior
+        $lista_destinos = $oDestino->superior($id_superior);
+        foreach ($lista_destinos as $l) {
+            $lista_derivacion [$l['id']] = $l['oficina'] . ' - ' . Text::limit_words($l['nombre'], 6, '');
+        }
+
+        $lista_destinos = $oDestino->destinos($id_user);
+        foreach ($lista_destinos as $l) {
+            if (!array_key_exists($l->id, $lista_derivacion))
+                $lista_derivacion [$l->id] = $l->oficina . ' - ' . Text::limit_words($l->nombre, 6, '');
+        }
+
+        //print_r($lista_destinos);
+        //sort($lista_derivacion, true);
+        //sort($lista_derivacion);
+        return $lista_derivacion;
     }
     
 }

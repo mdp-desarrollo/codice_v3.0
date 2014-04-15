@@ -100,7 +100,8 @@ class Model_Seguimiento extends ORM{
     }
     public function seguimiento($id){
         $sql="SELECT s.id as id, s.padre,s.nur, s.derivado_por,s.derivado_a,s.nombre_emisor,s.nombre_receptor,s.cargo_emisor,s.cargo_receptor,s.de_oficina,s.a_oficina,s.fecha_emision,s.fecha_recepcion,
-s.adjuntos, s.archivos, c.accion,e.id as id_estado,e.estado,s.oficial,s.hijo,s.proveido 
+s.adjuntos, s.archivos, c.accion,e.id as id_estado,e.estado,s.oficial,s.hijo,s.proveido, s.observacion 
+, IF(e.id=10,(SELECT carpetas.carpeta FROM archivados, carpetas WHERE archivados.nur=s.nur AND archivados.id_user=s.derivado_a AND archivados.id_carpeta=carpetas.id),'') as carpeta 
             FROM seguimiento s
             INNER JOIN acciones c ON s.accion=c.id
             INNER JOIN estados e ON s.estado=e.id
@@ -141,6 +142,17 @@ s.adjuntos, s.archivos, c.accion,e.id as id_estado,e.estado,s.oficial,s.hijo,s.p
     {
         $sql="SELECT s.id, s.nur FROM seguimiento s             
              WHERE s.id='$id_seg'";
+        return db::query(Database::SELECT, $sql)->execute();
+    }
+    public function nur_ref($id_seg)
+    {
+        $sql="SELECT s.id, s.nur,s.oficial, s.hijo, d.id as id_doc, d.referencia FROM seguimiento s, documentos d  WHERE s.id='$id_seg' AND s.nur = d.nur AND d.original=1";
+        return db::query(Database::SELECT, $sql)->execute();
+    }
+
+    public function nur_ref_doc($id_doc)
+    {
+        $sql="SELECT d.nur, d.id, d.referencia FROM documentos d  WHERE d.nur = $id_doc AND d.original=1";
         return db::query(Database::SELECT, $sql)->execute();
     }
     //cantidad de estados 

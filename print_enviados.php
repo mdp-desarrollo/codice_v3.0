@@ -95,10 +95,20 @@ try {
         $pdf->Cell(45, 10, '','LBR',0,'C');
         $pdf->SetXY(55,$p);
 
-        $pdf->MultiCell(115, 20, 'Proveido: '. $rs->proveido, 'TBR', 'L', 0, 1, '', '', true, 0, false, false, 20, 'M');
-        $pdf->SetXY(55,$p+20);
+    //     $pdf->MultiCell(115, 20, 'Proveido: '. $rs->proveido, 'TBR', 'L', 0, 1, '', '', true, 0, false, false, 20, 'M');
+    //     $pdf->SetXY(55,$p+20);
+    // //$pdf->MultiCell(115, 15, 'Derivado a: ',1,'L');
+    //     $pdf->MultiCell(115, 15, 'Derivado a: ', 'R', 'L', 0, 1, '', '', true, 0, false, false, 15, 'M');
+
+        
+    
+    $pdf->MultiCell(115, 10, 'Referencia: '. $rs->referencia, 'TBR', 'L', 0, 1, '', '', true, 0, false, false, 11, 'M');
+    
+    $pdf->SetXY(55,$p+10);
+    $pdf->MultiCell(115, 10, 'Proveido: '. $rs->proveido, 'BR', 'L', 0, 1, '', '', true, 0, false, false, 11, 'M');
+    $pdf->SetXY(55,$p+20);
     //$pdf->MultiCell(115, 15, 'Derivado a: ',1,'L');
-        $pdf->MultiCell(115, 15, 'Derivado a: ', 'R', 'L', 0, 1, '', '', true, 0, false, false, 15, 'M');
+    $pdf->MultiCell(115, 15, 'Derivado a: ', 'R', 'L', 0, 1, '', '', true, 0, false, false, 15, 'M');
 
         $pdf->SetXY(55,$p+20);
         $pdf->Cell(115, 5, $rs->a_oficina,0,1,'C');  

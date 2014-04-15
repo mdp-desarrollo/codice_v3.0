@@ -86,6 +86,44 @@ $('a.poplight[href^=#]').click(function() {
     return false;
 });
 
+        $('a.poplight2[href^=#]').click(function() {
+            var id_nur=$(this).attr('id_nur');
+            var id_seg2=$(this).attr('id_seg2');
+            var nur=$(this).attr('nuri');
+            $('#id_nur').val(id_nur);
+            $('#id_seg2').val(id_seg2);    
+            $('#nur').val(nur);    
+            $('#aceptar2').attr('href','/bandeja/cancelar/'+id_seg2);
+            $('h3.mensaje').text('Cancelar derivación, HR : '+nur);
+            //$('a#aceptar').attr('href','/bandeja/responder/'+id_nur);
+            var popID = $(this).attr('rel'); //Get Popup Name
+            var popURL = $(this).attr('href'); //Get Popup href to define size
+
+            //Pull Query & Variables from href URL
+            var query= popURL.split('?');
+            var dim= query[1].split('&');
+            var popWidth = dim[0].split('=')[1]; //Gets the first query string value
+
+            //Fade in the Popup and add close button
+            $('#' + popID).fadeIn().css({ 'width': Number( popWidth ) });//.prepend('<a href="#" class="close"><img src="/media/images/close.gif" class="btn_close" title="Close Window" alt="Close" /></a>');
+
+            //Define margin for center alignment (vertical   horizontal) - we add 80px to the height/width to accomodate for the padding  and border width defined in the css
+            var popMargTop = ($('#' + popID).height() + 80) / 2;
+            var popMargLeft = ($('#' + popID).width() + 80) / 2;
+
+            //Apply Margin to Popup
+            $('#' + popID).css({
+                'margin-top' : -popMargTop,
+                'margin-left' : -popMargLeft
+            });
+
+            //Fade in Background
+            $('body').append('<div id="fade"></div>'); //Add the fade layer to bottom of the body tag.
+            $('#fade').css({'filter' : 'alpha(opacity=80)'}).fadeIn(); //Fade in the fade layer - .css({'filter' : 'alpha(opacity=80)'}) is used to fix the IE Bug on fading transparencies 
+
+            return false;
+        });
+
 //Close Popups and Fade Layer
 $('a.close, #fade, #cancelar').live('click', function() { //When clicking on the close or fade layer...
     $('#fade , .popup_block').fadeOut(function() {
@@ -152,6 +190,33 @@ $('a.link2').click(function(){
     </table>
 </div>
 
+<div id="popup_name2" class="popup_block">  
+    <table>
+        <thead>
+            <tr>
+                <th><h3 class="mensaje" style="padding-left:0;"></h3></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><br/>
+                    Click en Aceptar para cancelar derivaci&oacute;n.
+                    <br/>
+                    <br/>                    
+                </td>
+            </tr>
+            <tr>
+                <td style="height:40px; text-align: right; ">
+                    <a href="" id="aceptar2" class="uiButton" >Aceptar</a>
+                    <a href="#" id="cancelar" class="uiButton" >Cancelar</a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+</div>
+
 <?php if(sizeof($norecibidos)){?>
 <p style="margin: 5px auto;"> <b>Filtrar: </b><input type="text" id="FilterTextBox" name="FilterTextBox" size="40" />
     <span ><i>Ordenar por: </i></span> <a href="#" class="link2" id="hojaruta">Hoja Ruta</a>
@@ -210,6 +275,7 @@ $('a.link2').click(function(){
                 <span class="opciones">
                                     <a href="#?=350" rel="popup_name" title="Recibir" class="poplight link recepcion" nur="<?php echo $s->id;?>" hs="<?php echo $s->nur;?>">Recepcionar</a>
                                   <?php if($s->hijo==1):?> | <a href="/bandeja/agrupado/?nur=<?php echo $s->nur;?>" ><img src="/media/images/docs.gif" title="Agrupado"/>Agrupado</a><?php endif;?>
+                                  <a href="#?=300" rel="popup_name2" title="Cancelar derivacion" class="poplight2 uiButton" nur="<?php echo $s->id; ?>" id_nur="<?php echo $s->nur; ?>" hs="<?php echo $s->nur; ?>"  id_seg2="<?php echo $s->id; ?>" nuri="<?php echo $s->nur ?>">Cancelar derivacion</a>
                 </span>
              </td>
          </tr>

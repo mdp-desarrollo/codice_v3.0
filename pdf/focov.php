@@ -309,7 +309,7 @@ try {
             </tr>
             <tr style="text-align:center;" bgcolor="'.$color.'">
                 <td width="100">' . $v->destino . '</td>
-                <td width="90">' . $diai . ' ' . $fi . '<br> ' . $hi . '</td>
+                <td width="90">' . $diaf . ' ' . $ff . '<br> ' . $hf . '</td>
                 <td width="110">'.$v->transporte.'</td>
                 <td width="50">'.$v->nro_dia.'</td>
                 <td width="70">'.$v->total_pasaje.'  '.$tipo_moneda.' </td>
@@ -378,10 +378,10 @@ $lp_bs = $tv+$gasto_rep;
 $lp_dolar = 0;
 $cont_dolar = '';
 if($tipo_moneda=='$us.'){
-    $lp_dolar = ($tv+$gasto_rep)/$tipo_cambio;
-    $tp = $tp/$tipo_cambio;
+    $lp_dolar = ($tv+$gasto_rep);
+    //$tp = $tp;
     $cont_dolar = '<br><b>LIQUIDO PAGABLE DOLARES:</b> ' .number_format($lp_dolar,2). ' $us.';
-
+    $lp_bs = $lp_bs*$tipo_cambio;
 }
 
 $contenido.='
@@ -390,13 +390,13 @@ $contenido.='
 </table>
 ';
 
-if ($rs->id_tipoviaje>=4) {
-    $lp_bs=($rs->total_viatico + $rs->gasto_representacion)*$rs->tipo_cambio;
-    $lp_dolar=$rs->total_viatico + $rs->gasto_representacion;
-}else{
-    $lp_bs=$rs->total_viatico + $rs->gasto_representacion;
-    $lp_dolar=0;
-}
+// if ($rs->id_tipoviaje>=4) {
+//     $lp_bs=($rs->total_viatico + $rs->gasto_representacion)*$rs->tipo_cambio;
+//     $lp_dolar=$rs->total_viatico + $rs->gasto_representacion;
+// }else{
+//     $lp_bs=$rs->total_viatico + $rs->gasto_representacion;
+//     $lp_dolar=0;
+// }
 
 
 if ($rs->justificacion_finsem != '')

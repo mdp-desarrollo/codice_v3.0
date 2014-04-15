@@ -12,6 +12,7 @@ class Controller_Ajax extends Controller {
             $destino = $_POST['destino'];
             $accion = $_POST['accion'];
             $proveido = strtoupper($_POST['proveido']);
+            $observacion = $_POST['observacion'];
             $nur = $_POST['nur'];
             $user = $_POST['user'];
             $id_doc = $_POST['document'];
@@ -130,6 +131,7 @@ class Controller_Ajax extends Controller {
             $seguimiento->id_de_oficina = $oficina_remite->id;
             $seguimiento->id_a_oficina = $oficina_destino->id;
             $seguimiento->prioridad = $prioridad;
+            $seguimiento->observacion = $observacion;
             $seguimiento->save();
 
             //Modificado por freddy
@@ -147,7 +149,7 @@ class Controller_Ajax extends Controller {
                 'receptor_cargo' => $seguimiento->cargo_receptor,
                 'a_oficina' => $seguimiento->a_oficina,
                 'proveido' => $seguimiento->proveido,
-                //'oficial' => $seguimiento->oficial,
+                'observacion' => $seguimiento->observacion,
                 'oficial' => $oficial,
                 'id_destino' => $seguimiento->derivado_a,
                 'adjunto' => json_decode($seguimiento->adjuntos),

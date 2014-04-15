@@ -14,6 +14,11 @@
        {
            $('#agrupado').show();
        }
+
+       $("td .obs2").hide();
+       $("td .obs1").click(function(){
+            $("td .obs2").toggle();
+       });
     });
 </script>
 
@@ -117,7 +122,11 @@
                 <br/><b><?php echo $s->cargo_receptor;?><b/>
             </td>
             <td width="20%">Accion: <?php echo $s->accion;?><br/>    
-                Estado: <b><?php echo $s->estado;?></b>   
+                Estado: <b><?php echo $s->estado;?></b>
+                <?php if ($s->carpeta !='') { ?>
+                <br/>Carpeta: <?php echo $s->carpeta;?>    
+                <?php } ?>
+                
             </td>
             <td>
              Adjunto:
@@ -127,7 +136,7 @@
                 <br/>
                 <?php  endforeach; ?>
                 <?php                    
-                $documentos=ORM::factory('documentos')->where('id_seguimiento','=',$s->id)->find_all();
+                $documentos=ORM::factory('documentos')->where('id_seguimiento','=',$s->id)->and_where('anulado','=','0')->find_all();
                 $vSeg_id = $s->id;
                 foreach($documentos as $d): 
                     $oSeg=New Model_Seguimiento();
@@ -159,7 +168,11 @@
             </td>
             
             <td colspan="2"  >
-                <pro> <?php echo $s->proveido;?></pro>
+            <?php if ($s->observacion!='') { ?>
+                <img src="/media/images/observers.gif" style="float:left; cursor: pointer;" class="obs1" title="Click para ver Obs. del remitente" />
+                <div class="obs2"><?php echo $s->observacion;?></div>
+            <?php } ?>
+                 <pro> <?php echo $s->proveido;?></pro>
             </td>
         </tr>        
     </tbody>

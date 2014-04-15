@@ -151,13 +151,13 @@
                             <?php
                             echo Form::hidden('id_doc', $documento->id);
                             echo Form::hidden('descripcion', '');
-                            echo Form::label('destinatario', 'Nombre del destinatario:', array('class' => 'form'));
+                            echo Form::label('destinatario', 'Autoriza el Viaje:', array('class' => 'form'));
                             echo Form::input('destinatario', $documento->nombre_destinatario, array('id' => 'destinatario', 'size' => 45, 'class' => 'required'));
                             ?>
                         </p>
                         <p>
                             <?php
-                            echo Form::label('destinatario', 'Cargo Destinatario:', array('class' => 'form'));
+                            echo Form::label('destinatario', 'Cargo:', array('class' => 'form'));
                             echo Form::input('cargo_des', $documento->cargo_destinatario, array('id' => 'cargo_des', 'size' => 45, 'class' => 'required'));
                             ?>
                         </p> 
@@ -187,7 +187,7 @@
                     <td style=" border-right:1px dashed #ccc; padding-left: 5px;">
                         <p>
                             <?php
-                            echo Form::label('remitente', 'Nombre del remitente: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mosca', array('class' => 'form'));
+                            echo Form::label('remitente', 'Funcionario Comisión: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mosca', array('class' => 'form'));
                             echo Form::input('remitente', $documento->nombre_remitente, array('id' => 'remitente', 'size' => 32, 'class' => 'required'));
                             ?>            
                             <?php
@@ -195,7 +195,7 @@
                             echo Form::input('mosca', $documento->mosca_remitente, array('id' => 'mosca', 'size' => 4));
                             ?>
                             <?php
-                            echo Form::label('cargo', 'Cargo Remitente:', array('class' => 'form'));
+                            echo Form::label('cargo', 'Cargo Funcionario:', array('class' => 'form'));
                             echo Form::input('cargo_rem', $documento->cargo_remitente, array('id' => 'cargo_rem', 'size' => 45, 'class' => 'required'));
                             ?>
                             <?php

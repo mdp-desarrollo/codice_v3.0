@@ -45,7 +45,7 @@ $(function(){
             <th> FECHA CREACION </th>
             <th> NIVEL </th>
             <th> </th>
-            <th> </th>
+<!--             <th> </th> -->
         </tr>
     </thead>
     <tbody> 
@@ -58,9 +58,9 @@ $(function(){
             <td>
                 <a href="/bandeja/form/<?php echo $o['id'];?>"><img src="/media/images/16x16/Write.png" /></a>
             </td>
-            <td>
+<!--             <td>
                 <a href="/bandeja/delete/<?php echo $o['id'];?>" onclick="return confirm('Esta seguro de eliminar el registro')"><img src="/media/images/16x16/Cancel.png" /></a>
-            </td>
+            </td> -->
         </tr>
     <?php endforeach;?>        
     </tbody>

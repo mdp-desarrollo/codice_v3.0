@@ -13,7 +13,7 @@ table#theTable thead th{font-size: 10px; font-weight: bold;text-align: center;
         border-right: 1px solid #ccc;
         }
 table#theTable thead th a{text-decoration:none; color: #303577;}
-table#theTable tbody td a{ text-decoration:none; color:#239; font-weight: bold;   }
+table#theTable tbody td a{ color:#239; font-weight: bold; text-decoration:none; }
 table#theTable tbody td a:hover{ text-decoration:underline;}
 table#theTable tbody td img{border:none;}
 table#theTable tbody td h{font-size: 10px;color: #09286F; font-weight: bold; text-align: right; float: right;  }
@@ -35,6 +35,8 @@ table#theTable tbody td a.hs:hover{border-bottom: 1px dotted;}
 table tr td.oficial{background-color:#DFF692; }
 table tbody tr td.nur1{background: url('../images/oficial.jpg') no-repeat bottom; text-align: center;}
 table tbody tr td.nur0{background:url('../images/copia.jpg') no-repeat bottom; text-align: center;}
+table tbody tr td.nurd1{background: url('../images/oficial.gif') no-repeat bottom !important; height: 60px; text-align: center;}
+table tbody tr td.nurd0{background:url('../images/copia.gif') no-repeat bottom !important; height: 60px; text-align: center;}
 table tbody tr td.copia{background-color:#F3F9FD; }
 table tr td.doc_copia{text-align: center; }
 .odd{ background: #EFF4FF;}
@@ -83,3 +85,5 @@ table#seguimiento tbody tr td a:hover{ text-decoration: underline;}
 table#seguimiento tbody tr td span{  color: #333; margin-top: 3px; display: block;   }
 table#seguimiento tbody tr td span b{  color: #333; }
 table#seguimiento tbody td pro{ background: url(../images/circular.gif) no-repeat left; margin-left: 3px;  padding-left: 18px; color: #666; font-weight: bold;  }
+.anular1{text-decoration: line-through !important;}
+.anular0{text-decoration: none !important;}

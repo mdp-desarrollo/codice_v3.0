@@ -237,17 +237,42 @@ class Controller_Hojaruta extends Controller_DefaultTemplate {
                         $documento->cargo_remitente = $this->user->cargo;
                         $documento->mosca_remitente = $this->user->mosca;
                         if ($fucov == 1 && $tipo->id=='13') {
+                            $documento->nombre_destinatario = $proceso->nombre_remitente;
+                            $documento->cargo_destinatario = $proceso->cargo_remitente;
+                            $documento->nombre_remitente = $proceso->nombre_destinatario;;
+                            $documento->cargo_remitente = $proceso->cargo_destinatario;
+                            $documento->mosca_remitente = $this->user->mosca;
                             $documento->referencia = $memo->referencia;
-                        }
-                        if ($fucov == 1 && $tipo->id=='14') {
+                        } elseif ($fucov == 1 && $tipo->id=='14') {
+                            $documento->nombre_destinatario = $proceso->nombre_remitente;
+                            $documento->cargo_destinatario = $proceso->cargo_remitente;
+                            $documento->nombre_remitente = $proceso->nombre_destinatario;;
+                            $documento->cargo_remitente = $proceso->cargo_destinatario;
+                            $documento->mosca_remitente = $this->user->mosca;
                             $documento->referencia = 'CERT. POA PASAJES y VIATICOS '.$nur;
-                        }
-                        if ($fucov == 1 && $tipo->id=='15') {
+
+                        } elseif ($fucov == 1 && $tipo->id=='15') {
+                            $documento->nombre_destinatario = $proceso->nombre_remitente;
+                            $documento->cargo_destinatario = $proceso->cargo_remitente;
+                            $documento->nombre_remitente = $proceso->nombre_destinatario;;
+                            $documento->cargo_remitente = $proceso->cargo_destinatario;
+                            $documento->mosca_remitente = $this->user->mosca;
                             $documento->referencia = 'CERT. PRESUPUESTARIA PASAJES y VIATICOS '.$nur;
-                        }
-                        if ($tipo->id=='16') {
+                        } elseif ($tipo->id=='16') {
+                            $documento->nombre_destinatario = $seguimiento->nombre_emisor;
+                            $documento->cargo_destinatario = $seguimiento->cargo_emisor;
+                            $documento->nombre_remitente = $this->user->nombre;
+                            $documento->cargo_remitente = $this->user->cargo;
+                            $documento->mosca_remitente = $this->user->mosca;
                             $documento->referencia = $referencia;
                             $documento->contenido = $contenidoRH;
+                        } else{
+                            $documento->nombre_destinatario = $seguimiento->nombre_emisor;
+                            $documento->cargo_destinatario = $seguimiento->cargo_emisor;
+                            $documento->nombre_remitente = $this->user->nombre;
+                            $documento->cargo_remitente = $this->user->cargo;
+                            $documento->mosca_remitente = $this->user->mosca;
+                            $documento->referencia = '';
                         }
                         $documento->fecha_creacion = date('Y-m-d H:i:s');
                         $documento->nur = $nur;
@@ -315,6 +340,8 @@ class Controller_Hojaruta extends Controller_DefaultTemplate {
                                 $poa->id_tipocontratacion = 5;
                                 $poa->otro_tipocontratacion = 'Pago de Viaticos';
                                 $poa->id_memo = $id_memo;
+                                $poa->auto_poa = 1;
+                                $poa->id_user_auto = $this->user->id;
                                 $poa->save();
                         /////////end////////////
                         }
@@ -568,7 +595,19 @@ public function action_generar_doc() {
     //imprimir
     public function action_imprimir() {
         $this->template->title.=' | imprimir';
-        $this->template->content = View::factory('hojaruta/imprimir');
+        $documento = array();
+        $msm = '';
+        if(isset($_POST['submit'])){
+            $nur=$_POST['nur'];
+            if($nur!='')
+            {
+                $documento = ORM::factory('documentos')->where('original','=',1)->and_where('nur','like',"%".$nur."%")->find_all();    
+            }
+            
+        }
+        $this->template->content = View::factory('hojaruta/imprimir')
+        ->bind('documento',$documento)
+        ->bind('msm',$msm);
     }
 
     /*     * */

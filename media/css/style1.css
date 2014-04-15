@@ -146,6 +146,7 @@ ul.items li a.item2 { background-image: url(../images/ktimer.png);}
 ul.items li a.item3 { background-image: url(../images/inbox_into.png);}    
 ul.items li a.item6 { background-image: url(../images/agrupado.png);}    
 ul.items li a.item10 { background-image: url(../images/my_documents.png);}    
+ul.items li a.item12 { background-image: url(../images/manual.png);}    
 ul.items li a.itemd { background-image: url(../images/group_go.png);}    
 ul.items_data li a.itemc { background-image: url(../images/lock.jpg);}    
 ul.items_data li a.itemd { background-image: url(../images/usercard.jpg);}    
@@ -199,6 +200,8 @@ a.link2{padding-left:8px; font-weight:bold; height:20px; line-height: 20px;margi
 a.link:hover,a.link2:hover{text-decoration: underline;  }
 a.respuesta{ background: url(../images/kword_kwd.png) no-repeat;}
 a.derivar{ background: url(../images/derivar.png) no-repeat; }
+a.anulado{ background: url(../images/page_delete.png) no-repeat; }
+a.habilitar{ background: url(../images/page_add.png) no-repeat; }
 a.recepcion{ background: url(../images/recepcion.png) no-repeat; }
 a.agrupado{ background: url(../images/docs.gif) no-repeat; }
 a.imprimir{ background: url(../images/printer) no-repeat; }

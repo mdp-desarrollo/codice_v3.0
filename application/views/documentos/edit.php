@@ -599,10 +599,15 @@ $contenido_ra = '<!DOCTYPE html>
                 <a href="#" class="link save" id="save" title="Guardar cambios hechos al documento" > Guardar</a>
                 | <a href="/pdf/<?php echo $tipo->action ?>.php?id=<?php echo $documento->id; ?>" class="link pdf" target="_blank" title="Imprimir PDF" >PDF</a>
                 |  
+                <?php if ($documento->anulado == 0): ?> 
                 <?php if ($documento->estado == 1): ?> 
                     <a href="/seguimiento/?nur=<?php echo $documento->nur; ?>" class="link derivar" title="Ver seguimiento" >Derivado</a>      
                 <?php else: ?>
                     <a href="/hojaruta/derivar/?id_doc=<?php echo $documento->id; ?>" class="link derivar" title="Derivar a partir del documento, si ya esta derivado muestra el seguimiento" >Derivar</a>      
+                <?php endif; ?>
+                <a href="/documento/anular/?id_doc=<?php echo $documento->id; ?>" class="link anulado" title="Anular Documento" >Anular</a>      
+                <?php else: ?>
+                    <a href="/documento/habilitar/?id_doc=<?php echo $documento->id; ?>" class="link habilitar" title="Habilitara el Documento anulado" >Habilitar</a>      
                 <?php endif; ?>
                 <?php
                 $session = Session::instance();

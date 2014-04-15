@@ -179,10 +179,10 @@ class Controller_documento extends Controller_DefaultTemplate {
 
                     if($id_tipo==14) {
                         //Modificado por freddy
-                        $poa = ORM::factory('poas');
-                        $poa->id_documento = $documento->id;
-                        $poa->fecha_creacion = date('Y-m-d H:i:s');
-                        $poa->fecha_modificacion = date('Y-m-d H:i:s');
+                                $poa = ORM::factory('poas');
+                                $poa->id_documento = $documento->id;
+                                $poa->fecha_creacion = date('Y-m-d H:i:s');
+                                $poa->fecha_modificacion = date('Y-m-d H:i:s');
                         $poa->id_memo = 0;
                         $poa->id_obj_gestion = $_POST['obj_gestion'];
                         $poa->id_obj_esp = $_POST['obj_esp'];
@@ -211,7 +211,7 @@ class Controller_documento extends Controller_DefaultTemplate {
                         //$poa->des_pol_sec = $_POST['des_pol_sec'];
                         //$poa->des_est_sec = $_POST['des_est_sec'];
                         //$poa->des_prog_sec = $_POST['des_prog_sec'];
-                        $poa->save();
+                                $poa->save();
 
                         }
                         if($nota == 1 && $id_tipo==15){///modificado por Rodrigo
@@ -406,7 +406,8 @@ class Controller_documento extends Controller_DefaultTemplate {
                         ->where('nur', '=', $documento->nur)
                         ->find_all();
                 foreach ($seguimiento as $s) {
-                    if (($s->derivado_a == $this->user->id) || ($s->derivado_por == $this->user->id) || $this->user->prioridad == 1)
+                    //if (($s->derivado_a == $this->user->id) || ($s->derivado_por == $this->user->id) || $this->user->prioridad == 1)
+                    if (($s->derivado_a == $this->user->id) || ($s->derivado_por == $this->user->id) )    
                         $ok = true;
                     ///rodrigo, estado=recibido => mostrar el detallepv 210813
                     if ($s->derivado_a == $this->user->id)
@@ -597,7 +598,7 @@ class Controller_documento extends Controller_DefaultTemplate {
                         } elseif ($_POST['cancelar1'][$i]=='Hospedaje') {
                             $porcentaje = 70;
                         } elseif ($_POST['cancelar1'][$i]=='Hospedaje y alimentacion') {
-                            $porcentaje = 70;
+                            $porcentaje = 25;
                         } else {
                             $porcentaje = 0;
                         }
@@ -691,12 +692,12 @@ class Controller_documento extends Controller_DefaultTemplate {
                         // }
                     }elseif ($documento->id_tipo == 14) {//MOdificado Freddy Velasco - Editar POA
                         $poa = ORM::factory('poas')->where('id_documento','=',$id)->find();
-                        //$poa->id_obj_est = $_POST['obj_est'];
+                        $poa->id_obj_est = $_POST['obj_est'];
                         $poa->id_obj_gestion = $_POST['obj_gestion'];
                         $poa->id_obj_esp = $_POST['obj_esp'];
                         $poa->id_actividad = $_POST['actividad'];
                         
-                        //$poa->obj_est = $_POST['det_obj_est'];
+                        $poa->obj_est = $_POST['det_obj_est'];
                         $poa->obj_gestion = $_POST['det_obj_gestion'];
                         $poa->obj_esp = $_POST['det_obj_esp'];
                         $poa->actividad = $_POST['det_act'];
@@ -735,7 +736,7 @@ class Controller_documento extends Controller_DefaultTemplate {
                         $pre->antecedente = $_POST['antecedente'];
                         $pre->fecha_modificacion = date('Y-m-d H:i:s');
                         $pre->save();
-                            
+
                         }
 
                         
@@ -851,9 +852,9 @@ class Controller_documento extends Controller_DefaultTemplate {
                 $pf = new Model_Pvfucovs();
                 $sql="SELECT SUM(gasto_representacion) as gasto_representacion,SUM(gasto_imp) as gasto_imp,SUM(total_viatico) as total_viatico,SUM(total_pasaje ) as total_pasaje  FROM pvfucovs WHERE id_documento = ".$documento->id;
                 $suma_fucov = $pf->sqlconsulta($sql);
-                
 
 
+                                
                 $this->template->content = View::factory('documentos/edit_fucov')
                         ->bind('documento', $documento)
                         ->bind('archivos', $archivos)
@@ -1481,6 +1482,22 @@ class Controller_documento extends Controller_DefaultTemplate {
     }
 
     ///210813
+
+    public function action_habilitar (){
+        $id = Arr::get($_GET, 'id_doc', 0);
+        $documento = ORM::factory('documentos')->where('id','=',$id)->find();
+        $documento->anulado = 0;
+        $documento->save();
+        $this->request->redirect('documento/editar/'.$id);
+    }
+
+    public function action_anular (){
+        $id = Arr::get($_GET, 'id_doc', 0);
+        $documento = ORM::factory('documentos')->where('id','=',$id)->find();
+        $documento->anulado = 1;
+        $documento->save();
+        $this->request->redirect('documento/editar/'.$id);
+    }
 }
 
 ?>

@@ -119,6 +119,8 @@ class Controller_Admin_User extends Controller_AdminTemplate {
                     $user->add('tipo', 3);
                     $user->add('tipo', 4);
                     $user->add('tipo', 5);
+                    $user->add('tipo', 14);
+                    $user->add('tipo', 15);
                     // Reset values so form is not sticky
                     $_POST = array();
 

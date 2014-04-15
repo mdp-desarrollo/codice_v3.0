@@ -127,6 +127,11 @@ var Chart;
         </a>                      
     </li>
 <?php endforeach;?>
+    <li >
+        <a href="/media/images/manual.pdf" class="item12" target="_blank">Manual del Usuario
+        <br/><span>Correspondencia Digital Centralizada<b> CODICE </b></span>
+        </a>                      
+    </li>
 <ul>
 </div>    
 <div style="padding: 10px; width: 22%; float: left; line-height: 20px;  border-right: 1px solid #ccc; display: block;    ">
