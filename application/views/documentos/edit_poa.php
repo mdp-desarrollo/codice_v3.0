@@ -341,8 +341,10 @@ $('#id_tipocontratacion').change(function(){
                             <tr>
                                 <td><b><?php echo Form::label('tipo_contratacion', 'Tipo de Contrataci&oacute;n:', array('class' => 'form')); ?></b></td>
                                 <td><?php echo Form::select('id_tipocontratacion', $tipocontratacion, $poa->id_tipocontratacion, array('class' => 'form', 'name' => 'id_tipocontratacion', 'id' => 'id_tipocontratacion', 'class' => 'required')); ?><br></td>
-                                <td id="id_label_otro_tc"><b><?php echo Form::label('otro_tc', 'Otro:', array('class' => 'form')); ?></b></td>
-                                <td id="id_otro_tipocontracion"><?php echo Form::input('otro_tipocontratacion',$poa->otro_tipocontratacion,array('id'=>'otro_tipocontratacion')); ?><br></td>
+                                <td><b><?php echo Form::label('partida', 'Partida:', array('class' => 'form')); ?></b></td>
+                                <td><?php echo Form::input('partida',$poa->partida,array('id'=>'partida', 'size'=>'10')); ?><br></td>
+                                <td><b><?php echo Form::label('otro_tc', 'Descripcion:', array('class' => 'form')); ?></b></td>
+                                <td><?php echo Form::input('otro_tipocontratacion',$poa->otro_tipocontratacion,array('id'=>'otro_tipocontratacion', 'size'=>'30')); ?><br></td>
                             </tr>
                         </table>
                     </td>

@@ -337,8 +337,9 @@ class Controller_Hojaruta extends Controller_DefaultTemplate {
                                 $poa->id_documento = $documento->id;
                                 $poa->fecha_modificacion = date('Y-m-d H:i:s');
                                 $poa->tipo_actividad = 'FUNCIONAMIENTO';
-                                $poa->id_tipocontratacion = 5;
-                                $poa->otro_tipocontratacion = 'Pago de Viaticos';
+                                $poa->id_tipocontratacion = 2;
+                                $poa->partida = '22210';
+                                $poa->otro_tipocontratacion = 'Viaticos por viajes al interior del pais';
                                 $poa->id_memo = $id_memo;
                                 $poa->auto_poa = 1;
                                 $poa->id_user_auto = $this->user->id;

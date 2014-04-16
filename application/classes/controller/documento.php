@@ -705,6 +705,7 @@ class Controller_documento extends Controller_DefaultTemplate {
                         $poa->fecha_modificacion = date('Y-m-d H:i:s');
                         $poa->tipo_actividad = $_POST['tipo_actividad'];
                         $poa->id_tipocontratacion = $_POST['id_tipocontratacion'];
+                        $poa->partida = $_POST['partida'];
                         $poa->otro_tipocontratacion = $_POST['otro_tipocontratacion'];
                         $poa->ri_financiador = $_POST['ri_financiador'];
                         $poa->ri_porcentaje = $_POST['ri_porcentaje'];

@@ -394,6 +394,9 @@ $tabla1 .=" <tr>
 
 //$tabla1 .="";
 ///TIPO actividad, Tipo Contratacion, Recursos
+$stmt3 = $dbh->prepare("SELECT * FROM poatipocontrataciones WHERE estado = 1");
+$stmt3->execute();
+
     $tabla1 .= "
             <tr>
                 <td>
@@ -421,37 +424,22 @@ $tabla1 .=" <tr>
                             <td style=\"width: 18%;\">Descripcion</td>
                             <td style=\"width: 12%;\">Partida</td>
                             <td style=\"width: 60%;\">Descripcion</td>
-                        </tr>
-                        <tr>
-                            <td bgcolor=\"$color\" height =\"$altura2\">10000</td>
-                            <td bgcolor=\"$color\">Servicios Personales</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td bgcolor=\"$color\" height =\"$altura2\">20000</td>
-                            <td bgcolor=\"$color\">Servicios No Personales</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td bgcolor=\"$color\" height =\"$altura2\">30000</td>
-                            <td bgcolor=\"$color\">Materiales y Suministros</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td bgcolor=\"$color\" height =\"$altura2\">40000</td>
-                            <td bgcolor=\"$color\">Activos Reales</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td bgcolor=\"$color\" height =\"$altura2\"></td>
-                            <td bgcolor=\"$color\">Otros</td>
-                            <td colspan=\"2\">$pvobjetivos->otro_tipocontratacion</td>
-                        </tr>
-                    </table>
+                        </tr>";
+while ($tc = $stmt3->fetch(PDO::FETCH_OBJ)) {
+    $partida='';
+    $desc = '';
+    if($tc->id==$pvobjetivos->id_tipocontratacion){
+        $partida=$pvobjetivos->partida;
+        $desc = $pvobjetivos->otro_tipocontratacion;
+    }
+                        $tabla1.="<tr>
+                            <td bgcolor=\"$color\" height =\"$altura2\">$tc->codigo</td>
+                            <td bgcolor=\"$color\">$tc->nombre</td>
+                            <td>$partida</td>
+                            <td>$desc</td>
+                        </tr>";
+}
+                    $tabla1.="</table>
                 </td>
             </tr>
             <tr>
