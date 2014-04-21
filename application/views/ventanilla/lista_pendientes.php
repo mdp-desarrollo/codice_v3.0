@@ -23,7 +23,7 @@ $(function(){
             var count=$('input:checked').length;
             //alert(count); 
             if(count==0){
-                $('#opciones').addClass('oculto');       
+                $('#opciones_ventanilla').addClass('oculto');       
             }
             else
             {
@@ -34,13 +34,13 @@ $(function(){
                         nurs=nurs+"<br/>- "+$(this).attr('rel')+'<hr />'; 
                     }
                 });
-                $('#seleciones').html(nurs);
-                $('#opciones').removeClass('oculto');               
+                $('#seleciones_ventanilla').html(nurs);
+                $('#opciones_ventanilla').removeClass('oculto');               
             }
         });
-        $('a#derivar').click(function(){
+        $('a#derivar_ventanilla').click(function(){
             $('#accion').val('3');
-            $('form#doa').submit();
+            $('form#doa_ventanilla').submit();
         }); 
 });//document.ready
 </script>
@@ -57,7 +57,7 @@ $(function(){
     <a href="/ventanilla" class="uibutton">Recepcionar otro</a>
 </span>
 </p>
-<form action="/bandeja/doa" method="post" id="doa" >
+<form action="/ventanilla/doa_ventanilla" method="post" id="doa_ventanilla" >
 <table id="theTable">
     <thead>
         <tr>

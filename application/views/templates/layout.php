@@ -78,6 +78,15 @@
             </ul>
             <div id="seleciones_recepcionar" ></div>
             </div>
+
+            <div id="opciones_ventanilla" class="oculto archive">
+            <ul>
+                <li>
+                    <a href="#" id="derivar_ventanilla" ><img src="/media/images/derivar.png" align="absmiddle"  /> Derivar</a>         
+                </li>
+            </ul>
+            <div id="seleciones_ventanilla" ></div>
+            </div>
             <!-- xxxxxxxxxxxxxxxxxxxxxxxxxxx -->
         
             <div id="print_enviados" class="oculto archive">

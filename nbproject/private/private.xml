@@ -8,6 +8,7 @@
             <file>file:/var/www/codice_v3.0/application/classes/model/seguimiento.php</file>
             <file>file:/var/www/codice_v3.0/application/classes/controller/bandeja.php</file>
             <file>file:/var/www/codice_v3.0/index.php</file>
+            <file>file:/var/www/codice_v3.0/application/classes/controller/ventanilla.php</file>
         </group>
     </open-files>
 </project-private>

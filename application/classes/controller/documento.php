@@ -184,11 +184,13 @@ class Controller_documento extends Controller_DefaultTemplate {
                                 $poa->fecha_creacion = date('Y-m-d H:i:s');
                                 $poa->fecha_modificacion = date('Y-m-d H:i:s');
                         $poa->id_memo = 0;
+                        $poa->id_obj_est = $_POST['obj_est'];
                         $poa->id_obj_gestion = $_POST['obj_gestion'];
                         $poa->id_obj_esp = $_POST['obj_esp'];
                         $poa->id_actividad = $_POST['actividad'];
                         
                         //$poa->obj_est = $_POST['det_obj_est'];
+                        $poa->obj_est = $_POST['det_obj_est'];
                         $poa->obj_gestion = $_POST['det_obj_gestion'];
                         $poa->obj_esp = $_POST['det_obj_esp'];
                         $poa->actividad = $_POST['det_act'];
@@ -196,6 +198,7 @@ class Controller_documento extends Controller_DefaultTemplate {
                         $poa->fecha_modificacion = date('Y-m-d H:i:s');
                         $poa->tipo_actividad = $_POST['tipo_actividad'];
                         $poa->id_tipocontratacion = $_POST['id_tipocontratacion'];
+                        $poa->partida = $_POST['partida'];
                         $poa->otro_tipocontratacion = $_POST['otro_tipocontratacion'];
                         $poa->ri_financiador = $_POST['ri_financiador'];
                         $poa->ri_porcentaje = $_POST['ri_porcentaje'];

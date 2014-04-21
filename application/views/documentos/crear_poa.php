@@ -218,6 +218,14 @@ $("#asignar_nur").fcbkcomplete({
 <tr>
     <td colspan="3">
         <table>
+            <tr>    
+                <td><b><?php echo Form::label('obj_est', 'Objetivo de Estrategico:', array('class' => 'form')); ?></b></td>
+                <td><?php echo Form::input('obj_est', '', array('class' => 'form', 'name' => 'obj_est')); ?></td>
+            </tr>
+            <tr>
+                <td><b><?php echo Form::label('detalle_obj_est', 'Detalle:', array('class' => 'form')); ?></b>    </td>
+                <td><br><textarea name="det_obj_est" id="det_obj_est" style="width: 600px;"  ></textarea></td>
+            </tr>
             <tr>
                 <td><b><?php echo Form::label('obj_gestion', 'Objetivo de Gesti&oacute;n:', array('class' => 'form')); ?></b></td>
                 <td><?php echo Form::input('obj_gestion', '', array('class' => 'form', 'name' => 'obj_gestion')); ?></td>
@@ -253,11 +261,12 @@ $("#asignar_nur").fcbkcomplete({
     <td colspan="3">
         <table>
             <tr>
-                <td><b><?php echo Form::label('tipo_contratacion', 'Tipo de Contrataci&oacute;n:', array('class' => 'form')); ?></b></td>
-                <td><?php echo Form::select('id_tipocontratacion', $tipocontratacion, '', array('class' => 'form', 'name' => 'id_tipocontratacion', 'id' => 'id_tipocontratacion', 'class' => 'required')); ?><br></td>
-                <td> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                <td id="id_label_otro_tc"><b><?php echo Form::label('otro_tc', 'Otro:', array('class' => 'form')); ?></b></td>
-                <td id="id_otro_tipocontracion"><?php echo Form::input('otro_tipocontratacion','',array('id'=>'otro_tipocontratacion')); ?><br></td>
+                                <td><b><?php echo Form::label('tipo_contratacion', 'Tipo de Contrataci&oacute;n:', array('class' => 'form')); ?></b></td>
+                                <td><?php echo Form::select('id_tipocontratacion', $tipocontratacion, '', array('class' => 'form', 'name' => 'id_tipocontratacion', 'id' => 'id_tipocontratacion', 'class' => 'required')); ?><br></td>
+                                <td><b><?php echo Form::label('partida', 'Partida:', array('class' => 'form')); ?></b></td>
+                                <td><?php echo Form::input('partida','',array('id'=>'partida', 'size'=>'10')); ?><br></td>
+                                <td><b><?php echo Form::label('otro_tc', 'Descripcion:', array('class' => 'form')); ?></b></td>
+                                <td><?php echo Form::input('otro_tipocontratacion','',array('id'=>'otro_tipocontratacion', 'size'=>'30')); ?><br></td>
             </tr>
         </table>
     </td>

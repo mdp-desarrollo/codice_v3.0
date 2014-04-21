@@ -152,7 +152,7 @@ s.adjuntos, s.archivos, c.accion,e.id as id_estado,e.estado,s.oficial,s.hijo,s.p
 
     public function nur_ref_doc($id_doc)
     {
-        $sql="SELECT d.nur, d.id, d.referencia FROM documentos d  WHERE d.nur = $id_doc AND d.original=1";
+        $sql="SELECT d.nur, d.id, d.referencia FROM documentos d  WHERE d.id = $id_doc AND d.original=1";
         return db::query(Database::SELECT, $sql)->execute();
     }
     //cantidad de estados 

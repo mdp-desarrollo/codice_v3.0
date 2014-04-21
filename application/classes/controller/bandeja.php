@@ -140,33 +140,7 @@ class Controller_Bandeja extends Controller_DefaultTemplate{
         }        
     }
 
-    public function action_doa_ventanilla()    
-    {
-        if($_POST){
-           if ($_POST['accion']==3) {  // 3= derivar varias hojas de ruta
-                $nurs=array();
-                $oSeg=New Model_Seguimiento();                
-                foreach($_POST['id_doc'] as $k=>$v)
-                {
-                    $nur=$oSeg->nur_ref_doc($v);
-                    $id=$nur[0]['id'];
-                    $nurs[$id][0]=$nur[0]['nur'];
-                    $nurs[$id][1]=$nur[0]['referencia'];
-                    $nurs[$id][2]=$nur[0]['oficial'];
-                    $nurs[$id][3]=$nur[0]['hijo'];
-                    $nurs[$id][4]=$nur[0]['id_doc'];
-                }
-                $acciones = $this->acciones();
-                $destinatarios = $this->destinatarios($this->user->id, $this->user->superior);
-                $this->template->styles=array('media/css/tablas.css'=>'all','media/css/modal.css'=>'screen');
-                $this->template->title.=' | Derivar correspondencia';
-                $this->template->content=View::factory('bandeja/derivar')
-                                         ->bind('nurs',$nurs)
-                                         ->bind('accion',$acciones)
-                                         ->bind('destinatario', $destinatarios);
-            }
-        }        
-    }
+    
 
     //archivar correspondencia final
     public function action_agruparf()
