@@ -149,8 +149,8 @@ try {
         $pdf->Ln();
         $pdf->SetFont('Helvetica', 'B', 13);
         $pdf->Write(0, strtoupper($rs->nur), '', 0, 'C');
-        $pdf->Ln(10);
-        $pdf->SetFont('Helvetica', 'B', 10);
+        $pdf->Ln(14);
+        $pdf->SetFont('Helvetica', 'B', 13);
         $pdf->Cell(15, 5, 'A:');
         // $pdf->SetFont('Helvetica', '', 10);
         // $pdf->Write(0, utf8_encode($rs->nombre_destinatario), '', 0, 'L');
@@ -162,11 +162,11 @@ try {
         $destinatario = explode(',',$rs->nombre_destinatario);
         $cargo_dest = explode(',',$rs->cargo_destinatario);
         $i = 0;
-        $pdf->SetFont('Helvetica', '', 10);
+        $pdf->SetFont('Helvetica', '', 13);
         $pdf->Write(0, utf8_encode($rs->titulo), '', 0, 'L');
         $html='<table>';
         foreach( $destinatario as $dest) {
-            $html .= '<tr><td>'.ltrim(utf8_encode($dest)).'</td></tr><tr><td><b>'.ltrim(utf8_encode($cargo_dest[$i])).'</b></td></tr>';
+            $html .= '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'.ltrim(utf8_encode($dest)).'</td></tr><tr><td><b>&nbsp;&nbsp;&nbsp;&nbsp;'.ltrim(utf8_encode($cargo_dest[$i])).'</b></td></tr>';
             $i++;
         }
         $html .='</html>';
@@ -174,7 +174,7 @@ try {
 
 
 
-        $pdf->Ln(5);
+        $pdf->Ln(3);
         if (($rs->via != 0) && (trim($rs->nombre_via) != '')) {
             // $pdf->SetFont('Helvetica', 'B', 10);
             // $pdf->Cell(15, 5, 'Via:');
@@ -186,57 +186,55 @@ try {
             // $pdf->Write(0, utf8_encode($rs->cargo_via), '', 0, 'L');
             // $pdf->Ln(10);
 
-            $pdf->SetFont('Helvetica', 'B', 10);
-            $pdf->Ln(10);
+            $pdf->SetFont('Helvetica', 'B', 13);
+            //$pdf->Ln(2);
             $pdf->Cell(15, 5, 'Via:');
                 $vias = explode(',',$rs->nombre_via);
                 $cargo_vias = explode(',',$rs->cargo_via);
                 $i = 0;
-                $pdf->SetFont('Helvetica', '', 10);
+                $pdf->SetFont('Helvetica', '', 13);
                 //$pdf->Write(0, utf8_encode($rs->titulo), '', 0, 'L');
                 $html='<table border = "0">';
                 foreach( $vias as $v) {
                     if( $i != 0)
-                        $salto = '<br /><br /><br /><br />';
+                        $salto = '<br />';
                     else
                         $salto = '';
-                    $html .= '<tr><td>'.$salto.ltrim(utf8_encode($v)).'</td></tr><tr><td><b>'.ltrim(utf8_encode($cargo_vias[$i])).'</b></td></tr>';
+                    $html .= '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;'.$salto.ltrim(utf8_encode($v)).'</td></tr><tr><td><b>&nbsp;&nbsp;&nbsp;&nbsp;'.ltrim(utf8_encode($cargo_vias[$i])).'</b></td></tr>';
                     $i++;
                 }
                 $html .='</table>';
                 $pdf->writeHTML($html);
         }
-        $pdf->SetFont('Helvetica', 'B', 10);
-        $pdf->Cell(15, 5, 'De:');
-        $pdf->SetFont('Helvetica', '', 10);
+        $pdf->SetFont('Helvetica', 'B', 13);
+        $pdf->Cell(20, 5, 'De:');
+        $pdf->SetFont('Helvetica', '', 13);
         $pdf->Write(0, utf8_encode($rs->nombre_remitente), '', 0, 'L');
         $pdf->Ln();
-        $pdf->Cell(15, 5, '');
-        $pdf->SetFont('Helvetica', 'B', 10);
+        $pdf->Cell(20, 5, '');
+        $pdf->SetFont('Helvetica', 'B', 13);
         $pdf->Write(0, utf8_encode($rs->cargo_remitente), '', 0, 'L');
         $pdf->Ln(10);
-        $pdf->Cell(15, 5, 'Fecha:');
-        $pdf->SetFont('Helvetica', '', 10);
+        $pdf->Cell(20, 5, 'Fecha:');
+        $pdf->SetFont('Helvetica', '', 13);
         $mes = (int) date('m', strtotime($rs->fecha_creacion));
         $meses = array(1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril', 5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto', 9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre');
         $fecha = date('d', strtotime($rs->fecha_creacion)) . ' de ' . $meses[$mes] . ' de ' . date('Y', strtotime($rs->fecha_creacion));
         $pdf->Write(0, $fecha, '', 0, 'L');
         $pdf->Ln(10);
-        $pdf->SetFont('Helvetica', 'B', 10);
-        /*if ($rs->fucov == 1)
-            $pdf->Cell(15, 5, 'Motivo:');
-        else*/
-            $pdf->Cell(15, 5, 'Ref:');
+        $pdf->SetFont('Helvetica', 'B', 13);
+        
+        $pdf->Cell(20, 5, 'Ref.:');
 
-        $pdf->SetFont('Helvetica', '', 10);
-        $pdf->MultiCell(170, 5, utf8_encode($rs->referencia), 0, 'L');
+        $pdf->SetFont('Helvetica', 'BU', 13);
+        $pdf->MultiCell(170, 3, utf8_encode($rs->referencia), 0, 'L');
         
         if($rs->fucov == 1)
             $pdf->Ln(5);
         else
             $focov = '';
         
-        
+        $pdf->SetFont('Helvetica', '', 13);
         $pdf->writeHTML(utf8_encode($rs->contenido));
         
 

@@ -86,7 +86,7 @@ $contenido='';  //strip_tags(html_entity_decode(''.$rs->contenido));       // or
 
 //logo
 $data=array();
-//$data[]=array('number'=>'../media/logos/'.$rs->logo);
+$data[]=array('number'=>'../media/logos/'.$rs->logo);
 
 //pie de pagina
 $pie_1=''.utf8_encode($rs->pie_1);

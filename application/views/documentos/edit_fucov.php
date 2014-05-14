@@ -627,7 +627,7 @@ function dia_literal($n) {
                                 <th style="text-align:center;">Fecha y Hora <br>Salida</th>
                                 <th style="text-align:center;">Desc. IVA</th> 
                                 <th style="text-align:center;">Gastos<br>Repres.</th>
-                                <th style="text-align:center;">Desc. DUA</th>
+                                <!-- <th style="text-align:center;">Desc. DUA</th> -->
                                 <th style="text-align:center;">Total Dias</th> 
                             </tr>
                         </thead>
@@ -652,7 +652,7 @@ function dia_literal($n) {
                                    echo 'checked';
                                } ?>> No<br>
                            </td>
-                           <td rowspan='3'><?php echo Form::input('dua', $dua, array('id' => 'dua', 'size' => 2, 'class' => 'required')) ?></td>
+                           <!-- <td rowspan='3'><?php // echo Form::input('dua', $dua, array('id' => 'dua', 'size' => 2, 'class' => 'required')) ?></td> -->
                            <td rowspan='3'><?php echo Form::input('nro_dia', $nro_dia, array('id' => 'nro_dia', 'size' => 2, 'class' => 'required','readonly')) ?></td>
                        </tr>
                        <tr>

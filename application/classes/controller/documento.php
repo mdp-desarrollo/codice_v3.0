@@ -69,13 +69,13 @@ class Controller_documento extends Controller_DefaultTemplate {
                 
                 $contenido = $_POST['descripcion'];
                 if (isset($_POST['fucov'])) {
-                    $contenido = '<p style="text-align: justify;">Por medio del presente Memorándum se autoriza a su persona trasladarse desde: La ciudad ' . $_POST['origen'] . ' hasta la ciudad ' . $_POST['destino'] . ' con el objeto de ' . strtolower($_POST['detalle_comision']) . '. Desde el ' . $_POST['fecha_inicio'] . ' a Hrs. ' . $_POST['hora_inicio'] . ' hasta el ' . $_POST['fecha_fin'] . ' a Hrs. ' . $_POST['hora_fin'] .'.</p>';    
+                    $contenido = '<p style="text-align: justify;"><p>De mi consideración:</p> 
+                                <p style="text-align: justify;">A través del presente memorándum, se comisiona a su persona realizar el viaje a la ciudad de ' . $_POST['destino'] . ' desde el ' . $_POST['fecha_inicio'] . ' hasta el ' . $_POST['fecha_fin'] . ' con el objetivo de ' . strtolower($_POST['detalle_comision']) . '.</p>';
+                               
                     $pvpasaje = ORM::factory('pvpasajes');
                     $contenido .= $pvpasaje->contedido_focov($_POST['observacion']);    
-                    // $contenido .='<p style="text-align: justify;">Sírvase tramitar ante la Dirección General de Asuntos Administrativos la asignación de pasajes y viáticos de acuerdo a escala autorizada para lo cual su persona deberá coordinar la elaboración del FOCOV. Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de concluída la comisión de acuerdo al artículo 28 del reglamento interno de Pasajes y Viáticos del Ministerio de Desarrollo Productivo y Economía Plural.</p>
-                    //     <p></p>
-                    //     <p style="text-align: justify;">Saludo a usted atentamente, </p>';
                 }
+
                 if (isset($_POST['viaje_semana'])) {
                     $contenido = $_POST['descripcion3'];
                 }
@@ -200,6 +200,8 @@ class Controller_documento extends Controller_DefaultTemplate {
                         $poa->id_tipocontratacion = $_POST['id_tipocontratacion'];
                         $poa->partida = $_POST['partida'];
                         $poa->otro_tipocontratacion = $_POST['otro_tipocontratacion'];
+                        $poa->partida2 = $_POST['partida2'];
+                        $poa->otro_tipocontratacion2 = $_POST['otro_tipocontratacion2'];
                         $poa->ri_financiador = $_POST['ri_financiador'];
                         $poa->ri_porcentaje = $_POST['ri_porcentaje'];
                         $poa->re_financiador = $_POST['re_financiador'];
@@ -288,7 +290,7 @@ class Controller_documento extends Controller_DefaultTemplate {
         } elseif ($t == 'poa') {
                 // Modificado Freddy
                 $tipoc = ORM::factory('poatipocontrataciones')->where('estado','=','1')->find_all();
-                $tipocontratacion[''] = 'Seleccionar Tipo Contratacion';
+                $tipocontratacion[''] = '(Seleccionar)';
                 foreach ($tipoc as $tc){$tipocontratacion[$tc->id] = $tc->nombre;}
                 /////////////////////
 
@@ -524,9 +526,10 @@ class Controller_documento extends Controller_DefaultTemplate {
                     $documento = ORM::factory('documentos')->where('id', '=', $id)->and_where('id_user', '=', $this->user->id)->find();
                     $contenido = $_POST['descripcion'];
                     if ($documento->fucov == 1 || isset($_POST['fucov']) ) {
-                        $contenido = '<p style="text-align: justify;">Por medio del presente Memorándum se autoriza a su persona trasladarse desde: La ciudad ' . $_POST['origen'] . ' hasta la ciudad ' . $_POST['destino'] . ' con el objeto de ' . $_POST['detalle_comision'] . '. Desde el ' . $_POST['fecha_inicio'] . ' a Hrs. ' . $_POST['hora_inicio'] . ' hasta el ' . $_POST['fecha_fin'] . ' a Hrs. ' . $_POST['hora_fin'] .'.</p>';    
+                        $contenido = '<p style="text-align: left;"><p>De mi consideración:</p> 
+                                <p style="text-align:justify">A través del presente memorándum, se comisiona a su persona realizar el viaje a la ciudad de ' . $_POST['destino'] . ' desde el ' . $_POST['fecha_inicio'] . ' hasta el ' . $_POST['fecha_fin'] . ' con el objetivo de ' . strtolower($_POST['detalle_comision']) . '.</p>';
                         $pvpasaje = ORM::factory('pvpasajes');
-                        $contenido .= $pvpasaje->contedido_focov($_POST['observacion']);
+                        $contenido .= $pvpasaje->contedido_focov($_POST['observacion']);    
                     }
                     $documento->nombre_destinatario = $_POST['destinatario'];
                     $documento->cargo_destinatario = $_POST['cargo_des'];
@@ -579,7 +582,7 @@ class Controller_documento extends Controller_DefaultTemplate {
                         $pvfucovgeneral->fecha_arribo = $ff;
                         $pvfucovgeneral->impuesto = $_POST['impuesto'];
                         $pvfucovgeneral->representacion = $_POST['representacion'];
-                        $pvfucovgeneral->dua = $_POST['dua'];
+                        $pvfucovgeneral->dua = 0;
                         $pvfucovgeneral->nro_dia = $_POST['nro_dia'];
                         $pvfucovgeneral->id_categoria = $_POST['id_categoria'];
                         $pvfucovgeneral->justificacion_finsem = $_POST['justificacion_finsem'];
@@ -710,6 +713,8 @@ class Controller_documento extends Controller_DefaultTemplate {
                         $poa->id_tipocontratacion = $_POST['id_tipocontratacion'];
                         $poa->partida = $_POST['partida'];
                         $poa->otro_tipocontratacion = $_POST['otro_tipocontratacion'];
+                        $poa->partida2 = $_POST['partida2'];
+                        $poa->otro_tipocontratacion2 = $_POST['otro_tipocontratacion2'];
                         $poa->ri_financiador = $_POST['ri_financiador'];
                         $poa->ri_porcentaje = $_POST['ri_porcentaje'];
                         $poa->re_financiador = $_POST['re_financiador'];
@@ -940,7 +945,7 @@ class Controller_documento extends Controller_DefaultTemplate {
                 // }
                
                 $tipoc = ORM::factory('poatipocontrataciones')->where('estado','=','1')->find_all();
-                $tipocontratacion[''] = 'Seleccionar Tipo Contratacion';
+                $tipocontratacion[''] = '(Seleccionar)';
                 foreach ($tipoc as $tc){$tipocontratacion[$tc->id] = $tc->nombre;}
                 
                 $this->template->content = View::factory('documentos/edit_poa')

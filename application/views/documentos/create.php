@@ -475,21 +475,22 @@ $contenido_ra = '<!DOCTYPE html>
             </div>
             <div id='contenido2' style="width: 780px;">
                 <br>
-                <p>Por medio del presente Memorándum se autoriza a su persona trasladarse desde:</p><br> 
-                <p align='justify;'>La ciudad (origen)
+                <p>De mi consideración:</p>
+                <p align='justify;'>A través del presente memorándum, se comisiona a su persona realizar el viaje desde la<br>
+                ciudad (origen)
                 <?php echo Form::input('origen','',array('id'=>'origen')); ?> 
                 hasta la ciudad (destino)
                 <?php echo Form::input('destino','',array('id'=>'destino')); ?></p><br>
-                <p>con el objeto de (detalle de comision)</p>
-                <p>
-                    <textarea name="detalle_comision" id="detalle_comision" style="width: 775px;" ></textarea>
-                </p>
                 desde el 
                 <input type="text" id="fecha_inicio" name="fecha_inicio" size='16'/> a Hrs. <input type="text" name="hora_inicio" id="hora_inicio" value="00:00:00" size='6'/>
                     hasta el
                 <input type="text" id="fecha_fin" name="fecha_fin" size='16'/> a Hrs. <input type="text" id="hora_fin" name="hora_fin" value="00:00:00" size='6'/><br>
-                <p style="text-align: justify;">Sírvase tramitar ante la Dirección General de Asuntos Administrativos la asignación de pasajes y viáticos de acuerdo a escala autorizada para lo cual su persona deberá coordinar la elaboración del FOCOV.
-                Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de concluída la comisión de acuerdo al artículo 28 del reglamento interno de Pasajes y viáticos del Ministerio de Desarrollo Productivo y Economía Plural.</p>
+                <p>con el objetivo de (describir en detalle actividades a realizarse)</p>
+                <p>
+                    <textarea name="detalle_comision" id="detalle_comision" style="width: 775px;" ></textarea>
+                </p>
+                
+                <p style="text-align: justify;">En este sentido, sírvase tramitar ante la instancia administrativa pertinente las gestiones correspondientes para tal efecto.</p><br>
                 <?php echo Form::label('observacion', 'Justificación Fin de Semana o Feriado:',array('id'=>'label_observacion','class'=>'form'));?> 
                 <textarea name="observacion" id="observacion" style="width: 775px;" minlength='20'></textarea>
             </div>

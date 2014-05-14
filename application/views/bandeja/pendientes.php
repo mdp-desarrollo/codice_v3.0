@@ -310,9 +310,13 @@
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    <?php $segundos = (time() - strtotime($s->fecha2)); ?>
+                                                    <?php 
+                                                    //$segundos = (time() - strtotime($s->fecha2)); 
+                                                    //$dias = floor((($segundos / 3600) / 24));
+                                                    ?>
+                                                    <?php $dias = contardias(strtotime($s->fecha2),time()); ?>
                                                     <?php
-                                                    $dias = floor((($segundos / 3600) / 24));
+                                                    
                                                     switch ($dias) {
                                                         case 0:
                                                             $color = 0;
@@ -345,3 +349,23 @@
                                                 <b>Bandeja Vacia!</b> Usted no tiene correspondencia pendiente.</p>
                                         </div>
 <?php } ?>
+<?php 
+function contardias($fechaInicio,$fechaFin,$confines=0){#por default te la da sin fines de semana
+    //$fechaInicio=strtotime($fecha1);
+    //$fechaFin=strtotime($fecha2);
+    $contador=0;
+    for($i=$fechaInicio; $i<=$fechaFin; $i+=86400){
+        if($confines==1){
+            $contador+=1;
+        }else{
+            $dia=date("N",$i);
+            if($dia=="6" || $dia=='7') {
+                
+            }else{
+                $contador+=1;
+            }
+        }
+    }
+    return $contador-1;
+} 
+ ?>

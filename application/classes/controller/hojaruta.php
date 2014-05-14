@@ -338,6 +338,8 @@ class Controller_Hojaruta extends Controller_DefaultTemplate {
                                 $poa->fecha_modificacion = date('Y-m-d H:i:s');
                                 $poa->tipo_actividad = 'FUNCIONAMIENTO';
                                 $poa->id_tipocontratacion = 2;
+                                $poa->partida2 = '22110';
+                                $poa->otro_tipocontratacion2 = 'Pasajes al interior del pais';
                                 $poa->partida = '22210';
                                 $poa->otro_tipocontratacion = 'Viaticos por viajes al interior del pais';
                                 $poa->id_memo = $id_memo;

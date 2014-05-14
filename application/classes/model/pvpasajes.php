@@ -102,16 +102,16 @@ ORDER BY nur ASC";
     }
 
     public function contedido_focov($observacion){
-        $con_footer='<p style="text-align: justify;">Sírvase tramitar ante la Dirección General de Asuntos Administrativos la asignación de pasajes y viáticos de acuerdo a
-escala autorizada para lo cual su persona deberá coordinar la elaboración del FOCOV.
-Una vez completada la comisión sírvase hacer llegar el informe de descargo dentro de los próximos 8 días hábiles de concluída la comisión de acuerdo
-al artículo 28 del reglamento interno de pasajes y viáticos del Ministerio de Desarrollo Productivo y Economía Plural.</p>';
+        $con_footer = '';
         if($observacion<>''){
-            $con_footer.='<p style="text-align: justify;">Que la justificación del viaje en fin de semana señala que: ' . $observacion . ' . Misma que fue autorizada por el inmediato superior. </p>';
+            $con_footer.='<p style="text-align: justify;"> ' . $observacion . ' </p>';
         }
+
+        $con_footer.='<p style="text-align: justify;">En este sentido, sírvase tramitar ante la instancia administrativa pertinente las gestiones correspondientes para tal efecto.</p>';
         
-        $con_footer.='<p></p>
-<p style="text-align: justify;">Saludo a usted atentamente, </p>';
+        
+        $con_footer.='
+<p style="text-align: justify;">Sin otro particular, me despido con atención. </p>';
 
         return $con_footer;
     }

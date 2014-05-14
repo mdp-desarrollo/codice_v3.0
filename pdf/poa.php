@@ -428,15 +428,19 @@ $stmt3->execute();
 while ($tc = $stmt3->fetch(PDO::FETCH_OBJ)) {
     $partida='';
     $desc = '';
+    $partida2='';
+    $desc2 = '';
     if($tc->id==$pvobjetivos->id_tipocontratacion){
         $partida=$pvobjetivos->partida;
         $desc = $pvobjetivos->otro_tipocontratacion;
+        $partida2=$pvobjetivos->partida2;
+        $desc2 = $pvobjetivos->otro_tipocontratacion2;
     }
                         $tabla1.="<tr>
                             <td bgcolor=\"$color\" height =\"$altura2\">$tc->codigo</td>
                             <td bgcolor=\"$color\">$tc->nombre</td>
-                            <td>$partida</td>
-                            <td>$desc</td>
+                            <td>$partida2 <br>$partida</td>
+                            <td>$desc2 <br>$desc</td>
                         </tr>";
 }
                     $tabla1.="</table>

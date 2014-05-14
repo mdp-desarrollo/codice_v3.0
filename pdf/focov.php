@@ -181,16 +181,12 @@ try {
             <td>'.$rs->cargo_remitente.'</td>
         </tr>
         <tr>
-            <td>PROPOSITO DEL VIAJE</td>
+            <td>OBJETIVO DEL VIAJE</td>
             <td>'.$rs->referencia.'</td>
         </tr>
         <tr>
-            <td>FECHA DE DECLARACION EN COMISION</td>
-            <td>'.$rs->fecha_creacion.'</td>
-        </tr>
-        <tr>
-            <td ><span style="color:#6A6B6A; text-align:center; font-size: 80%;"><br /><br /><br /><br /><br />SELLO</span></td>
-            <td><span style="color:#6A6B6A; text-align:center; font-size: 80%;"><br /><br /><br /><br /><br />FIRMA</span></td>
+            <td ><span style="color:#6A6B6A; text-align:center; font-size: 80%;"><br /><br /><br /><br /><br />FIRMA</span></td>
+            <td><span style="color:#6A6B6A; text-align:center; font-size: 80%;"><br /><br /><br /><br /><br />NOMBRE Y CARGO DEL COMISIONADO</span></td>
         </tr>
         <tr style="text-align:left;background-color: #F4F4F4;">
             <td colspan="2"><b>PARTE II. IDENTIFICACION DEL AREA QUE AUTORIZA EL VIAJE</b></td>
@@ -211,10 +207,7 @@ try {
             <td>FECHA DE AUTORIZACION DE VIAJE</td>
             <td>'.$memo->fecha_creacion.'</td>
         </tr>
-        <tr>
-            <td><br></td>
-            <td><br></td>
-        </tr>
+        
         <tr style="text-align:left;background-color: #F4F4F4;">
             <td colspan="2"><b>PARTE III. SOLICITUD DE PASAJES Y VIATICOS</b></td>
         </tr>
@@ -251,16 +244,16 @@ try {
         <tr style="text-align:center;background-color: #666666;color: #FFFFFF;">
             <th width="90" rowspan="2">Tramo</th>
             <th width="100">Origen</th>
-            <th width="90">Fecha y Hora <br>Salida</th>
+            <th width="90">Fecha<br>Salida</th>
             <th width="110">Viatico</th> 
             <th width="50">% Viatico</th>
             <th width="70">Viatico Parcial</th>
             <th width="70">Nro Boleto</th>
-            <th width="40" rowspan="2">Ida y Vuelta</th>
+            <th width="43" rowspan="2">Ida y Vuelta</th>
         </tr>
         <tr style="text-align:center;background-color: #666666;color: #FFFFFF;">
             <th width="100">Destino</th>
-            <th width="90">Fecha y Hora <br>Arribo</th>
+            <th width="90">Fecha<br>Arribo</th>
             <th width="110">Transporte</th> 
             <th width="50">Nro Dias</th>
             <th width="70">Costo Pasaje</th>
@@ -300,16 +293,16 @@ try {
             <tr style="text-align:center;" bgcolor="'.$color.'">
                 <td width="90" rowspan="2">'. $v->tipoviaje .'</td>
                 <td width="100">' . $v->origen . '</td>
-                <td width="90">' . $diai . ' ' . $fi . '<br> ' . $hi . '</td>
+                <td width="90">' . $diai . ' ' . $fi . '</td>
                 <td width="110">'.$cancelar.'</td>
                 <td width="50">'.$v->porcentaje_viatico.' % </td>
                 <td width="70">'.$v->total_viatico.'  '.$tipo_moneda.'</td>
                 <th width="70">'.$v->nro_boleto.'</th>
-                <td width="40" rowspan="2">'.$v->ida_vuelta1.'</td>
+                <td width="43" rowspan="2">'.$v->ida_vuelta1.'</td>
             </tr>
             <tr style="text-align:center;" bgcolor="'.$color.'">
                 <td width="100">' . $v->destino . '</td>
-                <td width="90">' . $diaf . ' ' . $ff . '<br> ' . $hf . '</td>
+                <td width="90">' . $diaf . ' ' . $ff . '</td>
                 <td width="110">'.$v->transporte.'</td>
                 <td width="50">'.$v->nro_dia.'</td>
                 <td width="70">'.$v->total_pasaje.'  '.$tipo_moneda.' </td>
@@ -326,7 +319,7 @@ try {
     </table><br>';    
 
 
-    $contenido .='  <table border="1" cellpadding="'.$padding.'">
+    $contenido .='<table border="1" cellpadding="'.$padding.'">
     <tr>
         <td width="14%">CATEGORIA</td>
         <td width="86%">'.$categoria.'</td>
@@ -343,34 +336,34 @@ $tv = $tv-$rs->dua;
 $contenido .= ' <table border="1" cellpadding="'.$padding.'" width="100%">
 <thead>
     <tr style="text-align:center;background-color: #666666;color: #FFFFFF;">
-        <th width="90">Origen</th>
-        <th width="90" rowspan="2">Fecha y Hora <br>Salida</th>
-        <th width="90" rowspan="2">Fecha y Hora <br>Retorno</th>
+        <th width="110">Origen</th>
+        <th width="100" rowspan="2">Fecha<br>Salida</th>
+        <th width="100" rowspan="2">Fecha<br>Retorno</th>
         <th width="55" rowspan="2">Nro Dias</th> 
         <th width="55" rowspan="2">Desc. IVA</th> 
-        <th width="55" rowspan="2">Desc.<br>DUA</th>
+        
         <th width="70" rowspan="2">Total Viatico</th>
-        <th width="55" rowspan="2">Gasto<br>Rep.</th>
-        <th width="57" rowspan="2">Cambio</th>
+        <th width="70" rowspan="2">Gasto<br>Rep.</th>
+        <th width="63" rowspan="2">Cambio</th>
     </tr>
     <tr style="text-align:center;background-color: #666666;color: #FFFFFF;">
-        <th width="90">Destino</th>
+        <th width="110">Destino</th>
     </tr>
 </thead>
 <tbody>
     <tr style="text-align:center;">
-        <td width="90">' . $rs->origen . '</td>
-        <td width="90" rowspan="2">' . $diai . ' ' . $fi . '<br> ' . $hi . '</td>
-        <td width="90" rowspan="2">' . $diaf . ' ' . $ff . '<br> ' . $hf . '</td>
+        <td width="110">' . $rs->origen . '</td>
+        <td width="100" rowspan="2">' . $diai . ' ' . $fi . '</td>
+        <td width="100" rowspan="2">' . $diaf . ' ' . $ff . '</td>
         <td width="55" rowspan="2">' . $rs->nro_dia . '</td>
         <td width="55" rowspan="2">' . $desc_iva . ' '.$tipo_moneda.'</td>
-        <td width="55" rowspan="2">' . $rs->dua . ' '.$tipo_moneda.'</td>
+        
         <td width="70" rowspan="2">'.$tv.' '.$tipo_moneda.'</td>
-        <td width="55" rowspan="2">' . $gasto_rep . ' '.$tipo_moneda.'</td>
-        <td width="57" rowspan="2">'. $tipo_cambio .' Bs.</td>
+        <td width="70" rowspan="2">' . $gasto_rep . ' '.$tipo_moneda.'</td>
+        <td width="63" rowspan="2">'. $tipo_cambio .' Bs.</td>
     </tr>
     <tr style="text-align:center;">
-        <td width="90">' . $rs->destino . '</td>
+        <td width="110">' . $rs->destino . '</td>
     </tr>
 </tbody>
 </table>';
@@ -399,13 +392,23 @@ $contenido.='
 // }
 
 
-if ($rs->justificacion_finsem != '')
-    $contenido .='<table border="1" cellpadding="'.$padding.'">
-<tr><td colspan = "2"></td></tr>
-<tr>
-    <td width="35%">JUSTIFICACION DE VIAJE EN FIN DE SEMANA O FERIADO</td>
-    <td width="65%">'.$rs->justificacion_finsem.'</td>
-</tr>
+// if ($rs->justificacion_finsem != '')
+//     $contenido .='<table border="1" cellpadding="'.$padding.'">
+// <tr><td colspan = "2"></td></tr>
+// <tr>
+//     <td width="35%">JUSTIFICACION DE VIAJE EN FIN DE SEMANA O FERIADO</td>
+//     <td width="65%">'.$rs->justificacion_finsem.'</td>
+// </tr>
+// </table>';
+
+$contenido.='<table border="1" cellpadding="'.$padding.'">
+    <tr>
+        <td colspan="2"><b>RESPONSABLE O ENCARGADO DE PASAJES Y VIATICOS</b></td>
+    </tr>
+    <tr>
+            <td ><span style="color:#6A6B6A; text-align:center; font-size: 80%;"><br /><br /><br /><br /><br />SELLO</span></td>
+            <td><span style="color:#6A6B6A; text-align:center; font-size: 80%;"><br /><br /><br /><br /><br />FIRMA</span></td>
+    </tr>
 </table>';
 
 
@@ -422,13 +425,13 @@ $contenido2='<table border="0" cellpadding="'.$padding.'">
 $pdf->SetFont('Helvetica', '', 9);
 $pdf->writeHTML(utf8_encode($contenido2));        
 
-$pdf->Ln();
+//$pdf->Ln();
 $pdf->SetFont('Helvetica', '', 5);
-$pdf->Write(0, 'cc.'.strtoupper($rs->copias), '', 0, 'L');
-$pdf->Ln();
-$pdf->Write(0,'Adj.'.strtoupper($rs->adjuntos), '', 0, 'L');
-$pdf->Ln();
-$pdf->Write(0, strtoupper($rs->mosca_remitente), '', 0, 'L');
+$pdf->Write(0, ' cc.'.strtoupper($rs->copias), '', 0, 'L');
+//$pdf->Ln();
+$pdf->Write(0,' Adj.'.strtoupper($rs->adjuntos), '', 0, 'L');
+//$pdf->Ln();
+$pdf->Write(0, ' '.strtoupper($rs->mosca_remitente), '', 0, 'L');
 //$pdf->writeHTML('cc. ' . strtoupper($rs->copias));
 //$pdf->writeHTML('Adj. ' . strtoupper($rs->adjuntos));
 //$pdf->writeHTML(strtoupper($rs->mosca_remitente));
