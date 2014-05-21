@@ -524,7 +524,12 @@ class Controller_documento extends Controller_DefaultTemplate {
              //   while( $sw == 1 && $id != 0){
               //      $sw = 0;
                     $documento = ORM::factory('documentos')->where('id', '=', $id)->and_where('id_user', '=', $this->user->id)->find();
-                    $contenido = $_POST['descripcion'];
+                    if ($_POST['sw_contenido']==1) {
+                        $contenido = $_POST['descripcion3'];
+                    }else{
+                        $contenido = $_POST['descripcion'];    
+                    }
+                    
                     if ($documento->fucov == 1 || isset($_POST['fucov']) ) {
                         $contenido = '<p style="text-align: left;"><p>De mi consideración:</p> 
                                 <p style="text-align:justify">A través del presente memorándum, se comisiona a su persona realizar el viaje a la ciudad de ' . $_POST['destino'] . ' desde el ' . $_POST['fecha_inicio'] . ' hasta el ' . $_POST['fecha_fin'] . ' con el objetivo de ' . strtolower($_POST['detalle_comision']) . '.</p>';
@@ -907,42 +912,6 @@ class Controller_documento extends Controller_DefaultTemplate {
             else if ($tipo->action == 'poa') {
                 
                 $poa = ORM::factory('poas')->where('id_documento', '=', $documento->id)->find();
-
-                // $uEjepoa = New Model_oficinas();
-                // $uejecutorapoa = $uEjepoa->uejecutorapoa($this->user->id_oficina);
-                
-                // $oestrategico = ORM::factory('pvoestrategicos')->where('estado','=',1)->find_all();
-                // $objest[''] = '(Seleccione)';
-                // foreach ($oestrategico as $oes){$objest[$oes->id] = $oes->codigo;}
-
-                                
-                // $objgestion[''] = '(Seleccione)';
-                // $objespecifico[''] = '(Seleccione)';
-                // $actividad[''] = '(Seleccione)';
-                // if($poa->id_obj_est){
-                //     $det = ORM::factory('pvoestrategicos')->where('id', '=', $poa->id_obj_est)->find(); ///Detalle Objetivo Estrategico
-                //     $detalleestrategico = $det->objetivo;
-
-                //     $oges = ORM::factory('pvogestiones')->where('id_obj_est', '=', $poa->id_obj_est)->find_all(); ///objetivo especifico
-                //     foreach ($oges as $oe) {
-                //         $objgestion[$oe->id] = $oe->codigo;
-                //         if ($oe->id == $poa->id_obj_gestion)
-                //             $detallegestion = $oe->objetivo;
-                //     }
-                    
-                //     $oesp = ORM::factory('pvoespecificos')->where('id_obj_gestion', '=', $poa->id_obj_gestion)->find_all(); ///objetivo especifico
-                //     foreach ($oesp as $oe) {
-                //         $objespecifico[$oe->id] = $oe->codigo;
-                //         if ($oe->id == $poa->id_obj_esp)
-                //             $detalleespecifico = $oe->objetivo;
-                //     }
-                //     $act = ORM::factory('pvactividades')->where('id_objespecifico', '=', $poa->id_obj_esp)->find_all(); ///actividades del POA
-                //     foreach ($act as $a) {
-                //         $actividad[$a->id] = $a->codigo;
-                //         if ($a->id == $poa->id_actividad)
-                //             $detalleactividad = $a->actividad;
-                //     }    
-                // }
                
                 $tipoc = ORM::factory('poatipocontrataciones')->where('estado','=','1')->find_all();
                 $tipocontratacion[''] = '(Seleccionar)';
@@ -1118,6 +1087,9 @@ class Controller_documento extends Controller_DefaultTemplate {
                         ;
             }else {
                 $pvcomision = ORM::factory('pvcomisiones')->where('id_documento', '=', $documento->id)->find();
+                $doc_memo = ORM::factory('documentos')->where('nur','=',$documento->nur)->and_where('fucov','=',1)->find();
+                $pvcomision_memo = ORM::factory('pvcomisiones')->where('id_documento', '=', $doc_memo->id)->find();
+
                 $this->template->content = View::factory('documentos/edit')
                         ->bind('documento', $documento)
                         ->Bind('archivos', $archivos)
@@ -1129,7 +1101,9 @@ class Controller_documento extends Controller_DefaultTemplate {
                         ->bind('mensajes', $mensajes)
                         ->bind('archivos', $archivos)
                         ->bind('destinatarios', $destinatarios)
-                        ->bind('pvcomision', $pvcomision);
+                        ->bind('pvcomision', $pvcomision)
+                        ->bind('doc_memo', $doc_memo)
+                        ->bind('pvcomision_memo', $pvcomision_memo);
             }
         } else {
             $this->template->content = 'Solo puede editar documentos creados por su usuario ';

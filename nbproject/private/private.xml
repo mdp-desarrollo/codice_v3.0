@@ -4,10 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/var/www/codice_v3.0/application/classes/controller/documento.php</file>
+            <file>file:/var/www/codice_v3.0/modules/orm/classes/kohana/orm.php</file>
             <file>file:/var/www/codice_v3.0/application/views/hojaruta/frm_derivacion.php</file>
             <file>file:/var/www/codice_v3.0/system/classes/kohana/request/client/internal.php</file>
             <file>file:/var/www/codice_v3.0/application/classes/controller/ajax.php</file>
             <file>file:/var/www/codice_v3.0/application/classes/model/seguimiento.php</file>
+            <file>file:/var/www/codice_v3.0/application/views/documentos/edit.php</file>
             <file>file:/var/www/codice_v3.0/application/classes/controller/bandeja.php</file>
             <file>file:/var/www/codice_v3.0/application/views/bandeja/pendientes.php</file>
             <file>file:/var/www/codice_v3.0/index.php</file>

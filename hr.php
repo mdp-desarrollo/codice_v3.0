@@ -44,7 +44,7 @@ class MYPDF extends TCPDF {
     $pdf->Cell(107, 20, 'HOJA DE SEGUIMIENTO INTERNO', 1,FALSE,'C');                               
     $pdf->SetX(152);
     //logo entidad
-    $pdf->
+//    $pdf->
     //
     $pdf->SetFont('helvetica', 'B', 10);    
     $pdf->Cell(55, 5, 'NURI', 1,FALSE,'C');

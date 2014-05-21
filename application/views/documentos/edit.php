@@ -147,6 +147,20 @@ $('#viaje_semana').click(function(){
         }  
 });
 
+$('#proceso').change(function(){
+    if($('#proceso').val()==18 && $('#id_tipo').val()=='3' && $('#doc_memo').val()=='1') {
+            $('#contenido1').hide();
+            $('#contenido3').show();
+            $('#referencia').text('INFORME DE VIAJE');
+            $('#sw_contenido').val(1);
+        } else {
+            $('#contenido1').show();
+            $('#contenido3').hide();
+            $('#referencia').text('');
+            $('#sw_contenido').val(0);
+        }  
+});
+
 function calculo_feriados(){
             $("#observacion").removeAttr("class");
             var fecha_s = $("#fecha_inicio").val();
@@ -395,6 +409,16 @@ $('#solicitado').change(function(){
             $('#solicitado').focus();
         }
     });
+
+
+$('#proceso').change(function(){
+        //alert(this.value);
+        if (this.value==18) {
+            $('#referencia').val('INFORME DE VIAJE');
+            $('descripcion').val('<!DOCTYPE html><html><head></head><body><p>De mi consideracion:</p></body></html>');
+        }   
+
+    });
 //adicionar las partidas a la tabla
 var x;
 x=$(document);
@@ -578,11 +602,37 @@ $contenido_ra = '<!DOCTYPE html>
 </body>
 </html>';}
 
+if($tipo->id==3 && strlen($documento->contenido)<70 && $doc_memo->fucov==1){
+//if($tipo->id==3 && $doc_memo->fucov==1){    
+$fi = date('Y-m-d', strtotime($pvcomision_memo->fecha_inicio));
+$ff = date('Y-m-d',  strtotime($pvcomision_memo->fecha_fin));
+$diai=  dia_literal(date("w", strtotime($fi)));
+$diaf=  dia_literal(date("w", strtotime($ff)));
+
+
+$contenido_ra = '
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<p style="text-align: justify;">De mi consideraci&oacute;n:</p>
+<p style="text-align: justify;">En atenci&oacute;n a memorandum N&deg; '.$doc_memo->codigo.' elevo a su autoridad el presente informe administrativo de descargo del viaje realizado a la ciudad de '.$pvcomision_memo->destino.' desde el '.$diai.' '.$fi.' hasta el '.$diaf.' '.$ff.', correspondiendo informar lo siguiente:</p>
+<p style="text-align: justify;"><strong>I.&nbsp;&nbsp;&nbsp; OBJETIVO DEL VIAJE</strong></p>
+<p style="text-align: justify;"><strong>II.&nbsp; DESARROLLO</strong></p>
+<p style="text-align: justify;"><strong>III. CONCLUSI&Oacute;N</strong></p>
+<p style="text-align: justify;"><strong>IV.&nbsp; RECOMENDACIONES U OBSERVACIONES </strong>(<em>SI CORRESPONDE</em>)</p>
+</body>
+</html>
+';
+}
+
 
 ?>
 
 <h2 class="subtitulo">Editar <?php echo $documento->codigo; ?> - <b><?php echo $documento->nur; ?></b><br/><span> Editar documento <?php echo $documento->codigo; ?> </span></h2>
-<form action="/documento/editar/<?php echo $documento->id; ?>" method="post" id="frmEditar" >  
+<form action="/documento/editar/<?php echo $documento->id; ?>" method="post" id="frmEditar" >
+
 <div class="tabs">
     <ul class="tabNavigation">
         <li><a href="#editar">Edición</a></li>
@@ -638,7 +688,7 @@ $contenido_ra = '<!DOCTYPE html>
                     echo Form::hidden('proceso', 1);
                 else:
                     ?>        
-                    <fieldset> <legend>Proceso: <?php echo Form::select('proceso', $options, $documento->id_proceso); ?>
+                    <fieldset> <legend>Proceso: <?php echo Form::select('proceso', $options, $documento->id_proceso,array('id'=>'proceso')); ?>
                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                             <?php if ($documento->id_tipo == '2'){?>FOCOV: <?php echo Form::checkbox('fucov',1,FALSE,array('id'=>'fucov','name'=>'fucov','title'=>'seleccione si quiere habilitar un memoramdum de viaje',$checked))?><?php }?>    
                             <?php if ($tipo->id == '11'){?>Viaje Fin Semana: <?php echo Form::checkbox('viaje_semana',1,FALSE,array('id'=>'viaje_semana','name'=>'viaje_semana','title'=>'seleccione si quiere habilitar Resolucion Administrativa viaje fin de semana'))?><?php }?>    
@@ -779,6 +829,10 @@ $contenido_ra = '<!DOCTYPE html>
                     </table>
 
                     <div style="width: 800px;float: left; ">
+                        <?php echo Form::hidden('sw_contenido', '',array('id'=>'sw_contenido')); ?>
+                        <?php echo Form::hidden('id_tipo', $tipo->id,array('id'=>'id_tipo')); ?>
+                        <?php echo Form::hidden('doc_memo', $doc_memo->fucov,array('id'=>'doc_memo')); ?>
+                        
                         <?php echo Form::label('contenido', 'Contenido:', array('id' => 'label_contenido', 'class' => 'form')); ?> 
                         <div id='contenido1'>
                             <?php

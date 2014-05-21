@@ -139,7 +139,12 @@ try {
     //$pdf->Ln(7);
     while ($rs = $stmt->fetch(PDO::FETCH_OBJ)) {
         $pdf->SetFont('Helvetica', 'B', 15);
-        $pdf->Write(0, strtoupper($rs->tipo), '', 0, 'C');
+        if ($rs->id_proceso==18) {
+            $pdf->Write(0, 'INFORME DE VIAJE', '', 0, 'C');    
+        }else{
+            $pdf->Write(0, strtoupper($rs->tipo), '', 0, 'C');    
+        }
+        
         $pdf->Ln();
         $pdf->SetFont('Helvetica', '', 11);
         $pdf->Write(0, strtoupper($rs->codigo), '', 0, 'C');
@@ -212,10 +217,40 @@ try {
         $pdf->Ln(-5);
         $pdf->writeHTML('<table></table>');
         $pdf->writeHTML($rs->contenido);
+        
+        $pdf->SetFont('Helvetica', 'B', 10);
+        
+        if($rs->id_proceso==18){
+        $pdf->Ln(5);    
+        $pdf->Cell(85, 4, 'INFORME REALIZADO POR:','RLT');
+        $pdf->Cell(85, 4, 'INFORME APROBADO POR:','RT');
+        $pdf->Ln();
+        $pdf->Cell(85, 16, '','RL');
+        $pdf->Cell(85, 16, '','R');
+        $pdf->Ln();
+        $pdf->SetFont('Helvetica', '', 8);
+        $pdf->SetTextColor(106, 107, 106);
+        $pdf->Cell(85, 4, 'FIRMA Y SELLO','RLB',0,'C');
+        $pdf->Cell(85, 4, 'FIRMA Y SELLO','BR',0,'C');
         $pdf->Ln(10);
-        $pdf->SetFont('Helvetica', '', 5);
-        $pdf->writeHTML('cc. ' . strtoupper($rs->copias));
-        $pdf->writeHTML('Adj. ' . strtoupper($rs->adjuntos));
+        $pdf->SetTextColor();
+            $pdf->SetFont('Helvetica', '', 5);
+            $pdf->writeHTML('cc. ' . strtoupper($rs->copias));
+            $pdf->writeHTML('Adj. (PARA DESCARGO DE VIAJE)<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fotocopia de Memorandúm de autorización y/o Comisión de Viaje
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fotocopia de Formulario de Comision de Viaje
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Formulario RC-IVA 110 respaldado
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pasajes terrestres}
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pasajes a bordo
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(EN CASO DE REPOSICIÓN DE GASTOS Y VARIOS)
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Facturas con NIT y nombre de la institucion
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . strtoupper($rs->adjuntos));    
+        }else{
+            $pdf->Ln(10);
+            $pdf->SetFont('Helvetica', '', 5);
+            $pdf->writeHTML('cc. ' . strtoupper($rs->copias));
+            $pdf->writeHTML('Adj. ' . strtoupper($rs->adjuntos));    
+        }
+        
         $pdf->writeHTML(strtoupper($rs->mosca_remitente));
         //$pdf->writeHTML();
         /*   $pdf->SetY(-5);
