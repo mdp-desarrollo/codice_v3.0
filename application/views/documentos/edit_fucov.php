@@ -713,6 +713,7 @@ function dia_literal($n) {
                         $diai = dia_literal(date("w", strtotime($fi)));
                         $diaf = dia_literal(date("w", strtotime($ff)));
                         ?>
+                        <?php echo Form::hidden('sw_contenido', '0',array('id'=>'sw_contenido')); ?>  
                     <tr>
                         <td rowspan="3"><?php echo Form::select('id_tipoviaje1['.$c.']', $opt_tv, $v->id_tipoviaje, array('class'=>'required')); ?></td>
                         <td><?php echo Form::input('origen1['.$c.']', $v->origen, array('size'=>'10')) ?></td>

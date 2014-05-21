@@ -228,7 +228,8 @@ $('#id_tipocontratacion').change(function(){
                                 <input type="text" size="40" value="<?php echo $documento->institucion_destinatario; ?>" name="institucion_des" />    
                             </p>
                             <input type="hidden" size="40" value="" name="via" />    
-                            <input type="hidden" size="40" value="" name="cargovia" />    
+                            <input type="hidden" size="40" value="" name="cargovia" />  
+
                         <?php else: ?>
                             <input type="hidden" size="40" value="" name="institucion_des" />    
 
@@ -335,6 +336,7 @@ $('#id_tipocontratacion').change(function(){
                 <tr>
                     <td colspan="3"><hr /><br /></td>
                 </tr>
+                <?php echo Form::hidden('sw_contenido', '0',array('id'=>'sw_contenido')); ?>  
                 <tr>
                     <td colspan="3">
                         <table>
