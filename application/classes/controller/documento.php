@@ -517,6 +517,7 @@ class Controller_documento extends Controller_DefaultTemplate {
         $mensajes = array();
         $documento = ORM::factory('documentos')->where('id', '=', $id)->and_where('id_user', '=', $this->user->id)->find();
         $id_doc = $documento->id;
+        $entidad = ORM::factory('entidades')->where('id','=',$this->user->id_entidad)->find();
         if ($documento->loaded()) {
             //si se envia los datos modificados entonces guardamamos
             if (isset($_POST['referencia'])) {
@@ -574,6 +575,8 @@ class Controller_documento extends Controller_DefaultTemplate {
                         $pvcomision->estado = 1;
                         $pvcomision->save();
                     }elseif ($documento->id_tipo == 13) {///FOCOV
+                        
+
                         $fi = date('Y-m-d', strtotime(substr($_POST['fecha_salida'], 4, 10))) . ' ' . date('H:i:s', strtotime($_POST['hora_salida']));
                         $ff = date('Y-m-d', strtotime(substr($_POST['fecha_arribo'], 4, 10))) . ' ' . date('H:i:s', strtotime($_POST['hora_arribo']));
                         $pvfucovgeneral = ORM::factory('pvfucovgenerales')->where('id_documento', '=', $id)->find();
@@ -597,14 +600,14 @@ class Controller_documento extends Controller_DefaultTemplate {
                         foreach($pvfucov as $l){
                         $l->delete();
                         }
-
+                            
                         if(isset($_POST['id_tipoviaje1']))
                         $n = count($_POST['id_tipoviaje1']);
                         else $n=0;
                         
                         for ($i=0; $i < $n; $i++) {
                         
-                        if('MDPyEP'==$_POST['cancelar1'][$i]){
+                        if($entidad->sigla==$_POST['cancelar1'][$i]){
                             $porcentaje = 100;
                         } elseif ($_POST['cancelar1'][$i]=='Hospedaje') {
                             $porcentaje = 70;
@@ -887,6 +890,7 @@ class Controller_documento extends Controller_DefaultTemplate {
                         ->bind('sw', $sw)
                         ->bind('tipo_cambio', $tipo_cambio)
                         ->bind('suma_fucov', $suma_fucov)
+                        ->bind('entidad', $entidad)
                         // POA
                         // ->bind('uejecutorapoa', $uejecutorapoa)
                         // ->bind('poa', $poa)

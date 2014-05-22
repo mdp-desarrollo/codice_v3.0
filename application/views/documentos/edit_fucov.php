@@ -695,6 +695,7 @@ function dia_literal($n) {
                     <th style="text-align:center;">Ida y Vuelta</th>
                 </tr>
                 <tbody>
+                    <?php echo Form::hidden('sw_contenido', '0',array('id'=>'sw_contenido')); ?>  
                 <?php 
                 $c=0;
                 $tipo_moneda="";
@@ -713,7 +714,7 @@ function dia_literal($n) {
                         $diai = dia_literal(date("w", strtotime($fi)));
                         $diaf = dia_literal(date("w", strtotime($ff)));
                         ?>
-                        <?php echo Form::hidden('sw_contenido', '0',array('id'=>'sw_contenido')); ?>  
+                        
                     <tr>
                         <td rowspan="3"><?php echo Form::select('id_tipoviaje1['.$c.']', $opt_tv, $v->id_tipoviaje, array('class'=>'required')); ?></td>
                         <td><?php echo Form::input('origen1['.$c.']', $v->origen, array('size'=>'10')) ?></td>
@@ -725,7 +726,7 @@ function dia_literal($n) {
                         </td>
                         <td rowspan="3">
                             <input type="radio" name="cancelar1[<?php echo $c ?>]" value="<?php  echo $session->get('sigla'); ?>" porcentaje="100" <?php
-                            if ('MDPyEP' == $session->get('sigla')) {
+                            if ($entidad->sigla == $session->get('sigla')) {
                                echo 'checked';
                            }
                            ?>> <?php  echo $session->get('sigla'); ?><br><br>
