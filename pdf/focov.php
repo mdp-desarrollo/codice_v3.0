@@ -392,14 +392,13 @@ $contenido.='
 // }
 
 
-// if ($rs->justificacion_finsem != '')
-//     $contenido .='<table border="1" cellpadding="'.$padding.'">
-// <tr><td colspan = "2"></td></tr>
-// <tr>
-//     <td width="35%">JUSTIFICACION DE VIAJE EN FIN DE SEMANA O FERIADO</td>
-//     <td width="65%">'.$rs->justificacion_finsem.'</td>
-// </tr>
-// </table>';
+if ($rs->justificacion_finsem != '')
+    $contenido .='<table border="1" cellpadding="'.$padding.'">
+<tr>
+    <td width="35%">JUSTIFICACION DE VIAJE EN FIN DE SEMANA O FERIADO</td>
+    <td width="65%">'.$rs->justificacion_finsem.'</td>
+</tr>
+</table>';
 
 $contenido.='<table border="1" cellpadding="'.$padding.'">
     <tr>

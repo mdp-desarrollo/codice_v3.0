@@ -890,7 +890,7 @@ class Controller_documento extends Controller_DefaultTemplate {
                         ->bind('sw', $sw)
                         ->bind('tipo_cambio', $tipo_cambio)
                         ->bind('suma_fucov', $suma_fucov)
-                        ->bind('entidad', $entidad)
+                        //->bind('entidad', $entidad)
                         // POA
                         // ->bind('uejecutorapoa', $uejecutorapoa)
                         // ->bind('poa', $poa)

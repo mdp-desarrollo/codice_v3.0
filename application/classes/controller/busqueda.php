@@ -91,6 +91,10 @@ class Controller_Busqueda extends Controller_DefaultTemplate{
             if($this->user->prioridad==0)
             $where.= " and d.id_entidad='".$entidad."'";
             
+            if(isset($_GET['fecha1']) && isset($_GET['fecha1'])){
+                $where.= " and d.fecha_creacion BETWEEN '".$_GET['fecha1']." 00:00:00' AND '".$_GET['fecha2']." 23:59:59' ";
+            }
+            
             $oDocumento=New Model_Documentos();                        
             $count= $oDocumento->contar2($where);            
             $count=$count[0]['count'];
@@ -120,13 +124,18 @@ class Controller_Busqueda extends Controller_DefaultTemplate{
             {
                 $mensajes['Sin exito!: ']="No se encontro ningun resultado para <b>'$text'</b>.";
                 $this->template->title      .='| formulario de busqueda';
+                $this->template->styles=array('media/css/jquery-ui-1.8.16.custom.css'=>'screen');
+                $this->template->scripts=array('media/js/jquery-ui-1.8.16.custom.min.js');
                 $this->template->content    = View::factory('busqueda/form_avanzada')
                                               ->bind('mensajes',$mensajes);
             }
         }
         else
         {
+
         $this->template->title      .='| formulario de busqueda';
+        $this->template->styles=array('media/css/jquery-ui-1.8.16.custom.css'=>'screen');
+        $this->template->scripts=array('media/js/jquery-ui-1.8.16.custom.min.js');
         $this->template->content    = View::factory('busqueda/form_avanzada')
                                       ->bind('mensajes',$mensajes); 
         }

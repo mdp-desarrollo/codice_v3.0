@@ -319,7 +319,7 @@ function calculo_viaticos(){
 
         $("#agregar_tr").click(function(){
             var filas = $("#tabla_tramo tbody tr").length-1;
-            var sigla = 'MDPyEP';
+            var sigla = $("#sigla").val();//'MDPyEP';
             filas = filas/3;
             //alert (filas);
             var html = '';
@@ -695,7 +695,8 @@ function dia_literal($n) {
                     <th style="text-align:center;">Ida y Vuelta</th>
                 </tr>
                 <tbody>
-                    <?php echo Form::hidden('sw_contenido', '0',array('id'=>'sw_contenido')); ?>  
+                    <?php echo Form::hidden('sw_contenido', '0',array('id'=>'sw_contenido')); ?>
+                    <?php echo Form::hidden('sigla', $session->get('sigla'),array('id'=>'sigla')); ?>  
                 <?php 
                 $c=0;
                 $tipo_moneda="";
@@ -726,7 +727,7 @@ function dia_literal($n) {
                         </td>
                         <td rowspan="3">
                             <input type="radio" name="cancelar1[<?php echo $c ?>]" value="<?php  echo $session->get('sigla'); ?>" porcentaje="100" <?php
-                            if ($entidad->sigla == $session->get('sigla')) {
+                            if ($v->cancelar == $session->get('sigla')) {
                                echo 'checked';
                            }
                            ?>> <?php  echo $session->get('sigla'); ?><br><br>
