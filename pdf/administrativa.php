@@ -114,23 +114,19 @@ try {
     //$pdf->Ln(7);
     while ($rs = $stmt->fetch(PDO::FETCH_OBJ)) {
         $pdf->Ln(3);
-        $pdf->SetFont('Helvetica', '', 11);
-        //$pdf->Cell(15, 5, 'La Paz, ');
-        /*
-        $mes = (int) date('m', strtotime($rs->fecha_creacion));
-        $meses = array(1 => 'Enero', 2 => 'Febrero', 3 => 'Marzo', 4 => 'Abril', 5 => 'Mayo', 6 => 'Junio', 7 => 'Julio', 8 => 'Agosto', 9 => 'Septiembre', 10 => 'Octubre', 11 => 'Noviembre', 12 => 'Diciembre');
-        $fecha = date('d', strtotime($rs->fecha_creacion)) . ' de ' . $meses[$mes] . ' de ' . date('Y', strtotime($rs->fecha_creacion));
-        */
-        // $pdf->Write(0, 'La Paz, '.$fecha, '', 0, 'L');
-        $pdf->Write(0, 'La Paz, ', '', 0, 'L');
-        $pdf->Ln(10);
+        $pdf->SetX(80);
         $pdf->SetFont('Helvetica', 'B', 11);
-        $pdf->Write(0, strtoupper($rs->tipo), '', 0, 'L');
+        $pdf->Write(0, strtoupper($rs->tipo).' No', '', 0, 'L');
+        $pdf->Ln(10);
+        $pdf->SetX(80);
+        $pdf->SetFont('Helvetica', '', 11);
+        $pdf->Write(0, 'La Paz, ', '', 0, 'L');
+        
         //$pdf->Ln();
         $pdf->SetFont('Helvetica', '', 11);
         $codigo = substr($rs->codigo, -11);
         $codigo = str_replace('/', '.', $codigo);
-        $pdf->Write(0, strtoupper($codigo), '', 0, 'R');
+        //$pdf->Write(0, strtoupper($codigo), '', 0, 'R');
         
         $pdf->Ln(10);
         

@@ -1,6 +1,6 @@
 <script>
     tinymce.init({
-        selector: "textarea#descripcion, #descripcion3",
+        selector: "textarea#descripcion, #descripcion3, .descripcion4",
         theme: "modern",
         language : "es",
         // width: 595,
@@ -134,18 +134,66 @@ $("#detalle_comision").attr("class","required");
         }  
 });
 $('#contenido3').hide();
-$('#viaje_semana').click(function(){
-    if($('#viaje_semana').is(':checked')) {
-            $('#contenido1').hide();
-            $('#contenido3').show();
 
-            $('#referencia').text('AUTORIZAR EL PAGO DE VIÁTICOS DE FIN DE SEMANA, A FAVOR DEL SEÑOR [...INGRESE NOMBRE...], [...INGRESE CARGO...] DEL MINISTERIO DE DESARROLLO PRODUCTIVO Y ECONOMÍA PLURAL.');
-        } else {
-            $('#contenido1').show();
-            $('#contenido3').hide();
-            $('#referencia').text('');
-        }  
+
+
+$('#comision').change(function(){
+    codigo_memo = $('#codigo_memo').val();
+    fecha_memo = $('#fecha_memo').val();
+    cargo_destinatario_memo = $('#cargo_destinatario_memo').val();
+    nombre_destinatario_memo = $('#nombre_destinatario_memo').val();
+    estado = $('#comision').val();
+    if (estado == 1) {
+        $("#referencia").val('AUTORIZACION DE PAGO DE VIATICOS COMISION FIN DE SEMANA, EN FAVOR DE '+nombre_destinatario_memo+', '+cargo_destinatario_memo);
+    } else if(estado == 2) {
+        $("#referencia").val('AUTORIZACION DE PAGO DE VIATICOS COMISION FERIADO, EN FAVOR DE '+nombre_destinatario_memo+', '+cargo_destinatario_memo);
+    } else if(estado == 3) {
+        $("#referencia").val('AUTORIZACION DE PAGO DE VIATICOS DE COMISION QUE SUPERA LOS SEIS DIAS HABILES Y CONTINUOS DE TRABAJO, EN FAVOR DE '+nombre_destinatario_memo+', '+cargo_destinatario_memo);
+    } else if(estado == 4) {
+        $("#referencia").val('AUTORIZACION DE PAGO DE VIATICOS EN "FIN DE SEMANA" O "FERIADO" POR RAZONES DE ITINERARIO, EN FAVOR DE '+nombre_destinatario_memo+', '+cargo_destinatario_memo);
+    }
+    else{
+        $("#referencia").val('');
+    };
+
+    html = comision_viaje(codigo_memo,fecha_memo,nombre_destinatario_memo,cargo_destinatario_memo,estado);
+    tinyMCE.get('descripcion').setContent(html);
+    
 });
+
+
+function comision_viaje(codigo_memo,fecha_memo,nombre,cargo,estado){
+    var inicio, vistos, considerando,portanto,articulo,fin;
+    inicio = '<!DOCTYPE html><html><head></head><body><p style="text-align: justify;"><strong>VISTOS:</strong></p>';
+    considerando = '<p style="text-align: justify;"><strong>CONSIDERANDO:</strong></p><p style="text-align: justify;">Que el Decreto Supremo No. 29894, de 7 de febrero de 2009, aprueba la Estructura Organizativa del Organo Ejecutivo del Estado Plurinacional, disponiendo en su Art&iacute;culo 118, la estructura com&uacute;n de apoyo a los Ministerios, integrada por las Direcciones y Unidades, entre ellas la Direcci&oacute;n General de Asuntos Administrativos, la cual por disposici&oacute;n del Art&iacute;culo 122 inciso e) de la citada norma, tiene la funci&oacute;n de emitir Resoluciones Administrativas para resolver asuntos de su competencia.</p><p style="text-align: justify;">Que el Decreto Supremo No. 1788, de 6 de noviembre de 2013, tiene por objeto establecer la escala de vi&aacute;ticos, categor&iacute;as y pasajes para los servidores p&uacute;blicos, acorde a la nueva estructura del Estado Plurinacional; definiendo en su Art&iacute;culo 4, la escala de vi&aacute;ticos al interior y exterior del pa&iacute;s seg&uacute;n la categor&iacute;a del servidor p&uacute;blico. Asimismo, el Art&iacute;culo 6 Par&aacute;grafo I, proh&iacute;be el pago de vi&aacute;ticos correspondientes a fin de semana o feriado, excepto cuando: las actividades p&uacute;blicas justifiquen la presencia y funci&oacute;n espec&iacute;fica de un servidor p&uacute;blico en fin de semana o feriado; por razones de itinerario que demande la presencia del servidor p&uacute;blico, previo al evento; cuando la comisi&oacute;n exceda los seis 6 d&iacute;as h&aacute;biles y continuos de trabajo; los mismos que ser&aacute;n autorizados mediante Resoluci&oacute;n expresa de la autoridad competente.</p><p style="text-align: justify;">Que el Reglamento Interno de Pasajes y Vi&aacute;ticos del Ministerio de Desarrollo Productivo y Econom&iacute;a Plural,aprobado mediante Resoluci&oacute;n Ministerial MDPyEP/DESPACHO/No. 255.2013, de 7 de noviembre de 2013,concordante con lo establecido en el Decreto Supremo No. 1788, de 6 de noviembre de 2013,establece que las causas de excepcionalidad a la prohibici&oacute;n de pago de vi&aacute;ticos de fin de semana o feriado, ser&aacute;n previamente autorizados mediante Resoluci&oacute;n Administrativa expresa.</p>';
+    if(estado == 1){
+    vistos = '<p style="text-align: justify;">El Memor&aacute;ndum de Comisi&oacute;n de Viaje '+codigo_memo+', de '+fecha_memo+', y todo lo que convino ver y se tuvo presente.</p>';
+    considerando += '<p style="text-align: justify;">Que mediante Memor&aacute;ndum de Comisi&oacute;n de Viaje '+codigo_memo+'.</p><p style="text-align: justify;">Que el referido Memor&aacute;ndum, justifica la comisi&oacute;n en fin de semana correspondiente al d&iacute;a&hellip;&hellip;&hellip;&hellip;, en este sentido de acuerdo a la normativa vigente corresponde la autorizaci&oacute;n mediante Resoluci&oacute;n Administrativa expresa.</p>';
+    articulo = '<p style="text-align: justify;"><strong>ARTICULO UNICO.-</strong> Autorizar el pago de vi&aacute;ticos de fin de semana, en favor de '+nombre+', '+cargo+', correspondiente a los d&iacute;as&hellip;&hellip;.. (Fecha de los d&iacute;as de fin de semana), de conformidad a lo establecido en la normativa vigente.</p>';
+    } else if(estado==2){
+        vistos = '<p style="text-align: justify;">El Memor&aacute;ndum de Comisi&oacute;n de Viaje '+codigo_memo+', de '+fecha_memo+', y todo lo que convino ver y se tuvo presente.</p>';
+        considerando += '<p style="text-align: justify;">Que mediante Memor&aacute;ndum de Comisi&oacute;n de Viaje '+codigo_memo+'.</p><p style="text-align: justify;">Que el referido Memor&aacute;ndum, justifica la comisi&oacute;n en feriado y corresponden a los d&iacute;as &hellip;&hellip;&hellip;&hellip;, corresponde que el mismo sea autorizado mediante Resoluci&oacute;n Administrativa expresa.</p>';
+        articulo = '<p style="text-align: justify;"><strong>ARTICULO UNICO.-</strong> Autorizar el pago de vi&aacute;ticos en d&iacute;a feriado, en favor de '+nombre+', '+cargo+', correspondiente a los d&iacute;as &hellip;&hellip;.. (Fecha del d&iacute;a feriado), de conformidad a lo establecido en la normativa vigente.</p>';
+    }else if(estado==3){
+        vistos = '<p style="text-align: justify;">El Memor&aacute;ndum de Comisi&oacute;n de Viaje '+codigo_memo+', de '+fecha_memo+', y todo lo que convino ver y se tuvo presente.</p>';
+        considerando += '<p style="text-align: justify;">Que mediante Memor&aacute;ndum de Comisi&oacute;n de Viaje '+codigo_memo+'.</p><p style="text-align: justify;">Que el referido Memor&aacute;ndum, justifica que los d&iacute;as de viaticos solicitados superan los seis d&iacute;as habilies y continuos de trabajo, en este entendido corresponde que el pago de viaticos por los d&iacute;as &hellip;&hellip;&hellip;&hellip;, sea autorizado mediante Resoluci&oacute;n Administrativa expresa.</p>';
+        articulo = '<p style="text-align: justify;"><strong>ARTICULO UNICO.-</strong> Autorizar el pago de vi&aacute;ticos que supera los seis d&iacute;as habiles y continuos de trabajo, en favor de '+nombre+', '+cargo+', correspondiente a los d&iacute;as &hellip;&hellip;.. (Fecha del d&iacute;a feriado), de conformidad a lo establecido en la normativa vigente.</p>';
+    }else if(estado==4){
+    vistos = '<p style="text-align: justify;">El Memor&aacute;ndum de Comisi&oacute;n de Viaje '+codigo_memo+', de '+fecha_memo+', y todo lo que convino ver y se tuvo presente.</p>';
+    considerando += '<p style="text-align: justify;">Que mediante Memor&aacute;ndum de Comisi&oacute;n de Viaje '+codigo_memo+'.</p><p style="text-align: justify;">Que las actividades a realizar son de caracter urgente, y demandan la presencia del servidor p&uacute;blico previo al evento; misma que corresponden a un fin de semana o feriado d&iacute;a&hellip;&hellip;&hellip;&hellip;(señalar el d&iacute;a) por razones de itinerario; en este entendido se debe autorizar el pago de viaticos mediante Resoluci&oacute;n Administrativa expresa.</p>';
+    articulo = '<p style="text-align: justify;"><strong>ARTICULO UNICO.-</strong> Autorizar el pago de vi&aacute;ticos por razon de itinerario previo al evento, en favor de '+nombre+', '+cargo+', correspondiente a los d&iacute;as&hellip;&hellip;.. (Fecha), de conformidad a lo establecido en la normativa vigente.</p>';
+    }    
+    else{
+    vistos = '<p style="text-align: justify;">El Memor&aacute;ndum de Comisi&oacute;n de Viaje ............. , de (fecha)........, y todo lo que convino ver y se tuvo presente.</p>';
+    considerando += '<p style="text-align: justify;">Que mediante Memor&aacute;ndum de Comisi&oacute;n de Viaje &hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;.(Descripci&oacute;n Memor&aacute;ndum).</p><p style="text-align: justify;">Que el referido Memor&aacute;ndum, justifica la comisi&oacute;n en fin de semana correspondiente al d&iacute;a&hellip;&hellip;&hellip;&hellip;, en este sentido de acuerdo a la normativa vigente corresponde la autorizaci&oacute;n mediante Resoluci&oacute;n Administrativa expresa.</p>';
+    articulo = '<p style="text-align: justify;"><strong>ARTICULO UNICO.-</strong> Autorizar el pago de vi&aacute;ticos de fin de semana, en favor de&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;..(nombre del servidor p&uacute;blico),&hellip;&hellip;&hellip;&hellip;&hellip;&hellip;.. (Cargo del servidor p&uacute;blico), correspondiente a los d&iacute;as&hellip;&hellip;.. (Fecha de los d&iacute;as de fin de semana), de conformidad a lo establecido en la normativa vigente.</p>';
+    }
+    portanto = '<p style="text-align: justify;"><strong>POR TANTO:</strong></p><p style="text-align: justify;">El Director General de Asuntos Administrativos del Ministerio de Desarrollo Productivo y Econom&iacute;a Plural, en ejercicio de sus funciones conferidas por ley;</p><p style="text-align: justify;"><strong>RESUELVE:</strong></p>';
+    fin = '<p style="text-align: justify;">Reg&iacute;strese, comun&iacute;quese, c&uacute;mplase y arch&iacute;vese.</p></body></html>';
+    return (inicio+vistos+considerando+portanto+articulo+fin);
+    
+}
+
 
 $('#proceso').change(function(){
     if($('#proceso').val()==18 && $('#id_tipo').val()=='3' && $('#doc_memo').val()=='1') {
@@ -691,7 +739,15 @@ $contenido_ra = '
                     <fieldset> <legend>Proceso: <?php echo Form::select('proceso', $options, $documento->id_proceso,array('id'=>'proceso')); ?>
                             &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                             <?php if ($documento->id_tipo == '2'){?>FOCOV: <?php echo Form::checkbox('fucov',1,FALSE,array('id'=>'fucov','name'=>'fucov','title'=>'seleccione si quiere habilitar un memoramdum de viaje',$checked))?><?php }?>    
-                            <?php if ($tipo->id == '11'){?>Viaje Fin Semana: <?php echo Form::checkbox('viaje_semana',1,FALSE,array('id'=>'viaje_semana','name'=>'viaje_semana','title'=>'seleccione si quiere habilitar Resolucion Administrativa viaje fin de semana'))?><?php }?>    
+                            <?php if ($tipo->id == '11'){?>
+                            Comisión de Viaje:   <select id="comision" name='comision'>
+                                            <option value=''>(Seleccionar...)</option>
+                                            <option value='1'>Fin de Semana</option>
+                                            <option value='2'>Feriado</option>
+                                            <option value='3'>Mayor a 6 dias</option>
+                                            <option value='4'>Cambio de Itinerario</option>
+                                        </select>
+                                        <?php }?>    
                                 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
                             <?php echo $mv; ?>
                         </legend>
@@ -832,12 +888,19 @@ $contenido_ra = '
                         <?php echo Form::hidden('sw_contenido', '',array('id'=>'sw_contenido')); ?>
                         <?php echo Form::hidden('id_tipo', $tipo->id,array('id'=>'id_tipo')); ?>
                         <?php echo Form::hidden('doc_memo', $doc_memo->fucov,array('id'=>'doc_memo')); ?>
+                        <?php echo Form::hidden('codigo_memo', $doc_memo->codigo,array('id'=>'codigo_memo')); ?>
+                        <?php echo Form::hidden('fecha_memo', date("Y-m-d", strtotime($doc_memo->fecha_creacion)),array('id'=>'fecha_memo')); ?>
+                        <?php echo Form::hidden('nombre_destinatario_memo', $doc_memo->nombre_destinatario,array('id'=>'nombre_destinatario_memo')); ?>
+                        <?php echo Form::hidden('cargo_destinatario_memo', $doc_memo->cargo_destinatario,array('id'=>'cargo_destinatario_memo')); ?>
                         
                         <?php echo Form::label('contenido', 'Contenido:', array('id' => 'label_contenido', 'class' => 'form')); ?> 
                         <div id='contenido1'>
+                            <p>
                             <?php
                             echo Form::textarea('descripcion', $documento->contenido, array('id' => 'descripcion', 'cols' => 50, 'rows' => 20));
                             ?>
+                            </p>
+                            
                         </div>
                         
                         
