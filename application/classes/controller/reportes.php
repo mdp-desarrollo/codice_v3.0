@@ -338,23 +338,23 @@ class Controller_Reportes extends Controller_DefaultTemplate{
 
         
         $sel_ofi=array();
-        if ($this->user->prioridad==1) {
+        /*if ($this->user->prioridad==0) {
           $oficinas = ORM::factory('oficinas')->where('id_entidad','=',$this->user->id_entidad)->find_all();
           $sel_ofi[''] = '(Seleccione)';
           foreach ($oficinas as $o) {
             $sel_ofi[$o->id] = $o->oficina;
           }
         }
-        else{
-          $oficina=ORM::factory('oficinas',$this->user->id_oficina);
+        else{*/
+        $oficina=ORM::factory('oficinas',$this->user->id_oficina);
         $sel_ofi[''] = '(Seleccione)';
         $sel_ofi[$oficina->id]=$oficina->oficina;
         $o_oficinas=ORM::factory('oficinas')->where('padre','=',$this->user->id_oficina)->find_all();
         foreach($o_oficinas as $e)
         {
-            $sel_ofi[$e->id]=$e->oficina;
+           $sel_ofi[$e->id]=$e->oficina;
         }
-        }
+        // }
         
 
         
@@ -363,11 +363,78 @@ class Controller_Reportes extends Controller_DefaultTemplate{
         foreach ($estados as $e) {
           $sel_estado[$e->id]=$e->estado;
         }
-        $this->template->title.='| Reporte de documentacion por Usuairo';
+        $this->template->title.='| Reporte de documentacion por Usuario';
         $this->template->styles=array('media/css/jquery-ui-1.8.16.custom.css'=>'screen');
         $this->template->scripts=array('media/js/jquery-ui-1.8.16.custom.min.js');
         $this->template->content=View::factory('reportes/rep_usuario')
                                   ->bind('sel_estado',$sel_estado)
+                                  ->bind('sel_user',$sel_user)
+                                  ->bind('sel_ofi',$sel_ofi);
+      }
+    }   
+
+
+     public function action_rep_documentos(){
+
+      if (isset($_POST['submit'])) {
+        $fecha1=$_POST['fecha1'].' 00:00:00';
+        $fecha2=$_POST['fecha2'].' 23:59:00'; 
+
+            if(strtotime($fecha1)>strtotime($fecha2))
+            {   
+                $fecha1=$_POST['fecha2'].' 23:59:00';
+                $fecha2=$_POST['fecha1'].' 00:00:00';
+            }
+             $o_reporte=New Model_Reportes();            
+             $oficina=ORM::factory('oficinas',$_POST['id_oficina']);
+             $id_oficina=$oficina->id;
+             $oficina=$oficina->oficina;             
+             $id_tipo=$_POST['tipo'];
+             //$tipo=ORM::factory('estados',$id_estado);
+             $tipos = ORM::factory('tipos')->where('id','=',$id_tipo)->find();
+             $results=$o_reporte->rep_documentos($_POST['id_oficina'],$_POST['tipo'],$fecha1,$fecha2,$_POST['id_user']);            
+             $this->template->styles=array('media/css/tablas.css'=>'screen');
+             $this->template->content=View::factory('reportes/vista4')
+                                        ->bind('results',$results)
+                                        ->bind('oficina',$oficina)
+                                        ->bind('id_oficina',$id_oficina)
+                                        ->bind('tipo',$tipos)
+                                        ->bind('fecha1',$fecha1)
+                                        ->bind('fecha2',$fecha2); 
+      }else{
+        $sel_ofi=array();
+        $sel_tipo = array();
+        $sel_user = array();
+
+        
+        $sel_ofi=array();
+        /*if ($this->user->prioridad==0) {
+          $oficinas = ORM::factory('oficinas')->where('id_entidad','=',$this->user->id_entidad)->find_all();
+          $sel_ofi[''] = '(Seleccione)';
+          foreach ($oficinas as $o) {
+            $sel_ofi[$o->id] = $o->oficina;
+          }
+        }
+        else{*/
+        $oficina=ORM::factory('oficinas',$this->user->id_oficina);
+        $sel_ofi[''] = '(Seleccione)';
+        $sel_ofi[$oficina->id]=$oficina->oficina;
+        $o_oficinas=ORM::factory('oficinas')->where('padre','=',$this->user->id_oficina)->find_all();
+        foreach($o_oficinas as $e)
+        {
+           $sel_ofi[$e->id]=$e->oficina;
+        }
+        //}
+
+        $tipos = ORM::factory('tipos')->where('doc','=','0')->order_by('plural','asc')->find_all();
+        foreach ($tipos as $e) {
+          $sel_tipo[$e->id]=$e->plural;
+        }
+        $this->template->title.='| Reporte de documentacion por Usuario';
+        $this->template->styles=array('media/css/jquery-ui-1.8.16.custom.css'=>'screen');
+        $this->template->scripts=array('media/js/jquery-ui-1.8.16.custom.min.js');
+        $this->template->content=View::factory('reportes/rep_documento')
+                                  ->bind('sel_tipo',$sel_tipo)
                                   ->bind('sel_user',$sel_user)
                                   ->bind('sel_ofi',$sel_ofi);
       }

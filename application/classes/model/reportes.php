@@ -97,6 +97,15 @@ class Model_Reportes extends ORM{
         ORDER BY derivado_a ASC ";
         return db::query(Database::SELECT, $sql)->execute();
     }
+
+    public function rep_documentos($oficina,$tipo,$fecha1,$fecha2,$usuario)
+    {
+        $sql="SELECT d.id,d.codigo,d.nur,t.tipo,d.nombre_remitente,d.cargo_remitente,d.nombre_destinatario,d.cargo_destinatario, d.referencia, d.fecha_creacion,d.anulado FROM documentos d, tipos t 
+WHERE d.id_oficina='$oficina' AND d.id_user='$usuario' AND d.id_tipo = '$tipo' AND d.fecha_creacion BETWEEN '$fecha1' AND '$fecha2'
+AND d.id_tipo=t.id
+ORDER BY d.codigo asc";
+        return db::query(Database::SELECT, $sql)->execute();
+    }
     
 }
 ?>

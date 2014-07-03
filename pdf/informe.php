@@ -239,8 +239,8 @@ try {
             $pdf->writeHTML('Adj. (PARA DESCARGO DE VIAJE)<BR> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fotocopia de Memorandúm de autorización y/o Comisión de Viaje
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Fotocopia de Formulario de Comision de Viaje
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Formulario RC-IVA 110 respaldado
-                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pasajes terrestres}
-                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pasajes a bordo
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pasajes terrestres (Si corresponde)
+                <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pases a bordo (Si corresponde)
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(EN CASO DE REPOSICIÓN DE GASTOS Y VARIOS)
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Facturas con NIT y nombre de la institucion
                 <br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . strtoupper($rs->adjuntos));    

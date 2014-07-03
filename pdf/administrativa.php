@@ -27,7 +27,7 @@ INNER JOIN entidades AS c ON b.id_entidad = c.id WHERE a.id = '$id'");
             $id_entidad=$rs2->id;
         }
         if($id_entidad<>2 && $id_entidad<>4 && $id_entidad<>5 && $id_entidad<>6){
-        $this->Image($image_file, 25, 5, 60, 25, 'PNG');
+        $this->Image($image_file, 85, 10, 60, 25, 'PNG');
         }
         if ($id_entidad==5 || $id_entidad==6) {
             $image_file2='../media/logos/logo_MDPyEP.png';
@@ -41,10 +41,10 @@ INNER JOIN entidades AS c ON b.id_entidad = c.id WHERE a.id = '$id'");
     }
 
     // Page footer
-    // public function Footer() {
+    public function Footer() {
 
 
-    // }
+     }
 
 }
 
@@ -113,12 +113,12 @@ try {
     //echo "<B>outputting...</B><BR>";
     //$pdf->Ln(7);
     while ($rs = $stmt->fetch(PDO::FETCH_OBJ)) {
-        $pdf->Ln(3);
-        $pdf->SetX(80);
+        $pdf->Ln(10);
+        $pdf->SetX(110);
         $pdf->SetFont('Helvetica', 'B', 11);
         $pdf->Write(0, strtoupper($rs->tipo).' No', '', 0, 'L');
         $pdf->Ln(10);
-        $pdf->SetX(80);
+        $pdf->SetX(110);
         $pdf->SetFont('Helvetica', '', 11);
         $pdf->Write(0, 'La Paz, ', '', 0, 'L');
         
@@ -128,7 +128,7 @@ try {
         $codigo = str_replace('/', '.', $codigo);
         //$pdf->Write(0, strtoupper($codigo), '', 0, 'R');
         
-        $pdf->Ln(10);
+        $pdf->Ln(14);
         
 
         $referencia ='<table border="0" width="100%">
@@ -140,7 +140,7 @@ try {
 
         $pdf->writeHTML($referencia);        
         $pdf->Ln(-8);
-        $pdf->SetFont('Helvetica', '', 10);
+        $pdf->SetFont('Helvetica', '', 11);
         $pdf->writeHTML($rs->contenido);
         $pdf->Ln(10);
         
