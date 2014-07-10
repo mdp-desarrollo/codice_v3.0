@@ -168,6 +168,16 @@ try {
         //$pdf->Ln();
         $marca = '#DADADA';
         $padding = 2;
+        if($rs->id_oficina>0){
+            $stmtp = $dbh->prepare("select * from oficinas WHERE id=$rs->id_oficina");
+            $stmtp->execute();
+            $ofi = $stmtp->fetch(PDO::FETCH_OBJ);
+            $unidad=$ofi->oficina;
+        }else{
+            $unidad = $memo->oficina;
+        }
+
+
         $contenido='<table border="1" cellpadding="'.$padding.'">
         <tr style="text-align:left;background-color: #F4F4F4;">
             <td colspan="2"><b>PARTE I. DECLARATORIA EN COMISION</b></td>
@@ -193,7 +203,7 @@ try {
         </tr>
         <tr>
             <td>DIRECCION/UNIDAD</td>
-            <td>'.$memo->oficina.'</td>
+            <td>'.$unidad.'</td>
         </tr>
         <tr>
             <td>NOMBRE DE QUIEN AUTORIZA EL VIAJE</td>
@@ -205,7 +215,7 @@ try {
         </tr>
         <tr>
             <td>FECHA DE AUTORIZACION DE VIAJE</td>
-            <td>'.$memo->fecha_creacion.'</td>
+            <td>'.date("Y-m-d",strtotime($memo->fecha_creacion)).'</td>
         </tr>
         
         <tr style="text-align:left;background-color: #F4F4F4;">

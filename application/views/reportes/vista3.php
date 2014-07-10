@@ -12,14 +12,15 @@
 <table class="classy">
     <thead>
         <tr>
-            <th>#</th>
-            <th>HOJA RUTA</th>
-            <th>documento</th>
-            <th>DERIVADO POR</th> 
-            <th>DERIVADO A</th> 
-            <th>PROVEIDO</th>
-            <th>FECHA EMISION</th>
-            <th>FECHA RECEPCION</th>            
+            <th width='20px'>#</th>
+            <th width='100px'>HOJA RUTA</th>
+            <th width='100px'>documento</th>
+            <th width='150px'>DERIVADO POR</th> 
+            <th width='150px'>DERIVADO A</th> 
+            <th width='250px'>PROVEIDO</th>
+            <th width='100px'>FECHA EMISION</th>
+            <th width='100px'>FECHA RECEPCION</th>
+            <th width='265px'></th>            
             
                        
         </tr>
@@ -34,7 +35,8 @@
             <td><?php echo $r['nombre_receptor'];?></br><b><?php echo $r['cargo_receptor'];?></b></td>            
             <td><?php echo $r['proveido'];?></td>
             <td><?php echo $r['fecha_emision'];?></td>
-            <td><?php echo $r['fecha_recepcion'];?></td>            
+            <td><?php echo $r['fecha_recepcion'];?></td>
+            <td></td>            
         </tr>
         <?php $i++; endforeach;?>
         

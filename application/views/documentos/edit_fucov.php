@@ -617,9 +617,11 @@ function dia_literal($n) {
                         </td>
                     </tr>
                 </table>
-
+                
                 <div style="width: 800px;float: left; ">
                     <?php echo Form::hidden('descripcion', $documento->contenido, array('id' => 'descripcion')); ?>
+                    <legend><?php echo Form::label('unidad', 'Dirección/Unidad (Autoriza el Viaje) :', array('id' => 'unidad', 'class' => 'form')); ?> <?php echo Form::select('id_unidad', $oficinas,$pvfucovgeneral->id_oficina,array('id'=>'id_unidad')); ?></legend>
+                    <br>
                     <table class="classy" border="1">
                         <thead>
                             <tr>

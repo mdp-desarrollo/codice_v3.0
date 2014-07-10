@@ -594,6 +594,7 @@ class Controller_documento extends Controller_DefaultTemplate {
                         $pvfucovgeneral->nro_dia = $_POST['nro_dia'];
                         $pvfucovgeneral->id_categoria = $_POST['id_categoria'];
                         $pvfucovgeneral->justificacion_finsem = $_POST['justificacion_finsem'];
+                        $pvfucovgeneral->id_oficina = $_POST['id_unidad'];
                         $pvfucovgeneral->save();
                         
                         $pvfucov = ORM::factory('pvfucovs')->where('id_documento','=',$id)->find_all();
@@ -723,6 +724,8 @@ class Controller_documento extends Controller_DefaultTemplate {
                         $poa->otro_tipocontratacion = $_POST['otro_tipocontratacion'];
                         $poa->partida2 = $_POST['partida2'];
                         $poa->otro_tipocontratacion2 = $_POST['otro_tipocontratacion2'];
+                        $poa->partida3 = $_POST['partida3'];
+                        $poa->otro_tipocontratacion3 = $_POST['otro_tipocontratacion3'];
                         $poa->ri_financiador = $_POST['ri_financiador'];
                         $poa->ri_porcentaje = $_POST['ri_porcentaje'];
                         $poa->re_financiador = $_POST['re_financiador'];
@@ -822,6 +825,9 @@ class Controller_documento extends Controller_DefaultTemplate {
                 $oficina = ORM::factory('oficinas')->where('id', '=', $this->user->id_oficina)->find();
                 $entidad = ORM::factory('entidades')->where('id', '=', $oficina->id_entidad)->find();
                 $oficinas = ORM::factory('oficinas')->where('id_entidad', '=', $entidad->id)->find_all();
+                
+                //$oficinas_ext = $oVias->oficinas_ext($this->user->id,$this->user->id_entidad);
+                
                 $this->template->content = View::factory('documentos/edit_circular')
                         ->bind('documento', $documento)
                         ->bind('options', $options)
@@ -833,10 +839,19 @@ class Controller_documento extends Controller_DefaultTemplate {
                         ->bind('oficinas', $oficinas)
                         ->bind('tipo', $tipo)
                         ->bind('archivos', $archivos)
+                        // ->bind('oficina_ext', $oficinas_ext)
                         ->bind('destinatarios', $destinatarios);
+                
             } else if ($tipo->tipo == 'FOCOV') {
                 $pvfucov = ORM::factory('pvfucovs')->where('id_documento', '=', $documento->id)->find_all();
-                
+                $oficinas_row = ORM::factory('oficinas')->where('id_entidad','=',$this->user->id_entidad)->find_all();
+                //$oficinas=ORM::factory('oficinas')->find_all();
+                $ofi = array();
+                $ofi[''] = "(Seleccionar)";
+                foreach ($oficinas_row as $p) {
+                    $ofi[$p->id] = $p->oficina;
+                }
+
                 
                 $pvfucovgeneral = ORM::factory('pvfucovgenerales')->where('id_documento', '=', $documento->id)->find();
                 $sw=0;
@@ -890,6 +905,7 @@ class Controller_documento extends Controller_DefaultTemplate {
                         ->bind('sw', $sw)
                         ->bind('tipo_cambio', $tipo_cambio)
                         ->bind('suma_fucov', $suma_fucov)
+                        ->bind('oficinas', $ofi)
                         //->bind('entidad', $entidad)
                         // POA
                         // ->bind('uejecutorapoa', $uejecutorapoa)

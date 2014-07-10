@@ -10,5 +10,11 @@ class Model_Pvfucovs extends ORM{
            return db::query(Database::SELECT, $sql)->execute();
            
    }
+
+   public function tramos($id)
+   {
+   	$sql = "select d.*,p.tipoviaje,IF(d.ida_vuelta = '0', 'No', 'Si') as ida_vuelta1 from pvfucovs d, pvtipoviajes p where d.id_documento = $id AND d.id_tipoviaje = p.id ORDER BY d.id ASC";
+   	return db::query(Database::SELECT, $sql)->execute();
+   }
 }
 ?>

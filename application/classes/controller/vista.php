@@ -62,7 +62,6 @@ class Controller_Vista extends Controller_MinimoTemplate {
                 ->find();
         if ($documento->loaded()) {
             $oSeg = New Model_Seguimiento();
-
             $seguimiento = $oSeg->permisos_nur($id_seg, $this->user->id);
 
             $x = $seguimiento[0]['contador'];
@@ -70,8 +69,23 @@ class Controller_Vista extends Controller_MinimoTemplate {
             if ($x > 0) {
                 $archivo = ORM::factory('archivos')->where('id_documento', '=', $documento->id)->find();
 
-                $pvfucov = ORM::factory('pvfucovs')->where('id_documento', '=', $documento->id)->find();
-                if ($pvfucov->loaded()) {/*
+                //$pvfucov = ORM::factory('pvfucovs')->where('id_documento', '=', $documento->id)->find();
+                $oPvfucov = New Model_Pvfucovs();
+                $pvfucov = $oPvfucov->tramos($documento->id);
+                $pvfucovgeneral = ORM::factory('pvfucovgenerales')->where('id_documento','=',$documento->id)->find();
+                $pvcategoria = ORM::factory('pvcategorias')->where('id','=',$pvfucovgeneral->id_categoria)->find();
+                $memo = ORM::factory('documentos')->where('id','=',$pvfucovgeneral->id_memo)->find();
+
+            if($pvfucovgeneral->id_oficina>0){
+                $unidad=ORM::factory('oficinas')->where('id','=',$pvfucovgeneral->id_oficina)->find();
+            }else{
+                $unidad=ORM::factory('oficinas')->where('id','=',$memo->id_oficina)->find();
+            }
+                $fecha_autorizacion = date("Y-m-d",strtotime($memo->fecha_creacion));
+                
+                //if ($pvfucov->loaded()) {
+
+                    /*
                     ///rodrigo-POA
                     $pvpoas = ORM::factory('pvpoas')->where('id_fucov','=',$pvfucov->id)->find();
                     $pvgestion = ORM::factory('pvogestiones')->where('id','=',$pvpoas->id_obj_gestion)->find();
@@ -90,11 +104,15 @@ class Controller_Vista extends Controller_MinimoTemplate {
                         $oPart = New Model_Pvprogramaticas();
                         $pvliquidacion = $oPart->pptliquidado($pvfucov->id,$pvfucov->total_pasaje,$pvfucov->total_viatico,$pvfucov->id_tipoviaje,$pvfucov->gasto_representacion,$tipo_cambio->cambio_venta);
                     }*/
-                }
+               // }
                 $this->template->content = View::factory('documentos/vista')
                         ->bind('d', $documento)
                         ->bind('pvfucov', $pvfucov)
+                        ->bind('pvfucovgeneral', $pvfucovgeneral)
+                        ->bind('pvcategoria', $pvcategoria)
                         ->bind('archivo', $archivo)
+                        ->bind('unidad', $unidad)
+                        ->bind('fecha_autorizacion', $fecha_autorizacion)
                         ///rodrigo POA
                         ->bind('pvpoas', $pvpoas)
                         ->bind('pvgestion', $pvgestion)

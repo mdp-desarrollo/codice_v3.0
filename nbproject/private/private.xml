@@ -2,26 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/var/www/codice_v3.0/application/classes/controller/documento.php</file>
-            <file>file:/var/www/codice_v3.0/application/views/hojaruta/frm_derivacion.php</file>
-            <file>file:/var/www/codice_v3.0/application/views/documentos/edit_fucov.php</file>
-            <file>file:/var/www/codice_v3.0/system/classes/kohana/pagination.php</file>
-            <file>file:/var/www/codice_v3.0/application/views/documentos/edit.php</file>
-            <file>file:/var/www/codice_v3.0/system/classes/kohana/core.php</file>
-            <file>file:/var/www/codice_v3.0/index.php</file>
-            <file>file:/var/www/codice_v3.0/modules/database/classes/kohana/database/mysql/result.php</file>
-            <file>file:/var/www/codice_v3.0/application/classes/model/documentos.php</file>
-            <file>file:/var/www/codice_v3.0/application/classes/controller/ventanilla.php</file>
-            <file>file:/var/www/codice_v3.0/application/views/busqueda/form_avanzada.php</file>
-            <file>file:/var/www/codice_v3.0/modules/orm/classes/kohana/orm.php</file>
-            <file>file:/var/www/codice_v3.0/system/classes/kohana/request/client/internal.php</file>
-            <file>file:/var/www/codice_v3.0/application/classes/controller/busqueda.php</file>
-            <file>file:/var/www/codice_v3.0/application/classes/controller/ajax.php</file>
-            <file>file:/var/www/codice_v3.0/application/classes/model/seguimiento.php</file>
-            <file>file:/var/www/codice_v3.0/application/classes/controller/bandeja.php</file>
-            <file>file:/var/www/codice_v3.0/pdf/focov.php</file>
-            <file>file:/var/www/codice_v3.0/application/views/bandeja/pendientes.php</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
