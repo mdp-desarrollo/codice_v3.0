@@ -71,7 +71,7 @@ if ($msm!=''){
         <tr>
             <td><?php echo $i;?></td>
             <td><?php echo $r->nur;?></td>
-            <td><a href="/print_hr.php?nur=<?php echo $r->nur;?>" target='_blank'>Imprimir</a></td>            
+            <td><a href="/print_hr.php?nur=<?php echo $r->nur;?>&sw=1" target='_blank'>Imprimir</a></td>            
         </tr>
         <?php $i++; endforeach;?>
         

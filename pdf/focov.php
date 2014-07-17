@@ -213,10 +213,7 @@ try {
             <td>CARGO</td>
             <td>'.$rs->cargo_destinatario.'</td>
         </tr>
-        <tr>
-            <td>FECHA DE AUTORIZACION DE VIAJE</td>
-            <td>'.date("Y-m-d",strtotime($memo->fecha_creacion)).'</td>
-        </tr>
+        
         
         <tr style="text-align:left;background-color: #F4F4F4;">
             <td colspan="2"><b>PARTE III. SOLICITUD DE PASAJES Y VIATICOS</b></td>

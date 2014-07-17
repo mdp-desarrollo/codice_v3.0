@@ -19,6 +19,7 @@ class MYPDF extends TCPDF {
 
 $dbh=New db();
 $nur=$_GET['nur'];
+$sw=$_GET['sw'];
 $stmt = $dbh->prepare("SELECT * FROM documentos d 
 INNER JOIN users u ON u.id=d.id_user 
 INNER JOIN oficinas o ON o.id=u.id_oficina
@@ -34,11 +35,14 @@ $para->execute();
 $nombre_receptor = '';
 $accion = 0;
 $proveido = '';
-while ($pa = $para->fetch(PDO::FETCH_LAZY)) {
+if($sw<>1){
+    while ($pa = $para->fetch(PDO::FETCH_LAZY)) {
     $nombre_receptor = $pa->nombre_receptor;
     $accion = $pa->accion;
     $proveido = $pa->proveido;
+    }    
 }
+
 
 // copias
 $copia = $dbh->prepare("SELECT  u.mosca FROM seguimiento s, users u
@@ -46,10 +50,11 @@ WHERE nur= '$nur'  AND s.id_seguimiento =0 AND s.oficial=0 AND u.id=s.derivado_a
 $copia->execute();
 
 $copias = "";
-while ($co = $copia->fetch(PDO::FETCH_LAZY)) {
+if($sw<>1){
+    while ($co = $copia->fetch(PDO::FETCH_LAZY)) {
     $copias .= $co->mosca.", ";
+    }
 }
-
 // create new PDF document
 $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'LETTER', true, 'UTF-8', false);
 
