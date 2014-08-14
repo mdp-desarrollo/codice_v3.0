@@ -26,7 +26,7 @@ INNER JOIN entidades AS c ON b.id_entidad = c.id WHERE a.id = '$id'");
             $id_entidad=$rs2->id;
         }
         if($id_entidad<>2 && $id_entidad<>4 && $id_entidad<>5 && $id_entidad<>6){
-        $this->Image($image_file, 80, 5, 60, 25, 'PNG');
+        $this->Image($image_file, 70, 5, 80, 30, 'PNG');
         }
         if ($id_entidad==5 || $id_entidad==6) {
             $image_file2='../media/logos/logo_MDPyEP.png';

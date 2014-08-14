@@ -26,7 +26,7 @@ INNER JOIN entidades AS c ON b.id_entidad = c.id WHERE a.id = '$id'");
             $id_entidad=$rs2->id;
         }
         if($id_entidad<>2 && $id_entidad<>4 && $id_entidad<>5 && $id_entidad<>6){
-        $this->Image($image_file, 80, 5, 60, 25, 'PNG');
+        $this->Image($image_file, 70, 5, 80, 30, 'PNG');
         }
         if ($id_entidad==5 || $id_entidad==6) {
             $image_file2='../media/logos/logo_MDPyEP.png';
@@ -185,7 +185,7 @@ try {
         $autoriza = 'Certificacion no aprobada';
         $fecha_aprobado = "";
     }
-    //$pdf->Ln(0);
+    $pdf->Ln(10);
     $pdf->SetFont('Helvetica', 'B', 14);
     $pdf->write(0,'CERTIFICACIÓN POA '.$pvobjetivos->gestion,'',0,'C');
     //$pdf->Cell(5, 6, 'D.N.I.:',0,0,'',$valign='M');
@@ -512,7 +512,7 @@ while ($tc = $stmt3->fetch(PDO::FETCH_OBJ)) {
                             <td  height =\"$altura2\"><br /><br />$documento->nombre_destinatario</td>
                             <td><br /><br />$documento->cargo_destinatario</td>
                             <td height =\"40\"></td>
-                            <td><br /><br />$documento->fecha_creacion</td>
+                            <td><br /><br /></td>
                         </tr>
                     </table>
                 </td>

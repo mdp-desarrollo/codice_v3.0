@@ -27,12 +27,13 @@ INNER JOIN entidades AS c ON b.id_entidad = c.id WHERE a.id = '$id'");
             $id_entidad=$rs2->id;
         }
         if($id_entidad<>2 && $id_entidad<>4 && $id_entidad<>5 && $id_entidad<>6){
-        $this->Image($image_file, 85, 2, 60, 25, 'PNG');
+        $this->Image($image_file, 70, 12, 80, 30, 'PNG');
+        //$this->Image($image_file, 70, 5, 80, 30, 'PNG');
         }
         if ($id_entidad==5 || $id_entidad==6) {
             $image_file2='../media/logos/logo_MDPyEP.png';
-        $this->Image($image_file, 150, 5, 50, 20, 'PNG');
-        $this->Image($image_file2, 20, 5, 60, 25, 'PNG');
+        $this->Image($image_file, 130, 15, 65, 25, 'PNG');
+        $this->Image($image_file2, 30, 15, 70, 30, 'PNG');
         }
 
 
@@ -42,7 +43,17 @@ INNER JOIN entidades AS c ON b.id_entidad = c.id WHERE a.id = '$id'");
 
     // Page footer
     public function Footer() {
+        /* establecemos el color del texto */
+          //$this->SetTextColor(0,0,200);
+          
+          $this->SetFont('Helvetica', 'B', 10);
+          /* insertamos numero de pagina y total de paginas*/
 
+          $this->Cell(182, 0, $this->getAliasNumPage().' / '.$this-> getAliasNbPages(),0, false, 'R', 0, '', 0, false, 'T', 'M');
+          //$this->Ln(15);
+          //$this->SetDrawColor(255,0,0);
+          /* dibujamos una linea roja delimitadora del pie de página */
+          //$this->Line(15,282,195,282);
 
      }
 
@@ -76,7 +87,7 @@ $stmt->execute();
 while ($rs = $stmt->fetch(PDO::FETCH_OBJ)) {
             $id_entidad=$rs->id_entidad;
         } 
-$margin_top=28;
+$margin_top=47;
 if($id_entidad==2){
     $margin_top=33;
 }elseif ($id_entidad==4) {
@@ -84,10 +95,11 @@ if($id_entidad==2){
 }
 
 //set margins
-$pdf->SetMargins(25, $margin_top, 13);
+$pdf->SetMargins(30, $margin_top, 18);
 //$pdf->SetMargins(20, PDF_MARGIN_TOP, 20);
 $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-$pdf->SetFooterMargin(30);
+$pdf->SetFooterMargin(35);
+
 
 //set auto page breaks
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
@@ -113,34 +125,34 @@ try {
     //echo "<B>outputting...</B><BR>";
     //$pdf->Ln(7);
     while ($rs = $stmt->fetch(PDO::FETCH_OBJ)) {
-        $pdf->Ln();
-        $pdf->SetX(110);
-        $pdf->SetFont('Helvetica', 'B', 11);
-        $pdf->Write(0, strtoupper($rs->tipo).' No', '', 0, 'L');
-        $pdf->Ln();
-        $pdf->SetX(110);
-        $pdf->SetFont('Helvetica', '', 11);
+        //$pdf->Ln(20);
+        $pdf->SetX(100);
+        $pdf->SetFont('Helvetica', 'B', 12);
+        $pdf->Write(0, strtoupper($rs->tipo).' No.', '', 0, 'L');
+        $pdf->Ln(8);
+        $pdf->SetX(100);
+        //$pdf->SetFont('Helvetica', '', 12);
         $pdf->Write(0, 'La Paz, ', '', 0, 'L');
         
         //$pdf->Ln();
-        $pdf->SetFont('Helvetica', '', 11);
+        $pdf->SetFont('Helvetica', '', 12);
         $codigo = substr($rs->codigo, -11);
         $codigo = str_replace('/', '.', $codigo);
         //$pdf->Write(0, strtoupper($codigo), '', 0, 'R');
         
-        $pdf->Ln(7);
+        $pdf->Ln(10);
         
 
         $referencia ='<table border="0" width="100%">
                         <tr  >
-                            <td width="100px" style="text-align:left;"><b>TEMA:</b></td>
-                            <td width="520px" style="text-align:justify;" ><b>'.utf8_encode($rs->referencia).'</b></td>
+                            <td width="80px" style="text-align:left;"><b>TEMA:</b></td>
+                            <td width="505px" style="text-align:justify;" ><b>'.utf8_encode($rs->referencia).'</b></td>
                         </tr>
                         </table>';
 
         $pdf->writeHTML($referencia);        
-        $pdf->Ln(-15);
-        $pdf->SetFont('Helvetica', '', 10);
+        $pdf->Ln(-4);
+        $pdf->SetFont('Helvetica', '', 12);
         $pdf->writeHTML($rs->contenido);
         $pdf->Ln(10);
         

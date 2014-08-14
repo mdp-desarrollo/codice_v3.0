@@ -100,7 +100,7 @@ try {
     
     //$pdf->SetFont('Arial', 'B', 18);    
     $image_file = 'media/logos/'.$rs->logo;
-    $pdf->Image($image_file, 12, 10, 55, 29, 'png', '', '', false, 300, '', FALSE, FALSE, 0);
+    $pdf->Image($image_file, 12, 12, 55, 25, 'png', '', '', false, 300, '', FALSE, FALSE, 0);
 
     $pdf->Cell(60, 30, '', 1,FALSE,'C');                                   
     $pdf->Cell(75, 30, 'HOJA DE RUTA', 1,FALSE,'C');
