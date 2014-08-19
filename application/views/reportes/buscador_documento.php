@@ -50,7 +50,7 @@ $('#frmEditar').validate();
         <tr>
             <td>Entidad: </td>
             <td colspan="3">
-               <?php echo Form::select('id_entidad',$sel_entidad,'1', array('id' => 'id_entidad', 'class' => 'required'));?>
+               <?php echo Form::select('id_entidad',$sel_entidad,$id_entidad, array('id' => 'id_entidad', 'class' => 'required'));?>
            </td>
        </tr>
        <tr>

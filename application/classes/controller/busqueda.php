@@ -106,8 +106,8 @@ class Controller_Busqueda extends Controller_DefaultTemplate{
                 'current_page'   => array('source' => 'query_string', 'key' => 'page'),
                 'items_per_page' => 15,
                 'view'           => 'pagination/floating',            
-                ));  	
-                $results=$oDocumento->search($where,$pagination->offset,$pagination->items_per_page);            
+                ));  	 
+               $results=$oDocumento->search($where,$pagination->offset,$pagination->items_per_page);            
                 // Render the pagination links
                 $page_links = $pagination->render();                
                 //tipos para los tabs       

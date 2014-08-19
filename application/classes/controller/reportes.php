@@ -492,6 +492,7 @@ class Controller_Reportes extends Controller_DefaultTemplate{
       }else{
         $o_entidad = ORM::factory('entidades')->where('estado','=','1')->find_all();
         $sel_entidad[0] = '(Todas las entidades)';
+        $id_entidad = $this->user->id_entidad;
         foreach ($o_entidad as $e) {
           $sel_entidad[$e->id]=$e->entidad;
         }
@@ -499,7 +500,8 @@ class Controller_Reportes extends Controller_DefaultTemplate{
         $this->template->styles=array('media/css/jquery-ui-1.8.16.custom.css'=>'screen');
         $this->template->scripts=array('media/js/jquery-ui-1.8.16.custom.min.js');
         $this->template->content=View::factory('reportes/buscador_documento')
-                                  ->bind('sel_entidad',$sel_entidad);
+                                  ->bind('sel_entidad',$sel_entidad)
+                                  ->bind('id_entidad',$id_entidad);
       }
     }
     

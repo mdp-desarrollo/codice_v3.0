@@ -6,7 +6,7 @@ img,a img {border: 0;text-decoration: none;}
 #modx-topbar {height: 50px;background: #414141 url("../images/headers.jpg") repeat-x top;  color: white;vertical-align: middle;border-bottom: 1px solid #656566;background-repeat: repeat-x;}
 #modx-site-name {float: left;width: 400px;padding: 10px 0 0px 5px;font-size: 32px;font-weight: bold; margin: 0; color: #efefef;}
 .modx-version {display: block;clear: left;color: #888;font-size: 12px;line-height: 25px;margin: 0;}
-#modx-logo {width: 300px;float: right;margin-top: 12px; }
+#modx-logo {width: 410px;float: right;margin-top: 12px; }
 #modx-navbar {background-color: #11182D; opacity:0.9; border-top: 1px solid #182D66;height: 41px;position: relative;text-shadow: 1px -1px 0 #1f1f1f;z-index: 19;}
 /*#modx-navbar {background: -moz-linear-gradient(#666 20%, #2C395E 60%, #272E41 100%);}
 #modx-navbar {background: -webkit-gradient(linear, left bottom, left top, color-stop(0.37, #555),color-stop(0.69, #666), color-stop(0, #555) );}
