@@ -151,7 +151,7 @@ if (!defined('K_TCPDF_EXTERNAL_CONFIG')) {
 	/**
 	 * footer margin
 	 */
-	define ('PDF_MARGIN_FOOTER', 15);
+	define ('PDF_MARGIN_FOOTER', 10);
 
 	/**
 	 * top margin

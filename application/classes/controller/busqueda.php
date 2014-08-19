@@ -46,7 +46,7 @@ class Controller_Busqueda extends Controller_DefaultTemplate{
             $count=$count[0]['count'];
             // Creamos una instancia de paginacion + configuracion
             $pagination = Pagination::factory(array(
-  		'total_items'    => $count,
+  		        'total_items'    => $count,
                 'current_page'   => array('source' => 'query_string', 'key' => 'page'),
                 'items_per_page' => 20,
                 'view'           => 'pagination/floating',            
@@ -57,7 +57,7 @@ class Controller_Busqueda extends Controller_DefaultTemplate{
             //tipos para los tabs       
             $this->template->title      = ' Resultados de la busqueda';                 
             $this->template->styles     = array('media/css/tablas.css'=>'screen');
-            $this->template->scripts    = array('media/js/tablesort.min.js');
+            $this->template->scripts    = array('media/js/tablesort.min.js','media/js/jquery-latest.min.js');
             $this->template->content    = View::factory('busqueda/result')                    
                     ->bind('results', $results)
                     ->bind('page_links', $page_links)

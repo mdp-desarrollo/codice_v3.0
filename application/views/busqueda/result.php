@@ -1,8 +1,25 @@
 <script type="text/javascript">
-$(function(){
+jQuery.fn.extend({
+    resaltar: function(busqueda, claseCSSbusqueda){
+        var regex = new RegExp("(<[^>]*>)|("+ busqueda.replace(/([-.*+?^${}()|[\]\/\\])/g,"\\$1") +')', 'ig');
+        var nuevoHtml=this.html(this.html().replace(regex, function(a, b, c){
+            return (a.charAt(0) == "<") ? a : "<span class=\""+ claseCSSbusqueda +"\">" + c + "</span>";
+        }));
+        return nuevoHtml;
+    }
+});
 
-});//document.ready
+$(function(){
+    $("#texto").resaltar("<?php echo $name;?>", "resaltarTexto");
+});
+
 </script>
+<style>
+.resaltarTexto{
+    color: #FF4B4B;
+    background-color: #FFFF96;
+}
+</style>
 <style type="text/css">
     td{margin: 0; padding-top: -5px;padding-bottom: -5px;}
     input[type="text"]{ line-height: 20px; height: 20px; font-size: 14px;}
@@ -26,7 +43,7 @@ $(function(){
         </tr>
     </thead>
     
-    <tbody>
+    <tbody id='texto'>
     <?php
     $mes=0;
     $dia=0;

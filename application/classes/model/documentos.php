@@ -134,7 +134,9 @@ class Model_Documentos extends ORM{
         $sql="SELECT COUNT(*) as count  FROM documentos
         WHERE codigo like '%$text%'
         or nur like '%$text%'
-        or referencia like '%$text%'";
+        or referencia like '%$text%'
+        or nombre_remitente like '%$text%'
+        or nombre_destinatario like '%$text%'";
         }
         else
         {
@@ -142,7 +144,9 @@ class Model_Documentos extends ORM{
         ( SELECT id  FROM documentos
         WHERE codigo like '%$text%'
         or nur like '%$text%'
-        or referencia like '%$text%' ) as x
+        or referencia like '%$text%' 
+        or nombre_remitente like '%$text%'
+        or nombre_destinatario like '%$text%') as x
         WHERE x.id=d.id
         and d.id_entidad='$entidad'";   
         }
@@ -163,6 +167,8 @@ class Model_Documentos extends ORM{
         WHERE d.cite_original like '%$text%'
         OR d.nur like '%$text%'
         OR d.referencia like '%$text%'
+        or d.nombre_remitente like '%$text%'
+        or d.nombre_destinatario like '%$text%'
         LIMIT $o,$i";
         }
         else
@@ -172,7 +178,9 @@ class Model_Documentos extends ORM{
         FROM documentos d INNER JOIN tipos t ON d.id_tipo=t.id
         WHERE d.cite_original like '%$text%'
         OR d.nur like '%$text%'
-        OR d.referencia like '%$text%'        
+        OR d.referencia like '%$text%'
+        or d.nombre_remitente like '%$text%'
+        or d.nombre_destinatario like '%$text%'        
         ) as x
         WHERE d.id=x.id
         AND  d.id_entidad='$entidad'
@@ -204,6 +212,77 @@ class Model_Documentos extends ORM{
     {
         $sql="UPDATE documentos SET estado=1 WHERE nur='$nur'";
          return $this->_db->query(0, $sql);
+    }
+
+    public function contarDocumentos($id_entidad,$nur,$codigo,$remitente,$cargo_remitente,$destinatario,$cargo_destinatario,$referencia,$fecha1,$fecha2)
+    {
+        $where = '';
+        if ($nur<>'') {
+            $where.=" OR nur like '%$nur%'"; 
+        }
+        if ($codigo<>'') {
+            $where.=" OR codigo like '%$codigo%'"; 
+        }
+        if ($remitente<>'') {
+            $where.=" OR nombre_remitente like '%$remitente%'"; 
+        }
+        if ($cargo_remitente<>'') {
+            $where.=" OR cargo_remitente like '%$cargo_remitente%'"; 
+        }
+        if ($destinatario<>'') {
+            $where.=" OR nombre_destinatario like '%$destinatario%'"; 
+        }
+        if ($cargo_destinatario<>'') {
+            $where.=" OR cargo_destinatario like '%$cargo_destinatario%'"; 
+        }
+        if ($referencia<>'') {
+            $where.=" OR referencia like '%$referencia%'"; 
+        }
+        $where = substr($where, 4);
+        if ($id_entidad==0) {
+            $sql="SELECT COUNT(*) as count  FROM documentos d WHERE $where AND fecha_creacion between '$fecha1' AND '$fecha2' ";
+        }else{
+            $sql="SELECT COUNT(*) as count  FROM documentos d WHERE id_entidad=$id_entidad AND ($where) AND fecha_creacion between '$fecha1' AND '$fecha2'";
+        }
+        return db::query(Database::SELECT, $sql)->execute();
+    }
+
+     public function buscarDocumentos($id_entidad,$nur,$codigo,$remitente,$cargo_remitente,$destinatario,$cargo_destinatario,$referencia,$fecha1,$fecha2,$o,$i)
+    {
+        $where = '';
+        if ($nur<>'') {
+            $where.=" OR nur like '%$nur%'"; 
+        }
+        if ($codigo<>'') {
+            $where.=" OR codigo like '%$codigo%'"; 
+        }
+        if ($remitente<>'') {
+            $where.=" OR nombre_remitente like '%$remitente%'"; 
+        }
+        if ($cargo_remitente<>'') {
+            $where.=" OR cargo_remitente like '%$cargo_remitente%'"; 
+        }
+        if ($destinatario<>'') {
+            $where.=" OR nombre_destinatario like '%$destinatario%'"; 
+        }
+        if ($cargo_destinatario<>'') {
+            $where.=" OR cargo_destinatario like '%$cargo_destinatario%'"; 
+        }
+        if ($referencia<>'') {
+            $where.=" OR referencia like '%$referencia%'"; 
+        }
+        $where = substr($where, 4);
+        if($id_entidad==0){
+            $sql="SELECT d.id, d.nur, d.cite_original, d.nombre_destinatario, d.cargo_destinatario, d.nombre_remitente,d.cargo_remitente,d.referencia,d.fecha_creacion, t.tipo        
+        FROM documentos d INNER JOIN tipos t ON d.id_tipo=t.id WHERE $where AND d.fecha_creacion between '$fecha1' AND '$fecha2' LIMIT $o,$i";
+        }else{
+            $sql="SELECT d.id, d.nur, d.cite_original, d.nombre_destinatario, d.cargo_destinatario, d.nombre_remitente,d.cargo_remitente,d.referencia,d.fecha_creacion, t.tipo        
+        FROM documentos d INNER JOIN tipos t ON d.id_tipo=t.id WHERE id_entidad=$id_entidad AND ($where) AND d.fecha_creacion between '$fecha1' AND '$fecha2' LIMIT $o,$i";
+        }
+        
+        
+        return db::query(Database::SELECT, $sql)->execute();
+        
     }
 }
 ?>

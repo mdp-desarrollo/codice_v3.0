@@ -439,6 +439,69 @@ class Controller_Reportes extends Controller_DefaultTemplate{
                                   ->bind('sel_ofi',$sel_ofi);
       }
     }   
+
+    public function action_buscar_documentos()
+    {
+      if (isset($_GET['submit'])) {
+        
+             
+            if($_GET['nur']!='' || $_GET['codigo']!='' || $_GET['remitente']!='' || $_GET['cargo_remitente']!='' || $_GET['destinatario']!='' || $_GET['cargo_destinatario']!='' || $_GET['referencia']!='')
+            {
+            $fecha1=$_GET['fecha1'].' 00:00:00';
+            $fecha2=$_GET['fecha2'].' 23:59:00'; 
+
+            if(strtotime($fecha1)>strtotime($fecha2))
+            {   
+                $fecha1=$_GET['fecha2'].' 23:59:00';
+                $fecha2=$_GET['fecha1'].' 00:00:00';
+            }
+
+            $oDocumento=New Model_Documentos();                        
+            $count= $oDocumento->contarDocumentos($_GET['id_entidad'],$_GET['nur'],$_GET['codigo'],$_GET['remitente'],$_GET['cargo_remitente'],$_GET['destinatario'],$_GET['cargo_destinatario'],$_GET['referencia'],$fecha1,$fecha2);
+            $count=$count[0]['count'];
+            // Creamos una instancia de paginacion + configuracion
+            $pagination = Pagination::factory(array(
+      'total_items'    => $count,
+                'current_page'   => array('source' => 'query_string', 'key' => 'page'),
+                'items_per_page' => 20,
+                'view'           => 'pagination/floating',            
+                ));   
+            $results=$oDocumento->buscarDocumentos($_GET['id_entidad'],$_GET['nur'],$_GET['codigo'],$_GET['remitente'],$_GET['cargo_remitente'],$_GET['destinatario'],$_GET['cargo_destinatario'],$_GET['referencia'],$fecha1,$fecha2,$pagination->offset,$pagination->items_per_page);            
+            
+            $page_links = $pagination->render();
+
+            $texto_array = array($_GET['nur'],$_GET['codigo'],$_GET['remitente'],$_GET['cargo_remitente'],$_GET['destinatario'],$_GET['cargo_destinatario'],$_GET['referencia']);
+            $texto_array = array_filter($texto_array);
+            //tipos para los tabs       
+            $this->template->title      = ' Resultados de la busqueda';                 
+            $this->template->styles     = array('media/css/tablas.css'=>'screen');
+            $this->template->scripts    = array('media/js/tablesort.min.js','media/js/jquery-latest.min.js');
+            $this->template->content    = View::factory('reportes/vista5')                    
+                    ->bind('results', $results)
+                    ->bind('page_links', $page_links)
+                    ->bind('count', $count)
+                    ->bind('name',$text)
+                    ->bind('texto_array',$texto_array);    
+            
+            }
+            else
+            {
+                $this->request->redirect('reportes/buscar_documentos');                
+            }
+
+      }else{
+        $o_entidad = ORM::factory('entidades')->where('estado','=','1')->find_all();
+        $sel_entidad[0] = '(Todas las entidades)';
+        foreach ($o_entidad as $e) {
+          $sel_entidad[$e->id]=$e->entidad;
+        }
+        $this->template->title.='| Buscador avanzado';
+        $this->template->styles=array('media/css/jquery-ui-1.8.16.custom.css'=>'screen');
+        $this->template->scripts=array('media/js/jquery-ui-1.8.16.custom.min.js');
+        $this->template->content=View::factory('reportes/buscador_documento')
+                                  ->bind('sel_entidad',$sel_entidad);
+      }
+    }
     
 }
 ?>

@@ -2,6 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/xampp/htdocs/codice_v3.0/application/classes/model/pvprogramaticas.php</file>
+            <file>file:/C:/xampp/htdocs/codice_v3.0/application/classes/controller/busqueda.php</file>
+            <file>file:/C:/xampp/htdocs/codice_v3.0/index.php</file>
+            <file>file:/C:/xampp/htdocs/codice_v3.0/system/classes/kohana/request/client/internal.php</file>
+            <file>file:/C:/xampp/htdocs/codice_v3.0/application/views/documentos/vista.php</file>
+            <file>file:/C:/xampp/htdocs/codice_v3.0/application/classes/exceptionhandler.php</file>
+            <file>file:/C:/xampp/htdocs/codice_v3.0/application/views/busqueda/result.php</file>
+            <file>file:/C:/xampp/htdocs/codice_v3.0/application/classes/controller/vista.php</file>
+            <file>file:/C:/xampp/htdocs/codice_v3.0/application/classes/controller/documento.php</file>
+            <file>file:/C:/xampp/htdocs/codice_v3.0/application/classes/controller/reportes.php</file>
+        </group>
     </open-files>
 </project-private>
