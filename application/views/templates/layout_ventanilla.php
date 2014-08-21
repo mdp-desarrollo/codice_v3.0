@@ -55,7 +55,7 @@
    <div id="find">
     <a href="/reportes/buscar_documentos" style="line-height: 20px; height: 30px; float:left; color:#FFFFFF"><strong>Busqueda Avanzada</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
        <form action="/busqueda" method="post">           
-           <input type="text" name="txt_buscar" class="txt_buscar" />
+           <input type="text" name="txt_buscar" class="txt_buscar" title='Realiza la busqueda solo de la gestion actual.Si necesita de otras gestiones puede ir a busqueda avanzada '/>
            <input type="submit" name="buscar" value="Buscar" class="uibutton" />
        </form>
    </div>

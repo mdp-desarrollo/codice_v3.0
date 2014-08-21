@@ -40,7 +40,7 @@ class Controller_Busqueda extends Controller_DefaultTemplate{
             {
             $entidad=$this->user->id_entidad;
             if($this->user->prioridad==1)
-            $entidad=0;
+                $entidad=0;
             $oDocumento=New Model_Documentos();                        
             $count= $oDocumento->contar($text,$entidad);
             $count=$count[0]['count'];
@@ -91,7 +91,7 @@ class Controller_Busqueda extends Controller_DefaultTemplate{
             if($this->user->prioridad==0)
             $where.= " and d.id_entidad='".$entidad."'";
             
-            if(isset($_GET['fecha1']) && isset($_GET['fecha1'])){
+            if(isset($_GET['fecha1']) && isset($_GET['fecha2'])){
                 $where.= " and d.fecha_creacion BETWEEN '".$_GET['fecha1']." 00:00:00' AND '".$_GET['fecha2']." 23:59:59' ";
             }
             

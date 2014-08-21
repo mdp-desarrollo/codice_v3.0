@@ -132,11 +132,12 @@ class Model_Documentos extends ORM{
         if($entidad==0)
         {    
         $sql="SELECT COUNT(*) as count  FROM documentos
-        WHERE codigo like '%$text%'
+        WHERE fecha_creacion between  DATE_FORMAT(CURDATE(), '%Y-01-01 00:00:00') and CURRENT_TIMESTAMP() AND
+        (codigo like '%$text%'
         or nur like '%$text%'
         or referencia like '%$text%'
         or nombre_remitente like '%$text%'
-        or nombre_destinatario like '%$text%'";
+        or nombre_destinatario like '%$text%')";
         }
         else
         {
@@ -148,7 +149,7 @@ class Model_Documentos extends ORM{
         or nombre_remitente like '%$text%'
         or nombre_destinatario like '%$text%') as x
         WHERE x.id=d.id
-        and d.id_entidad='$entidad'";   
+        and d.id_entidad='$entidad' AND d.fecha_creacion between  DATE_FORMAT(CURDATE(), '%Y-01-01 00:00:00') and CURRENT_TIMESTAMP()";   
         }
         return db::query(Database::SELECT, $sql)->execute();
     }
@@ -159,16 +160,17 @@ class Model_Documentos extends ORM{
         return db::query(Database::SELECT, $sql)->execute();
     }
     public function buscar($text,$o,$i,$entidad)
-    {
+    {   //d.fecha_creacion between  DATE_FORMAT(CURDATE(), '%Y-%m-01 00:00:00') and CURRENT_TIMESTAMP() AND
         if($entidad==0)
         {
         $sql="SELECT d.id, d.nur, d.cite_original, d.nombre_destinatario, d.cargo_destinatario, d.nombre_remitente,d.cargo_remitente,d.referencia,d.fecha_creacion, t.tipo        
         FROM documentos d INNER JOIN tipos t ON d.id_tipo=t.id
-        WHERE d.cite_original like '%$text%'
+        WHERE d.fecha_creacion between  DATE_FORMAT(CURDATE(), '%Y-01-01 00:00:00') and CURRENT_TIMESTAMP() AND
+        ( d.cite_original like '%$text%'
         OR d.nur like '%$text%'
         OR d.referencia like '%$text%'
         or d.nombre_remitente like '%$text%'
-        or d.nombre_destinatario like '%$text%'
+        or d.nombre_destinatario like '%$text%')
         LIMIT $o,$i";
         }
         else
@@ -183,7 +185,7 @@ class Model_Documentos extends ORM{
         or d.nombre_destinatario like '%$text%'        
         ) as x
         WHERE d.id=x.id
-        AND  d.id_entidad='$entidad'
+        AND  d.id_entidad='$entidad' AND d.fecha_creacion between  DATE_FORMAT(CURDATE(), '%Y-01-01 00:00:00') and CURRENT_TIMESTAMP()
         LIMIT $o,$i";
         }
         return db::query(Database::SELECT, $sql)->execute();
